@@ -82,7 +82,7 @@
   .nav-logo span { color: var(--clay); font-style: italic; }
   .nav-links { display: flex; gap: 40px; list-style: none; }
   .nav-links a {
-    font-size: 0.78rem;
+    font-size: 0.75rem;
     letter-spacing: 0.18em;
     text-transform: uppercase;
     color: var(--text-light);
@@ -111,6 +111,52 @@
   }
   .nav-cta:hover { background: var(--clay); color: var(--warm-white); }
 
+  /* ── HAMBURGER ── */
+  .nav-hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    padding: 4px;
+    z-index: 200;
+  }
+  .nav-hamburger span {
+    display: block;
+    width: 24px;
+    height: 1.5px;
+    background: var(--dusk);
+    transition: all 0.3s;
+    transform-origin: center;
+  }
+  .nav-hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+  .nav-hamburger.open span:nth-child(2) { opacity: 0; }
+  .nav-hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+  .nav-mobile-menu {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(250,247,242,0.97);
+    backdrop-filter: blur(16px);
+    z-index: 150;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 36px;
+  }
+  .nav-mobile-menu.open { display: flex; }
+  .nav-mobile-menu a {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.2rem;
+    font-weight: 300;
+    color: var(--dusk);
+    text-decoration: none;
+    letter-spacing: 0.08em;
+    transition: color 0.3s;
+  }
+  .nav-mobile-menu a:hover { color: var(--clay); }
+
   /* ── HERO ── */
   #hero {
     min-height: 100vh;
@@ -126,7 +172,7 @@
     position: relative; z-index: 2;
   }
   .hero-eyebrow {
-    font-size: 0.72rem;
+    font-size: 0.75rem;
     letter-spacing: 0.28em;
     text-transform: uppercase;
     color: var(--clay);
@@ -206,53 +252,40 @@
     color: rgba(255,255,255,0.7);
     letter-spacing: 0.1em;
   }
-  .hero-scroll-hint {
-    position: absolute; bottom: 40px; left: 80px;
-    display: flex; align-items: center; gap: 12px;
-    font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase;
-    color: var(--text-light);
-    opacity: 0;
-    animation: fadeUp 0.9s 1.2s forwards;
-  }
-  .scroll-line {
-    width: 40px; height: 1px; background: var(--sand);
-    animation: expandLine 1.5s 1.5s ease forwards;
-    transform-origin: left;
-    transform: scaleX(0);
-  }
-  @keyframes expandLine { to { transform: scaleX(1); } }
 
-  /* ── STATS BAR ── */
+
   .stats-bar {
-    background: var(--dusk);
-    padding: 32px 80px;
+    background: var(--cream);
+    padding: 40px 60px;
     display: flex; gap: 0;
+    border-top: 1px solid var(--sand);
+    border-bottom: 1px solid var(--sand);
   }
   .stat-item {
     flex: 1;
     text-align: center;
     padding: 0 20px;
-    border-right: 1px solid rgba(255,255,255,0.1);
+    border-right: 1px solid var(--sand);
   }
   .stat-item:last-child { border-right: none; }
   .stat-number {
     font-family: 'Cormorant Garamond', serif;
     font-size: 2.4rem;
     font-weight: 300;
-    color: var(--sand);
+    color: var(--earth);
     display: block;
   }
   .stat-label {
-    font-size: 0.68rem;
+    font-size: 0.7rem;
     letter-spacing: 0.2em;
     text-transform: uppercase;
-    color: rgba(255,255,255,0.4);
+    color: var(--text-light);
     margin-top: 4px;
     display: block;
   }
 
   /* ── SECTION BASE ── */
-  section { padding: 100px 80px; }
+  section { padding: 80px 60px; }
   .section-header { margin-bottom: 60px; }
   .section-eyebrow {
     font-size: 0.7rem;
@@ -327,7 +360,7 @@
     display: flex; flex-wrap: wrap; gap: 8px;
   }
   .tag {
-    font-size: 0.65rem;
+    font-size: 0.7rem;
     letter-spacing: 0.15em;
     text-transform: uppercase;
     padding: 4px 10px;
@@ -343,7 +376,7 @@
     flex-wrap: wrap;
   }
   .filter-btn {
-    font-size: 0.72rem;
+    font-size: 0.75rem;
     letter-spacing: 0.2em;
     text-transform: uppercase;
     padding: 8px 20px;
@@ -359,8 +392,7 @@
   }
   .portfolio-grid {
     display: grid;
-    grid-template-columns: repeat(12, 1fr);
-    grid-template-rows: auto;
+    grid-template-columns: repeat(3, 1fr);
     gap: 16px;
   }
   .portfolio-item {
@@ -368,6 +400,7 @@
     overflow: hidden;
     background: var(--sand);
   }
+  .portfolio-item::before { content: ''; display: block; padding-top: 70%; }
   .portfolio-item > img {
     position: absolute !important;
     inset: 0 !important;
@@ -375,18 +408,6 @@
     height: 100% !important;
     object-fit: cover !important;
   }
-  .portfolio-item:nth-child(1) { grid-column: span 8; grid-row: span 2; }
-  .portfolio-item:nth-child(1)::before { content:''; display:block; padding-top:75%; }
-  .portfolio-item:nth-child(2) { grid-column: span 4; }
-  .portfolio-item:nth-child(2)::before { content:''; display:block; padding-top:65%; }
-  .portfolio-item:nth-child(3) { grid-column: span 4; }
-  .portfolio-item:nth-child(3)::before { content:''; display:block; padding-top:65%; }
-  .portfolio-item:nth-child(4) { grid-column: span 4; }
-  .portfolio-item:nth-child(4)::before { content:''; display:block; padding-top:70%; }
-  .portfolio-item:nth-child(5) { grid-column: span 4; }
-  .portfolio-item:nth-child(5)::before { content:''; display:block; padding-top:70%; }
-  .portfolio-item:nth-child(6) { grid-column: span 4; }
-  .portfolio-item:nth-child(6)::before { content:''; display:block; padding-top:70%; }
   .portfolio-bg {
     width: 100%; height: 100%;
     position: absolute; inset: 0;
@@ -412,7 +433,7 @@
     color: var(--cream);
   }
   .portfolio-label-cat {
-    font-size: 0.65rem;
+    font-size: 0.7rem;
     letter-spacing: 0.2em;
     text-transform: uppercase;
     color: var(--sand);
@@ -439,7 +460,7 @@
   /* ── VIDEO REEL ── */
   #reel {
     background: var(--dusk);
-    padding: 100px 80px;
+    padding: 80px 60px;
     text-align: center;
   }
   #reel .section-eyebrow { color: var(--sand); }
@@ -475,120 +496,6 @@
   .play-btn:hover { background: var(--clay); border-color: var(--clay); }
   .play-btn svg { fill: rgba(255,255,255,0.7); margin-left: 4px; }
 
-  /* ── PRICING ── */
-  #pricing { background: var(--cream); }
-  .pricing-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 2px;
-    background: var(--sand);
-    margin-top: 8px;
-  }
-  .pricing-card {
-    background: var(--warm-white);
-    padding: 48px 40px;
-    position: relative;
-    transition: background 0.3s;
-  }
-  .pricing-card.featured {
-    background: var(--bark);
-    color: var(--cream);
-  }
-  .pricing-badge {
-    position: absolute; top: 24px; right: 24px;
-    font-size: 0.6rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    background: var(--clay);
-    color: white;
-    padding: 4px 10px;
-  }
-  .pricing-category {
-    font-size: 0.68rem;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    color: var(--clay);
-    margin-bottom: 12px;
-    display: block;
-  }
-  .pricing-card.featured .pricing-category { color: var(--sand); }
-  .pricing-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.8rem;
-    font-weight: 300;
-    color: var(--dusk);
-    margin-bottom: 8px;
-  }
-  .pricing-card.featured .pricing-title { color: var(--cream); }
-  .pricing-price {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 2.8rem;
-    font-weight: 300;
-    color: var(--earth);
-    margin: 24px 0;
-    line-height: 1;
-  }
-  .pricing-card.featured .pricing-price { color: var(--sand); }
-  .pricing-price span {
-    font-size: 1rem;
-    color: var(--text-light);
-    font-family: 'Jost', sans-serif;
-    font-weight: 300;
-  }
-  .pricing-card.featured .pricing-price span { color: rgba(255,255,255,0.5); }
-  .pricing-divider {
-    height: 1px;
-    background: var(--sand);
-    margin: 24px 0;
-  }
-  .pricing-card.featured .pricing-divider { background: rgba(255,255,255,0.2); }
-  .pricing-features { list-style: none; }
-  .pricing-features li {
-    font-size: 0.85rem;
-    color: var(--text-light);
-    padding: 8px 0;
-    border-bottom: 1px solid rgba(0,0,0,0.05);
-    font-weight: 300;
-    display: flex; align-items: center; gap: 10px;
-  }
-  .pricing-card.featured .pricing-features li { color: rgba(255,255,255,0.7); border-bottom-color: rgba(255,255,255,0.1); }
-  .pricing-features li::before {
-    content: '—';
-    color: var(--clay);
-    font-size: 0.75rem;
-    flex-shrink: 0;
-  }
-  .pricing-card.featured .pricing-features li::before { color: var(--sand); }
-  .pricing-btn {
-    display: block;
-    text-align: center;
-    margin-top: 32px;
-    padding: 12px 24px;
-    font-size: 0.72rem;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    text-decoration: none;
-    border: 1px solid var(--clay);
-    color: var(--clay);
-    transition: all 0.3s;
-  }
-  .pricing-btn:hover { background: var(--clay); color: white; }
-  .pricing-card.featured .pricing-btn {
-    border-color: var(--sand);
-    color: var(--sand);
-    background: transparent;
-  }
-  .pricing-card.featured .pricing-btn:hover { background: var(--sand); color: var(--bark); }
-  .pricing-note {
-    text-align: center;
-    margin-top: 40px;
-    font-size: 0.82rem;
-    color: var(--text-light);
-    font-style: italic;
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1rem;
-  }
-
   /* ── BLOG ── */
   #blog { background: var(--warm-white); }
   .blog-grid {
@@ -614,7 +521,7 @@
   .blog-img-bg-2 { background: linear-gradient(135deg, #708090, #405060); }
   .blog-img-bg-3 { background: linear-gradient(135deg, #80A070, #506040); }
   .blog-cat {
-    font-size: 0.65rem;
+    font-size: 0.7rem;
     letter-spacing: 0.2em;
     text-transform: uppercase;
     color: var(--clay);
@@ -630,7 +537,7 @@
     line-height: 1.3;
   }
   .blog-excerpt {
-    font-size: 0.83rem;
+    font-size: 0.85rem;
     color: var(--text-light);
     line-height: 1.8;
     font-weight: 300;
@@ -651,7 +558,7 @@
   /* ── CONTACT ── */
   #contact {
     background: var(--dusk);
-    padding: 100px 80px;
+    padding: 80px 60px;
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 80px;
@@ -674,7 +581,7 @@
     display: flex; align-items: flex-start; gap: 16px;
   }
   .contact-info-label {
-    font-size: 0.65rem;
+    font-size: 0.7rem;
     letter-spacing: 0.2em;
     text-transform: uppercase;
     color: var(--sand);
@@ -690,7 +597,7 @@
   .form-group { display: flex; flex-direction: column; gap: 8px; }
   .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
   .form-label {
-    font-size: 0.65rem;
+    font-size: 0.7rem;
     letter-spacing: 0.2em;
     text-transform: uppercase;
     color: rgba(255,255,255,0.4);
@@ -701,7 +608,7 @@
     padding: 14px 18px;
     color: rgba(255,255,255,0.85);
     font-family: 'Jost', sans-serif;
-    font-size: 0.88rem;
+    font-size: 0.85rem;
     font-weight: 300;
     transition: border-color 0.3s, background 0.3s;
     outline: none;
@@ -720,7 +627,7 @@
     color: white;
     border: none;
     font-family: 'Jost', sans-serif;
-    font-size: 0.72rem;
+    font-size: 0.75rem;
     letter-spacing: 0.2em;
     text-transform: uppercase;
     transition: background 0.3s, transform 0.2s;
@@ -746,13 +653,13 @@
   }
   .footer-logo span { color: var(--clay); font-style: italic; }
   .footer-copy {
-    font-size: 0.72rem;
+    font-size: 0.75rem;
     color: rgba(255,255,255,0.25);
     letter-spacing: 0.1em;
   }
   .footer-socials { display: flex; gap: 20px; }
   .footer-socials a {
-    font-size: 0.68rem;
+    font-size: 0.7rem;
     letter-spacing: 0.15em;
     text-transform: uppercase;
     color: rgba(255,255,255,0.35);
@@ -778,16 +685,61 @@
     nav { padding: 20px 24px; }
     nav.scrolled { padding: 14px 24px; }
     .nav-links, .nav-cta { display: none; }
+    .nav-hamburger { display: flex; }
     #hero { grid-template-columns: 1fr; }
     .hero-right { display: none; }
     .hero-left { padding: 100px 24px 60px; }
     section { padding: 60px 24px; }
-    .services-grid, .pricing-grid, .blog-grid { grid-template-columns: 1fr; }
+    .services-grid, .blog-grid { grid-template-columns: 1fr; }
     .portfolio-item { grid-column: span 12 !important; min-height: 240px !important; }
     #contact { grid-template-columns: 1fr; gap: 48px; padding: 60px 24px; }
     .stats-bar { padding: 24px; flex-wrap: wrap; }
     footer { flex-direction: column; gap: 16px; text-align: center; padding: 32px 24px; }
     .form-row { grid-template-columns: 1fr; }
+  }
+  /* ── MOBILE RESPONSIVE ── */
+  @media (max-width: 768px) {
+    section { padding: 60px 24px; }
+    nav { padding: 20px 24px; }
+    nav.scrolled { padding: 14px 24px; }
+    .nav-links { display: none; }
+    .nav-cta { display: none; }
+    .nav-hamburger { display: flex; }
+
+    #hero {
+      grid-template-columns: 1fr;
+      min-height: auto;
+    }
+    .hero-left { padding: 100px 24px 48px; }
+    .hero-right { height: 300px; }
+
+
+    .stats-bar { padding: 32px 24px; flex-wrap: wrap; gap: 24px; }
+    .stat-item { border-right: none; flex: 0 0 45%; }
+
+    .services-grid,
+    .blog-grid { grid-template-columns: 1fr; gap: 16px; }
+
+    .portfolio-grid { grid-template-columns: repeat(2, 1fr); }
+
+    #contact {
+      grid-template-columns: 1fr;
+      gap: 48px;
+      padding: 60px 24px;
+    }
+    .form-row { grid-template-columns: 1fr; }
+
+    footer {
+      flex-direction: column;
+      gap: 20px;
+      text-align: center;
+      padding: 32px 24px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .portfolio-grid { grid-template-columns: 1fr; }
+    .hero-btns { flex-direction: column; align-items: flex-start; }
   }
 </style>
 </head>
@@ -805,11 +757,21 @@
     <li><a href="#services">Services</a></li>
     <li><a href="#portfolio">Work</a></li>
     <li><a href="#reel">Reel</a></li>
-    <li><a href="#pricing">Pricing</a></li>
     
   </ul>
   <a href="#contact" class="nav-cta">Inquire</a>
+  <button class="nav-hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
+
+<!-- MOBILE MENU -->
+<div class="nav-mobile-menu" id="mobile-menu">
+  <a href="#services" class="mobile-link">Services</a>
+  <a href="#portfolio" class="mobile-link">Work</a>
+  <a href="#reel" class="mobile-link">Reel</a>
+  <a href="#contact" class="mobile-link">Contact</a>
+</div>
 
 <!-- HERO -->
 <section id="hero">
@@ -825,10 +787,7 @@
       <a href="#portfolio" class="btn-primary">View Work</a>
       <a href="#contact" class="btn-secondary">Get in Touch</a>
     </div>
-    <div class="hero-scroll-hint">
-      <div class="scroll-line"></div>
-      Scroll to explore
-    </div>
+
   </div>
   <div class="hero-right">
     <div class="hero-image-placeholder" style="background:none;padding:0;position:relative;">
@@ -1023,59 +982,7 @@
   </p>
 </section>
 
-<!-- PRICING -->
-<section id="pricing">
-  <div class="section-header reveal">
-    <span class="section-eyebrow">Investment</span>
-    <h2 class="section-title">Transparent<br><em>pricing</em></h2>
-  </div>
-  <div class="pricing-grid reveal">
-    <div class="pricing-card">
-      <span class="pricing-category">Photography</span>
-      <h3 class="pricing-title">Still Frame</h3>
-      <div class="pricing-price">from $250 <span>/ session</span></div>
-      <div class="pricing-divider"></div>
-      <ul class="pricing-features">
-        <li>Half or full day session</li>
-        <li>Villa, hotel, real estate</li>
-        <li>Portrait & product</li>
-        <li>20–50 edited images</li>
-        <li>Online gallery delivery</li>
-      </ul>
-      <a href="#contact" class="pricing-btn">Inquire</a>
-    </div>
-    <div class="pricing-card featured">
-      <span class="pricing-badge">Popular</span>
-      <span class="pricing-category">Videography + Drone</span>
-      <h3 class="pricing-title">Full Story</h3>
-      <div class="pricing-price">from $650 <span>/ project</span></div>
-      <div class="pricing-divider"></div>
-      <ul class="pricing-features">
-        <li>Video + aerial footage</li>
-        <li>Event or architectural film</li>
-        <li>Drone mapping included</li>
-        <li>2–5 min cinematic edit</li>
-        <li>Social media cut included</li>
-      </ul>
-      <a href="#contact" class="pricing-btn">Inquire</a>
-    </div>
-    <div class="pricing-card">
-      <span class="pricing-category">Creative Direction</span>
-      <h3 class="pricing-title">Brand Vision</h3>
-      <div class="pricing-price">from $400 <span>/ package</span></div>
-      <div class="pricing-divider"></div>
-      <ul class="pricing-features">
-        <li>Creative planning session</li>
-        <li>Moodboard & concept</li>
-        <li>Content production</li>
-        <li>Ad & social media reels</li>
-        <li>Revision rounds included</li>
-      </ul>
-      <a href="#contact" class="pricing-btn">Inquire</a>
-    </div>
-  </div>
-  <p class="pricing-note reveal">All packages are custom — prices above are starting points. Let's talk about your vision.</p>
-</section>
+
 
 <!-- CONTACT -->
 <section id="contact">
@@ -1090,7 +997,7 @@
       </div>
       <div class="contact-info-item">
         <span class="contact-info-label">Email</span>
-        <span class="contact-info-value"><a href="mailto:jefritua99@gmail.com" style="color:inherit;text-decoration:none;">jefritua99@gmail.com</a></span>
+        <span class="contact-info-value"><a href="/cdn-cgi/l/email-protection#7a101f1c08130e0f1b43433a1d171b131654191517" style="color:inherit;text-decoration:none;"><span class="__cf_email__" data-cfemail="167c7370647f6263772f2f56717b777f7a3875797b">[email&#160;protected]</span></a></span>
       </div>
       <div class="contact-info-item">
         <span class="contact-info-label">WhatsApp</span>
@@ -1147,12 +1054,12 @@
   <div class="footer-socials">
     <a href="https://www.instagram.com/agendaproduction_" target="_blank">Instagram</a>
     <a href="https://wa.me/6282170659006" target="_blank">WhatsApp</a>
-    <a href="mailto:jefritua99@gmail.com">Email</a>
+    <a href="/cdn-cgi/l/email-protection#4e242b283c273a3b2f77770e29232f2722602d2123">Email</a>
   </div>
 </footer>
 
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
   // Wait for DOM
   document.addEventListener('DOMContentLoaded', function() {
 
@@ -1212,6 +1119,24 @@
       });
     });
 
+    // Hamburger menu
+    const hamburger = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobile-menu');
+    if (hamburger && mobileMenu) {
+      hamburger.addEventListener('click', () => {
+        hamburger.classList.toggle('open');
+        mobileMenu.classList.toggle('open');
+        document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
+      });
+      document.querySelectorAll('.mobile-link').forEach(link => {
+        link.addEventListener('click', () => {
+          hamburger.classList.remove('open');
+          mobileMenu.classList.remove('open');
+          document.body.style.overflow = '';
+        });
+      });
+    }
+
     // Smooth scroll for nav links
     document.querySelectorAll('a[href^="#"]').forEach(a => {
       a.addEventListener('click', e => {
@@ -1233,15 +1158,4 @@
     if (iframe) {
       try {
         var doc = iframe.contentDocument || iframe.contentWindow.document;
-        if (!doc || doc.body === null || doc.body.innerHTML.trim() === '') {
-          if (embed) embed.style.display = 'none';
-          if (fallback) fallback.style.display = 'block';
-        }
-      } catch(e) {
-        // cross-origin - iframe may still be loading, check height
-      }
-    }
-  }, 4000);
-</script>
-</body>
-</html>
+        if (!doc || doc.body === null || doc.b
