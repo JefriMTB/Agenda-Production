@@ -1223,16 +1223,46 @@
       </div>
     </div>
 
-    <!-- Project 4: Empty -->
+    <!-- Project 4: Vireya BSD Tangerang -->
     <div class="project-card reveal">
-      <div class="carousel-wrap empty-card">
-        <div class="empty-placeholder">
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-          <span>Coming Soon</span>
+      <div class="carousel-wrap" id="cw-vireya">
+        <div class="carousel-track" id="ct-vireya">
+          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_900/v1776144975/6100297365576158917_gxnikw.jpg" alt="Vireya BSD 1" loading="lazy"></div>
+          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_900/v1776144971/AVB00159-2_pdnhgf.jpg" alt="Vireya BSD 2" loading="lazy"></div>
+          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_900/v1776144970/AVB03270_rqpbx1.jpg" alt="Vireya BSD 3" loading="lazy"></div>
+          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_900/v1776144971/AVB03245_weojwn.jpg" alt="Vireya BSD 4" loading="lazy"></div>
+          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_900/v1776144968/AVB00119-2_int6xn.jpg" alt="Vireya BSD 5" loading="lazy"></div>
         </div>
+        <div class="carousel-overlay">
+          <span class="carousel-cat">Photography · Real Estate</span>
+          <span class="carousel-name">Vireya, BSD, Tangerang</span>
+        </div>
+        <span class="carousel-counter" id="cc-vireya">1 / 5</span>
+        <div class="carousel-dots" id="cd-vireya">
+          <button class="carousel-dot active" data-i="0"></button>
+          <button class="carousel-dot" data-i="1"></button>
+          <button class="carousel-dot" data-i="2"></button>
+          <button class="carousel-dot" data-i="3"></button>
+          <button class="carousel-dot" data-i="4"></button>
+        </div>
+        <button class="carousel-prev" id="cp-vireya" disabled aria-label="Prev">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <button class="carousel-next" id="cn-vireya" aria-label="Next">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
       </div>
       <div class="project-footer">
-        <div class="project-tags"><span class="tag">—</span></div>
+        <div class="project-tags">
+          <span class="tag">Real Estate</span>
+          <span class="tag">Interior</span>
+          <span class="tag">BSD</span>
+          <span class="tag">Tangerang</span>
+        </div>
+        <a href="#contact" class="project-link">
+          Proyek serupa
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
       </div>
     </div>
 
@@ -1318,7 +1348,7 @@
         </div>
         <div>
           <span class="c-label">Email</span>
-          <span class="c-val"><a href="mailto:jefritua99@gmail.com">jefritua99@gmail.com</a></span>
+          <span class="c-val"><a href="/cdn-cgi/l/email-protection#68020d0e1a011c1d095151280f05090104460b0705"><span class="__cf_email__" data-cfemail="f3999695819a878692cacab3949e929a9fdd909c9e">[email&#160;protected]</span></a></span>
         </div>
       </div>
       <div class="c-item">
@@ -1387,11 +1417,11 @@
   <div class="footer-links">
     <a href="https://www.instagram.com/agendaproduction_" target="_blank">Instagram</a>
     <a href="https://wa.me/6282170659006" target="_blank">WhatsApp</a>
-    <a href="mailto:jefritua99@gmail.com">Email</a>
+    <a href="/cdn-cgi/l/email-protection#96fcf3f0e4ffe2e3f7afafd6f1fbf7fffab8f5f9fb">Email</a>
   </div>
 </footer>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
   // Nav scroll
   const nav = document.getElementById('main-nav');
   window.addEventListener('scroll', () => {
@@ -1605,7 +1635,7 @@
   }
 
   // Init all carousels
-  ['jimbaran', 'pilates', 'beauty'].forEach(initCarousel);
+  ['jimbaran', 'pilates', 'beauty', 'vireya'].forEach(initCarousel);
 
   // Lightbox — klik foto buka lightbox dengan semua foto dari carousel yang sama
   document.querySelectorAll('.carousel-wrap').forEach(wrap => {
@@ -1628,11 +1658,7 @@
     playBtn.addEventListener('click', () => {
       reelPlaceholder.style.display = 'none';
       reelVideo.style.display = 'block';
-      reelVideo.play().catch(() => {});
-    });
-    // Hide placeholder once video starts playing natively
-    reelVideo.addEventListener('play', () => {
-      reelPlaceholder.style.display = 'none';
+      reelVideo.play();
     });
   }
 </script>
