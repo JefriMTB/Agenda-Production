@@ -78,16 +78,17 @@
     pointer-events: none;
   }
   .loader-logo {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.4rem;
-    font-weight: 400;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: rgba(255,255,255,0.9);
     opacity: 0;
     animation: loaderFadeIn 0.6s 0.2s forwards;
   }
-  .loader-logo em { color: var(--accent); font-style: italic; }
+  .loader-logo img {
+    height: 52px;
+    width: auto;
+    display: block;
+  }
+  @media (max-width: 480px) {
+    .loader-logo img { height: 40px; }
+  }
   .loader-bar-track {
     width: 80px;
     height: 1.5px;
@@ -775,7 +776,13 @@
 
 <!-- ── LOADING SCREEN ── -->
 <div id="page-loader">
-  <div class="loader-logo">Agenda <em>Production</em></div>
+  <div class="loader-logo">
+    <img
+      src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,w_280/v1776088189/A_logo_full_transparent_z5pf2f.png"
+      alt="Agenda Production"
+      loading="eager"
+    >
+  </div>
   <div class="loader-bar-track">
     <div class="loader-bar"></div>
   </div>
@@ -1203,28 +1210,28 @@
   <div class="process-steps">
     <div class="process-step reveal">
       <div class="process-num">01</div>
-      <h3 class="process-step-name">Brief &<br>Konsultasi</h3>
-      <p class="process-step-desc">Ceritakan visi dan kebutuhan kamu. Kami dengerin, tanya yang penting, dan bantu bentuk konsepnya.</p>
+      <h3 class="process-step-name">Brief &<br>Consultation</h3>
+      <p class="process-step-desc">Tell us your vision and goals. We listen, ask the right questions, and help shape the concept together.</p>
     </div>
     <div class="process-step reveal">
       <div class="process-num">02</div>
-      <h3 class="process-step-name">Planning<br>& Konsep</h3>
-      <p class="process-step-desc">Kami susun shot list, mood board, dan jadwal shoot yang sesuai ekspektasi kamu.</p>
+      <h3 class="process-step-name">Planning<br>& Concept</h3>
+      <p class="process-step-desc">We build a detailed shot list, mood board, and shoot schedule aligned with your expectations.</p>
     </div>
     <div class="process-step reveal">
       <div class="process-num">03</div>
       <h3 class="process-step-name">Shoot<br>Day</h3>
-      <p class="process-step-desc">Eksekusi di lapangan dengan peralatan profesional. Kamu bisa hadir langsung atau pantau dari jauh.</p>
+      <p class="process-step-desc">On-location execution with professional gear. You can be present on set or simply trust us to deliver.</p>
     </div>
     <div class="process-step reveal">
       <div class="process-num">04</div>
       <h3 class="process-step-name">Edit<br>& Review</h3>
-      <p class="process-step-desc">Proses editing dengan color grading khas kami. Kamu bisa request revisi sebelum final.</p>
+      <p class="process-step-desc">Editing and color grading in our signature style. You review and request revisions before we finalize.</p>
     </div>
     <div class="process-step reveal">
       <div class="process-num">05</div>
       <h3 class="process-step-name">Deliver<br>& Done</h3>
-      <p class="process-step-desc">File final dikirim via Google Drive dalam format siap pakai — web, print, dan social media.</p>
+      <p class="process-step-desc">Final files delivered via Google Drive — optimized for web, print, and social media. Ready to use.</p>
     </div>
   </div>
 </section>
