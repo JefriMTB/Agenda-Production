@@ -140,6 +140,7 @@
     color: var(--ink-2); transition: color 0.25s;
   }
   .nav-links a:hover { color: var(--accent); }
+  .nav-links a.active { color: var(--accent); }
   .nav-btn {
     font-size: 0.75rem; font-weight: 500;
     letter-spacing: 0.14em; text-transform: uppercase;
@@ -254,6 +255,178 @@
   }
   .hero-badge-dot { width: 6px; height: 6px; background: var(--accent); border-radius: 50%; flex-shrink: 0; }
   .hero-badge-text { font-size: 0.72rem; font-weight: 500; color: var(--ink-2); letter-spacing: 0.06em; }
+
+  /* ── HERO SOCIAL PROOF ── */
+  .hero-social-proof {
+    display: flex; align-items: center; gap: 10px;
+    margin-top: 20px;
+    opacity: 0; animation: fadeUp 0.8s 1s forwards;
+  }
+  .hero-stars { display: flex; gap: 2px; }
+  .hero-stars span { color: var(--accent); font-size: 0.75rem; }
+  .hero-proof-text { font-size: 0.75rem; color: var(--ink-3); font-weight: 300; }
+  .hero-proof-text strong { color: var(--ink-2); font-weight: 500; }
+
+  /* ── PORTFOLIO FILTER ── */
+  .filter-bar {
+    display: flex; gap: 8px; flex-wrap: wrap;
+    margin-bottom: 32px;
+  }
+  .filter-btn {
+    font-size: 0.68rem; font-weight: 500;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    padding: 7px 16px; border-radius: 20px;
+    border: 1px solid var(--line);
+    color: var(--ink-3); background: transparent;
+    cursor: pointer; transition: all 0.22s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .filter-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .filter-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .project-card { transition: opacity 0.3s, transform 0.3s; }
+  .project-card.hidden { opacity: 0; pointer-events: none; height: 0; overflow: hidden; margin: 0; padding: 0; border: none; }
+
+  /* ── CTA BANNER ── */
+  .cta-banner {
+    background: var(--dark);
+    padding: 40px 7%;
+    display: flex; align-items: center; justify-content: space-between; gap: 24px;
+    flex-wrap: wrap;
+  }
+  .cta-banner-text { }
+  .cta-banner-eyebrow {
+    font-size: 0.65rem; font-weight: 500;
+    letter-spacing: 0.24em; text-transform: uppercase;
+    color: var(--accent); display: block; margin-bottom: 6px;
+  }
+  .cta-banner-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+    font-weight: 400; color: #fff; line-height: 1.25;
+  }
+  .cta-banner-title em { color: var(--accent); font-style: italic; }
+  .cta-banner-btn {
+    flex-shrink: 0;
+    display: flex; align-items: center; gap: 10px;
+    padding: 13px 26px;
+    background: #25D366; color: #fff;
+    border-radius: 2px;
+    font-size: 0.72rem; font-weight: 500;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    transition: opacity 0.2s, transform 0.2s; white-space: nowrap;
+  }
+  .cta-banner-btn:hover { opacity: 0.9; transform: translateY(-2px); }
+  .cta-banner-btn svg { width: 16px; height: 16px; fill: #fff; flex-shrink: 0; }
+  @media (max-width: 640px) {
+    .cta-banner { flex-direction: column; align-items: flex-start; padding: 32px 5%; }
+    .cta-banner-btn { width: 100%; justify-content: center; }
+  }
+
+  /* ── FAQ SECTION ── */
+  #faq { background: var(--white); }
+  .faq-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0 60px;
+    margin-top: 48px;
+  }
+  .faq-item {
+    border-bottom: 1px solid var(--line);
+    padding: 0;
+    overflow: hidden;
+  }
+  .faq-item:first-child, .faq-item:nth-child(2) { border-top: 1px solid var(--line); }
+  .faq-q {
+    width: 100%; background: none; border: none;
+    display: flex; justify-content: space-between; align-items: center;
+    gap: 16px; padding: 22px 0;
+    font-family: 'DM Sans', sans-serif; font-size: 0.9rem; font-weight: 500;
+    color: var(--ink); cursor: pointer; text-align: left;
+    transition: color 0.2s; -webkit-tap-highlight-color: transparent;
+  }
+  .faq-q:hover { color: var(--accent); }
+  .faq-q.open { color: var(--accent); }
+  .faq-icon {
+    width: 20px; height: 20px; flex-shrink: 0;
+    border: 1px solid var(--line); border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    transition: border-color 0.2s, transform 0.3s;
+  }
+  .faq-q.open .faq-icon { border-color: var(--accent); transform: rotate(45deg); }
+  .faq-icon svg { width: 10px; height: 10px; stroke: var(--ink-3); transition: stroke 0.2s; }
+  .faq-q.open .faq-icon svg { stroke: var(--accent); }
+  .faq-a {
+    font-size: 0.85rem; line-height: 1.8; color: var(--ink-2); font-weight: 300;
+    max-height: 0; overflow: hidden;
+    transition: max-height 0.4s ease, padding 0.3s ease;
+  }
+  .faq-a.open { max-height: 300px; padding-bottom: 22px; }
+  @media (max-width: 768px) {
+    .faq-grid { grid-template-columns: 1fr; gap: 0; }
+    .faq-item:nth-child(2) { border-top: none; }
+  }
+  footer {
+    background: #120D05;
+    border-top: 1px solid rgba(255,255,255,0.04);
+  }
+  .footer-top {
+    padding: 52px 7% 40px;
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr 1fr;
+    gap: 40px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .footer-brand {}
+  .footer-brand-logo {
+    font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 400;
+    color: rgba(255,255,255,0.7); display: block; margin-bottom: 12px;
+  }
+  .footer-brand-logo em { color: var(--accent); font-style: italic; }
+  .footer-brand-tag {
+    font-size: 0.75rem; color: rgba(255,255,255,0.3); font-weight: 300;
+    line-height: 1.7; max-width: 200px; display: block; margin-bottom: 16px;
+  }
+  .footer-avail {
+    display: inline-flex; align-items: center; gap: 7px;
+    font-size: 0.65rem; font-weight: 500; letter-spacing: 0.14em;
+    text-transform: uppercase; color: rgba(255,255,255,0.25);
+  }
+  .footer-avail-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: #25D366; flex-shrink: 0;
+    box-shadow: 0 0 6px rgba(37,211,102,0.5);
+  }
+  .footer-col-title {
+    font-size: 0.62rem; font-weight: 500; letter-spacing: 0.2em;
+    text-transform: uppercase; color: rgba(255,255,255,0.2);
+    display: block; margin-bottom: 16px;
+  }
+  .footer-col-links { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .footer-col-links a {
+    font-size: 0.82rem; color: rgba(255,255,255,0.4); font-weight: 300;
+    transition: color 0.2s;
+  }
+  .footer-col-links a:hover { color: var(--accent); }
+  .footer-bottom {
+    padding: 20px 7%;
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 12px;
+  }
+  .footer-copy { font-size: 0.68rem; color: rgba(255,255,255,0.15); letter-spacing: 0.06em; }
+  .footer-socials { display: flex; gap: 16px; }
+  .footer-socials a {
+    font-size: 0.65rem; font-weight: 500; letter-spacing: 0.14em;
+    text-transform: uppercase; color: rgba(255,255,255,0.25); transition: color 0.2s;
+  }
+  .footer-socials a:hover { color: var(--accent); }
+  @media (max-width: 900px) {
+    .footer-top { grid-template-columns: 1fr 1fr; gap: 32px; }
+    .footer-bottom { flex-direction: column; align-items: flex-start; }
+  }
+  @media (max-width: 480px) {
+    .footer-top { grid-template-columns: 1fr; padding: 40px 5% 32px; }
+    .footer-bottom { padding: 16px 5%; }
+  }
 
   /* ── STATS ── */
   .stats {
@@ -401,6 +574,10 @@
   }
   .carousel-dot::before { content: ''; position: absolute; inset: -8px; }
   .carousel-dot.active { background: #fff; transform: scale(1.4); }
+  /* Compact dots when there are many slides */
+  .carousel-dots:has(.carousel-dot:nth-child(10)) .carousel-dot {
+    width: 4px; height: 4px;
+  }
   .carousel-counter {
     position: absolute; top: 14px; right: 16px;
     font-size: 0.65rem; font-weight: 500; letter-spacing: 0.1em;
@@ -620,20 +797,6 @@
   .f-submit:hover { background: var(--accent-dark); transform: translateY(-2px); }
   .f-submit svg { width: 16px; height: 16px; fill: #fff; flex-shrink: 0; }
 
-  /* ── FOOTER ── */
-  footer {
-    background: #120D05; padding: 28px 7%;
-    display: flex; justify-content: space-between; align-items: center;
-    flex-wrap: wrap; gap: 16px;
-    border-top: 1px solid rgba(255,255,255,0.04);
-  }
-  .footer-logo { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 400; color: rgba(255,255,255,0.45); }
-  .footer-logo em { color: var(--accent); font-style: italic; }
-  .footer-copy { font-size: 0.7rem; color: rgba(255,255,255,0.2); letter-spacing: 0.06em; }
-  .footer-links { display: flex; gap: 20px; }
-  .footer-links a { font-size: 0.68rem; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.3); transition: color 0.25s; }
-  .footer-links a:hover { color: var(--accent); }
-
   /* ── WHATSAPP FLOATING BUTTON ── */
   .wa-float {
     position: fixed; bottom: 28px; right: 28px; z-index: 500;
@@ -716,8 +879,18 @@
     .svc-card { padding: 32px 24px; }
     .contact-wrap { grid-template-columns: 1fr; gap: 48px; }
     .form-row { grid-template-columns: 1fr; }
-    footer { flex-direction: column; align-items: flex-start; gap: 12px; }
     .work-header { flex-direction: column; align-items: flex-start; }
+    /* FAQ — keep 2 col on tablet */
+    .faq-grid { grid-template-columns: 1fr 1fr; gap: 0 48px; }
+    /* Footer tablet — 2 col */
+    .footer-top { grid-template-columns: 1fr 1fr; gap: 32px; padding: 44px 6% 36px; }
+    .footer-bottom { flex-direction: row; padding: 18px 6%; }
+  }
+
+  /* ── MOBILE 600px — FAQ single col ── */
+  @media (max-width: 600px) {
+    .faq-grid { grid-template-columns: 1fr; gap: 0; }
+    .faq-item:nth-child(2) { border-top: none; }
   }
 
   /* ── MOBILE 480px ── */
@@ -755,14 +928,27 @@
     .contact-wrap { gap: 36px; }
     .c-val { font-size: 0.85rem; }
     .f-submit { width: 100%; text-align: center; padding: 16px; justify-content: center; }
-    footer { padding: 24px 5%; gap: 16px; }
-    .footer-links { flex-wrap: wrap; gap: 14px; }
     .mobile-menu a { font-size: 2.4rem; }
     .lb-prev { left: 6px; }
     .lb-next { right: 6px; }
     .lb-prev, .lb-next { width: 40px; height: 40px; }
     .wa-float { bottom: 20px; right: 20px; }
     .wa-btn-float { width: 48px; height: 48px; }
+    /* Footer mobile — 1 col, priority order */
+    .footer-top {
+      grid-template-columns: 1fr;
+      padding: 40px 5% 32px;
+      gap: 28px;
+    }
+    .footer-top > div:nth-child(1) { order: 1; } /* Brand */
+    .footer-top > div:nth-child(4) { order: 2; } /* Contact */
+    .footer-top > div:nth-child(2) { order: 3; } /* Navigate */
+    .footer-top > div:nth-child(3) { order: 4; } /* Services */
+    .footer-bottom { flex-direction: column; align-items: flex-start; gap: 10px; padding: 16px 5%; }
+    .testi-grid { grid-template-columns: 1fr; }
+    /* Filter bar wraps neatly */
+    .filter-bar { gap: 6px; }
+    .filter-btn { padding: 6px 13px; font-size: 0.65rem; }
   }
 
   @media (max-width: 360px) {
@@ -794,6 +980,7 @@
   <a href="#services" onclick="closeMenu()">Services</a>
   <a href="#work" onclick="closeMenu()">Work</a>
   <a href="#testimonials" onclick="closeMenu()">Testimonials</a>
+  <a href="#faq" onclick="closeMenu()">FAQ</a>
   <a href="#contact" class="m-cta" onclick="closeMenu()">Inquire Now</a>
 </div>
 
@@ -807,6 +994,7 @@
       <li><a href="#services">Services</a></li>
       <li><a href="#work">Work</a></li>
       <li><a href="#testimonials">Testimonials</a></li>
+      <li><a href="#faq">FAQ</a></li>
     </ul>
     <a href="#contact" class="nav-btn">Inquire</a>
     <button class="hamburger" id="hamburger" aria-label="Menu">
@@ -824,6 +1012,12 @@
     <div class="hero-actions">
       <a href="#work" class="btn-fill">View Our Work</a>
       <a href="#contact" class="btn-outline">Get In Touch</a>
+    </div>
+    <div class="hero-social-proof">
+      <div class="hero-stars">
+        <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+      </div>
+      <span class="hero-proof-text"><strong>Trusted by 60+ clients</strong> across Bali &amp; Indonesia</span>
     </div>
   </div>
   <div class="hero-right">
@@ -928,10 +1122,17 @@
     <p class="s-sub">Every project is a story — captured with precision, delivered with soul.</p>
   </div>
 
+  <div class="filter-bar">
+    <button class="filter-btn active" data-filter="all">All</button>
+    <button class="filter-btn" data-filter="photography">Photography</button>
+    <button class="filter-btn" data-filter="videography">Videography</button>
+    <button class="filter-btn" data-filter="drone">Drone</button>
+  </div>
+
   <div class="projects-grid">
 
     <!-- Project 1: Resort Jimbaran -->
-    <div class="project-card reveal">
+    <div class="project-card reveal" data-category="photography drone">
       <div class="carousel-wrap" id="cw-jimbaran">
         <div class="carousel-track" id="ct-jimbaran">
           <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1776085620/AVB09429-HDR_nu4jem.jpg" alt="Resort Jimbaran 1" loading="eager"></div>
@@ -986,7 +1187,7 @@
     </div>
 
     <!-- Project 2: Mate Pilates -->
-    <div class="project-card reveal">
+    <div class="project-card reveal" data-category="photography">
       <div class="carousel-wrap" id="cw-pilates">
         <div class="carousel-track" id="ct-pilates">
           <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_900/v1776140636/Artboard_1_l0sdwi.jpg" alt="Mate Pilates 1" loading="lazy"></div>
@@ -1032,7 +1233,7 @@
     </div>
 
     <!-- Project 3: Beauty Portrait Yogyakarta -->
-    <div class="project-card reveal">
+    <div class="project-card reveal" data-category="photography">
       <div class="carousel-wrap" id="cw-beauty">
         <div class="carousel-track" id="ct-beauty">
           <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_900/v1776142917/DSC09378_cybkgm.jpg" alt="Beauty Portrait 1" loading="lazy"></div>
@@ -1080,7 +1281,7 @@
     </div>
 
     <!-- Project 4: Vireya BSD Tangerang -->
-    <div class="project-card reveal">
+    <div class="project-card reveal" data-category="photography drone">
       <div class="carousel-wrap" id="cw-vireya">
         <div class="carousel-track" id="ct-vireya">
           <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1776144975/6100297365576158917_gxnikw.jpg" alt="Vireya BSD 1" loading="lazy"></div>
@@ -1123,7 +1324,8 @@
     </div>
 
     <!-- Project 5: Qahira Top Brand Awards -->
-    <div class="project-card reveal">
+    <div class="project-card reveal" data-category="photography videography">
+
       <div class="carousel-wrap" id="cw-qahira">
         <div class="carousel-track" id="ct-qahira">
           <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1776146975/AR_09736_vmrb8n.jpg" alt="Qahira Top Brand 1" loading="lazy"></div>
@@ -1180,12 +1382,93 @@
       </div>
     </div>
 
+    <!-- Project 6: Jimbafest 2025 -->
+    <div class="project-card reveal" data-category="photography drone">
+      <div class="carousel-wrap" id="cw-jimbafest">
+        <div class="carousel-track" id="ct-jimbafest">
+          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777101220/DJI_0800_bdnt77.jpg" alt="Jimbafest 2025 1" loading="lazy"></div>
+          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777101223/AVB00785_dox3by.jpg" alt="Jimbafest 2025 2" loading="lazy"></div>
+          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777101211/AVB01768_chrxbp.jpg" alt="Jimbafest 2025 3" loading="lazy"></div>
+          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777101212/AVB01720_caqwja.jpg" alt="Jimbafest 2025 4" loading="lazy"></div>
+          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777101211/AVB01931_nadjpm.jpg" alt="Jimbafest 2025 5" loading="lazy"></div>
+          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777101212/AVB01861_psmkb9.jpg" alt="Jimbafest 2025 6" loading="lazy"></div>
+          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777101213/AVB01994_wyiruc.jpg" alt="Jimbafest 2025 7" loading="lazy"></div>
+          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777101212/AVB01939_yrmrhv.jpg" alt="Jimbafest 2025 8" loading="lazy"></div>
+          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777101217/AVB02108_k0ljoc.jpg" alt="Jimbafest 2025 9" loading="lazy"></div>
+          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777101222/AVB02395_wm7mnd.jpg" alt="Jimbafest 2025 10" loading="lazy"></div>
+          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777101216/AVB02622_byech0.jpg" alt="Jimbafest 2025 11" loading="lazy"></div>
+          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777101212/AVB01633_s5sr7f.jpg" alt="Jimbafest 2025 12" loading="lazy"></div>
+          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777101218/AVB02422_rj89pl.jpg" alt="Jimbafest 2025 13" loading="lazy"></div>
+          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777101222/AVB02601_lmlw3v.jpg" alt="Jimbafest 2025 14" loading="lazy"></div>
+          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777101222/AVB02609_t8m5lr.jpg" alt="Jimbafest 2025 15" loading="lazy"></div>
+          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777101225/AVB02863_cffo69.jpg" alt="Jimbafest 2025 16" loading="lazy"></div>
+          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777101224/AVB03922_w4ddjf.jpg" alt="Jimbafest 2025 17" loading="lazy"></div>
+          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777101229/HYPERLAPSE_0152_j6m35h.jpg" alt="Jimbafest 2025 18" loading="lazy"></div>
+        </div>
+        <div class="carousel-overlay">
+          <span class="carousel-cat">Photography &amp; Drone · Event</span>
+          <span class="carousel-name">Jimbafest 2025, Bali</span>
+        </div>
+        <span class="carousel-counter" id="cc-jimbafest">1 / 18</span>
+        <div class="carousel-dots" id="cd-jimbafest">
+          <button class="carousel-dot active" data-i="0"></button>
+          <button class="carousel-dot" data-i="1"></button>
+          <button class="carousel-dot" data-i="2"></button>
+          <button class="carousel-dot" data-i="3"></button>
+          <button class="carousel-dot" data-i="4"></button>
+          <button class="carousel-dot" data-i="5"></button>
+          <button class="carousel-dot" data-i="6"></button>
+          <button class="carousel-dot" data-i="7"></button>
+          <button class="carousel-dot" data-i="8"></button>
+          <button class="carousel-dot" data-i="9"></button>
+          <button class="carousel-dot" data-i="10"></button>
+          <button class="carousel-dot" data-i="11"></button>
+          <button class="carousel-dot" data-i="12"></button>
+          <button class="carousel-dot" data-i="13"></button>
+          <button class="carousel-dot" data-i="14"></button>
+          <button class="carousel-dot" data-i="15"></button>
+          <button class="carousel-dot" data-i="16"></button>
+          <button class="carousel-dot" data-i="17"></button>
+        </div>
+        <button class="carousel-prev" id="cp-jimbafest" disabled aria-label="Prev">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <button class="carousel-next" id="cn-jimbafest" aria-label="Next">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+      </div>
+      <div class="project-footer">
+        <div class="project-tags">
+          <span class="tag">Event</span>
+          <span class="tag">Drone</span>
+          <span class="tag">Festival</span>
+          <span class="tag">Jimbaran</span>
+        </div>
+        <a href="#contact" class="project-link">
+          Similar project
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+      </div>
+    </div>
+
   </div><!-- /projects-grid -->
 
   <div class="work-cta reveal">
     <a href="#contact" class="btn-fill">Let's Talk About Your Project</a>
   </div>
 </section>
+
+<!-- CTA BANNER -->
+<div class="cta-banner reveal">
+  <div class="cta-banner-text">
+    <span class="cta-banner-eyebrow">Ready to create?</span>
+    <h3 class="cta-banner-title">Got a project in mind?<br><em>Let's make it happen.</em></h3>
+  </div>
+  <a href="https://wa.me/6282170659006?text=Halo%20Agenda%20Production!%20Saya%20ingin%20diskusi%20tentang%20project%20saya." target="_blank" class="cta-banner-btn">
+    <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/></svg>
+    Chat on WhatsApp
+  </a>
+</div>
 
 <!-- LIGHTBOX -->
 <div class="lightbox" id="lightbox">
@@ -1286,6 +1569,66 @@
   </div>
 </section>
 
+<!-- FAQ -->
+<section id="faq">
+  <div class="reveal">
+    <span class="s-eyebrow">FAQ</span>
+    <h2 class="s-title">Questions you might<br><em>already have</em></h2>
+    <p class="s-sub">We get asked these a lot — so here's everything upfront, no waiting needed.</p>
+  </div>
+  <div class="faq-grid">
+
+    <div class="faq-item reveal">
+      <button class="faq-q">
+        How long does editing usually take?
+        <span class="faq-icon"><svg viewBox="0 0 12 12" fill="none" stroke-width="1.8"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></span>
+      </button>
+      <div class="faq-a">For photography, turnaround is typically 5–10 business days. Video projects take 7–14 days depending on length and complexity. Rush delivery is available — just let us know upfront and we'll sort it out.</div>
+    </div>
+
+    <div class="faq-item reveal">
+      <button class="faq-q">
+        Can you work outside of Bali?
+        <span class="faq-icon"><svg viewBox="0 0 12 12" fill="none" stroke-width="1.8"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></span>
+      </button>
+      <div class="faq-a">Absolutely! We've worked in Yogyakarta, Tangerang, and other cities across Indonesia. Travel is available for projects outside Bali — travel costs will be discussed during the briefing stage.</div>
+    </div>
+
+    <div class="faq-item reveal">
+      <button class="faq-q">
+        What file formats do you deliver?
+        <span class="faq-icon"><svg viewBox="0 0 12 12" fill="none" stroke-width="1.8"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></span>
+      </button>
+      <div class="faq-a">Photos are delivered as high-resolution JPEGs (web-ready and print-ready). Videos are exported in MP4 (H.264) optimized for both social media and full-screen display. All files are shared via Google Drive.</div>
+    </div>
+
+    <div class="faq-item reveal">
+      <button class="faq-q">
+        Do you offer revisions?
+        <span class="faq-icon"><svg viewBox="0 0 12 12" fill="none" stroke-width="1.8"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></span>
+      </button>
+      <div class="faq-a">Yes! Every project includes a review round where you can give feedback before we finalize. We want you to love the results, so we work closely with you until it feels right.</div>
+    </div>
+
+    <div class="faq-item reveal">
+      <button class="faq-q">
+        How do I book or get a quote?
+        <span class="faq-icon"><svg viewBox="0 0 12 12" fill="none" stroke-width="1.8"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></span>
+      </button>
+      <div class="faq-a">Super easy — just fill out the form below or send us a message on WhatsApp. Tell us your date, location, and what you need, and we'll get back to you with a quote within 24 hours.</div>
+    </div>
+
+    <div class="faq-item reveal">
+      <button class="faq-q">
+        Do you have a drone permit for Bali?
+        <span class="faq-icon"><svg viewBox="0 0 12 12" fill="none" stroke-width="1.8"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></span>
+      </button>
+      <div class="faq-a">Yes, we operate with proper drone permits and follow all Indonesian aviation regulations. We handle all the paperwork — you just enjoy the aerial shots.</div>
+    </div>
+
+  </div>
+</section>
+
 <!-- CONTACT -->
 <section id="contact">
   <div class="reveal">
@@ -1383,18 +1726,57 @@
 
 <!-- FOOTER -->
 <footer>
-  <span class="footer-logo">Agenda <em>Production</em></span>
-  <span class="footer-copy">© 2026 · Bali, Indonesia</span>
-  <div class="footer-links">
-    <a href="https://www.instagram.com/agendaproduction_" target="_blank">Instagram</a>
-    <a href="https://wa.me/6282170659006" target="_blank">WhatsApp</a>
-    <a href="mailto:jefritua99@gmail.com">Email</a>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <span class="footer-brand-logo">Agenda <em>Production</em></span>
+      <span class="footer-brand-tag">Bali-based visual storytellers crafting light into lasting memory — for brands, properties, and moments that matter.</span>
+      <span class="footer-avail">
+        <span class="footer-avail-dot"></span>
+        Available for bookings
+      </span>
+    </div>
+    <div>
+      <span class="footer-col-title">Navigate</span>
+      <ul class="footer-col-links">
+        <li><a href="#services">Services</a></li>
+        <li><a href="#work">Portfolio</a></li>
+        <li><a href="#process">How We Work</a></li>
+        <li><a href="#testimonials">Client Stories</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ul>
+    </div>
+    <div>
+      <span class="footer-col-title">Services</span>
+      <ul class="footer-col-links">
+        <li><a href="#contact">Photography</a></li>
+        <li><a href="#contact">Videography</a></li>
+        <li><a href="#contact">Drone Aerial</a></li>
+        <li><a href="#contact">Full Package</a></li>
+      </ul>
+    </div>
+    <div>
+      <span class="footer-col-title">Contact</span>
+      <ul class="footer-col-links">
+        <li><a href="https://wa.me/6282170659006" target="_blank">+62 821-7065-9006</a></li>
+        <li><a href="mailto:jefritua99@gmail.com">jefritua99@gmail.com</a></li>
+        <li><a href="https://www.instagram.com/agendaproduction_" target="_blank">@agendaproduction_</a></li>
+        <li><a href="#contact" style="color:rgba(255,255,255,0.25);font-size:0.75rem;">Denpasar, Bali 🇮🇩</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span class="footer-copy">© 2026 Agenda Production · All rights reserved</span>
+    <div class="footer-socials">
+      <a href="https://www.instagram.com/agendaproduction_" target="_blank">Instagram</a>
+      <a href="https://wa.me/6282170659006" target="_blank">WhatsApp</a>
+      <a href="mailto:jefritua99@gmail.com">Email</a>
+    </div>
   </div>
 </footer>
 
 <!-- WHATSAPP FLOATING BUTTON -->
 <div class="wa-float">
-  <span class="wa-tooltip">Ada yang bisa dibantu?</span>
+  <span class="wa-tooltip">Need help? Chat us!</span>
   <a href="https://wa.me/6282170659006?text=Halo%20Agenda%20Production!%20Saya%20ingin%20tanya%20tentang%20layanan%20kalian." target="_blank" class="wa-btn-float" aria-label="Chat WhatsApp">
     <div class="wa-pulse-ring"></div>
     <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
@@ -1472,19 +1854,19 @@
     const message = document.getElementById('f-message').value.trim();
 
     if (!name || !contact || !service) {
-      alert('Mohon isi Nama, Kontak, dan pilih Layanan terlebih dahulu.');
+      alert('Please fill in your Name, Contact, and Service before sending.');
       return;
     }
 
     const text = [
-      'Halo Agenda Production! 👋',
+      'Hi Agenda Production! 👋',
       '',
-      `*Nama:* ${name}`,
-      `*Kontak:* ${contact}`,
-      `*Layanan:* ${service}`,
-      message ? `*Detail Proyek:* ${message}` : '',
+      `*Name:* ${name}`,
+      `*Contact:* ${contact}`,
+      `*Service:* ${service}`,
+      message ? `*Project Details:* ${message}` : '',
       '',
-      'Saya ingin tahu lebih lanjut tentang layanan kalian.'
+      "I'd love to learn more about your services!"
     ].filter(Boolean).join('\n');
 
     const url = 'https://wa.me/6282170659006?text=' + encodeURIComponent(text);
@@ -1597,7 +1979,58 @@
     goTo(0, false);
   }
 
-  ['jimbaran', 'pilates', 'beauty', 'vireya', 'qahira'].forEach(initCarousel);
+  ['jimbaran', 'pilates', 'beauty', 'vireya', 'qahira', 'jimbafest'].forEach(initCarousel);
+
+  // ── NAV ACTIVE STATE ──
+  const navLinks = document.querySelectorAll('.nav-links a');
+  const sections = document.querySelectorAll('section[id], div.stats');
+  const navObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        navLinks.forEach(a => a.classList.remove('active'));
+        const id = entry.target.id || 'hero';
+        const active = document.querySelector(`.nav-links a[href="#${id}"]`);
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { threshold: 0.3 });
+  document.querySelectorAll('section[id]').forEach(s => navObserver.observe(s));
+
+  // ── PORTFOLIO FILTER ──
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  const projectCards = document.querySelectorAll('.project-card');
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const filter = btn.dataset.filter;
+      projectCards.forEach(card => {
+        const cats = card.dataset.category || '';
+        if (filter === 'all' || cats.includes(filter)) {
+          card.classList.remove('hidden');
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+    });
+  });
+
+  // ── FAQ ACCORDION ──
+  document.querySelectorAll('.faq-q').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const isOpen = btn.classList.contains('open');
+      // Close all
+      document.querySelectorAll('.faq-q').forEach(b => {
+        b.classList.remove('open');
+        b.nextElementSibling.classList.remove('open');
+      });
+      // Open clicked if it wasn't open
+      if (!isOpen) {
+        btn.classList.add('open');
+        btn.nextElementSibling.classList.add('open');
+      }
+    });
+  });
 
   // Lightbox click on carousel photos
   document.querySelectorAll('.carousel-wrap').forEach(wrap => {
