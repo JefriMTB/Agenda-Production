@@ -267,24 +267,63 @@
   .hero-proof-text { font-size: 0.75rem; color: var(--ink-3); font-weight: 300; }
   .hero-proof-text strong { color: var(--ink-2); font-weight: 500; }
 
-  /* ── PORTFOLIO FILTER ── */
-  .filter-bar {
-    display: flex; gap: 8px; flex-wrap: wrap;
-    margin-bottom: 32px;
+  /* ── PORTFOLIO TABS ── */
+  .tab-bar {
+    display: flex;
+    gap: 0;
+    border-bottom: 1px solid var(--line);
+    margin-bottom: 48px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
   }
-  .filter-btn {
-    font-size: 0.68rem; font-weight: 500;
-    letter-spacing: 0.12em; text-transform: uppercase;
-    padding: 7px 16px; border-radius: 20px;
-    border: 1px solid var(--line);
-    color: var(--ink-3); background: transparent;
-    cursor: pointer; transition: all 0.22s;
+  .tab-bar::-webkit-scrollbar { display: none; }
+  .tab-btn {
+    font-size: 0.72rem; font-weight: 500;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    padding: 14px 28px;
+    border: none; background: transparent;
+    color: var(--ink-3);
+    cursor: pointer;
+    position: relative;
+    white-space: nowrap;
+    transition: color 0.25s;
     -webkit-tap-highlight-color: transparent;
+    flex-shrink: 0;
   }
-  .filter-btn:hover { border-color: var(--accent); color: var(--accent); }
-  .filter-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
-  .project-card { transition: opacity 0.3s, transform 0.3s; }
-  .project-card.hidden { opacity: 0; pointer-events: none; height: 0; overflow: hidden; margin: 0; padding: 0; border: none; }
+  .tab-btn::after {
+    content: '';
+    position: absolute;
+    bottom: -1px; left: 0; right: 0;
+    height: 2px;
+    background: var(--accent);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+  }
+  .tab-btn:hover { color: var(--ink); }
+  .tab-btn.active { color: var(--ink); }
+  .tab-btn.active::after { transform: scaleX(1); }
+
+  /* Tab count badge */
+  .tab-count {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 18px; height: 18px;
+    font-size: 0.6rem; font-weight: 500;
+    background: var(--line); color: var(--ink-3);
+    border-radius: 50%;
+    margin-left: 7px;
+    transition: background 0.25s, color 0.25s;
+  }
+  .tab-btn.active .tab-count {
+    background: var(--accent); color: #fff;
+  }
+
+  .project-card { transition: opacity 0.35s, transform 0.35s; }
+  .project-card.hidden {
+    opacity: 0; pointer-events: none;
+    height: 0; overflow: hidden;
+    margin: 0; padding: 0; border: none;
+  }
 
   /* ── CTA BANNER ── */
   .cta-banner {
@@ -1037,6 +1076,34 @@
     transform: scale(1.4);
   }
 
+  /* ── VIDEO CARD (Videography tab) ── */
+  .video-card-wrap {
+    position: relative;
+    aspect-ratio: 16/9;
+    background: var(--dark);
+    overflow: hidden;
+    border-radius: 0;
+  }
+  .video-card-thumb {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: 16px;
+    background: linear-gradient(135deg, #1a1208 0%, #2d1f0a 100%);
+  }
+  .video-card-play {
+    width: 72px; height: 72px; border-radius: 50%;
+    border: 1.5px solid rgba(255,255,255,0.25);
+    background: rgba(192,120,69,0.15);
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.3s, border-color 0.3s;
+  }
+  .video-card-play:hover { background: var(--accent); border-color: var(--accent); }
+  .video-card-coming {
+    font-size: 0.65rem; font-weight: 500;
+    letter-spacing: 0.28em; text-transform: uppercase;
+    color: rgba(255,255,255,0.3);
+  }
+
   /* ── COUNTER ANIMATION ── */
   .stat-n[data-target] {
     display: block;
@@ -1109,16 +1176,19 @@
   <div class="hero-right">
     <div class="hero-slides" id="heroSlides">
       <div class="hero-slide active">
-        <img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto/v1776087854/AVB04579-HDR_qzqecw.jpg" alt="Agenda Production Bali" loading="eager">
+        <img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1776085620/AVB09429-HDR_nu4jem.jpg" alt="Natadesa Resort Jimbaran Bali" loading="eager">
       </div>
       <div class="hero-slide">
-        <img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1776085620/AVB09429-HDR_nu4jem.jpg" alt="Resort Jimbaran Bali" loading="lazy">
+        <img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1780497933/DJI_0994_ffqxoi.jpg" alt="Floating Yoga Aqua Sculpt" loading="lazy">
       </div>
       <div class="hero-slide">
-        <img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1776142917/DSC09378_cybkgm.jpg" alt="Beauty Portrait" loading="lazy">
+        <img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1776142917/DSC09378_cybkgm.jpg" alt="Beauty Portrait Yogyakarta" loading="lazy">
       </div>
       <div class="hero-slide">
-        <img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1776144975/6100297365576158917_gxnikw.jpg" alt="Vireya BSD" loading="lazy">
+        <img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_900/v1776140636/Artboard_1_l0sdwi.jpg" alt="Mate Pilates Canggu" loading="lazy">
+      </div>
+      <div class="hero-slide">
+        <img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777101220/DJI_0800_bdnt77.jpg" alt="Jimbafest 2025" loading="lazy">
       </div>
     </div>
     <div class="hero-img-overlay"></div>
@@ -1131,6 +1201,7 @@
       <button class="hero-slide-dot" data-i="1"></button>
       <button class="hero-slide-dot" data-i="2"></button>
       <button class="hero-slide-dot" data-i="3"></button>
+      <button class="hero-slide-dot" data-i="4"></button>
     </div>
   </div>
 </section>
@@ -1257,17 +1328,15 @@
     <p class="s-sub">Every project is a story — captured with precision, delivered with soul.</p>
   </div>
 
-  <div class="filter-bar">
-    <button class="filter-btn active" data-filter="all">All</button>
-    <button class="filter-btn" data-filter="photography">Photography</button>
-    <button class="filter-btn" data-filter="videography">Videography</button>
-    <button class="filter-btn" data-filter="drone">Drone</button>
+  <div class="tab-bar">
+    <button class="tab-btn active" data-filter="photography">Photography <span class="tab-count" id="count-photography"></span></button>
+    <button class="tab-btn" data-filter="videography">Videography <span class="tab-count" id="count-videography"></span></button>
   </div>
 
   <div class="projects-grid">
 
     <!-- Project 1: Resort Jimbaran -->
-    <div class="project-card reveal" data-category="photography drone">
+    <div class="project-card reveal" data-category="photography">
       <div class="carousel-wrap" id="cw-jimbaran">
         <div class="carousel-track" id="ct-jimbaran">
           <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1776085620/AVB09429-HDR_nu4jem.jpg" alt="Resort Jimbaran 1" loading="eager"></div>
@@ -1416,40 +1485,49 @@
     </div>
 
     <!-- Project 4: Vireya BSD Tangerang -->
-    <div class="project-card reveal" data-category="photography drone">
-      <div class="carousel-wrap" id="cw-vireya">
-        <div class="carousel-track" id="ct-vireya">
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1776144975/6100297365576158917_gxnikw.jpg" alt="Vireya BSD 1" loading="lazy"></div>
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1776144971/AVB00159-2_pdnhgf.jpg" alt="Vireya BSD 2" loading="lazy"></div>
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1776144970/AVB03270_rqpbx1.jpg" alt="Vireya BSD 3" loading="lazy"></div>
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1776144971/AVB03245_weojwn.jpg" alt="Vireya BSD 4" loading="lazy"></div>
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1776146561/AVB00119-2_1_1_rgm5as.jpg" alt="Vireya BSD 5" loading="lazy"></div>
+    <!-- Project: Floating Yoga with Aqua Sculpt -->
+    <div class="project-card reveal" data-category="photography">
+      <div class="carousel-wrap" id="cw-aquasculpt">
+        <div class="carousel-track" id="ct-aquasculpt">
+          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1780497933/DJI_0994_ffqxoi.jpg" alt="Floating Yoga Aqua Sculpt 1" loading="lazy"></div>
+          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1780497937/JMT09794_i0jg6x.jpg" alt="Floating Yoga Aqua Sculpt 2" loading="lazy"></div>
+          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1780497934/JMT09771_nuoyjv.jpg" alt="Floating Yoga Aqua Sculpt 3" loading="lazy"></div>
+          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1780497932/JMT09820_gqclzm.jpg" alt="Floating Yoga Aqua Sculpt 4" loading="lazy"></div>
+          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1780497938/JMT09834_dxd5rm.jpg" alt="Floating Yoga Aqua Sculpt 5" loading="lazy"></div>
+          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1780497943/JMT09878_hwhq8n.jpg" alt="Floating Yoga Aqua Sculpt 6" loading="lazy"></div>
+          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1780497947/DJI_0964_mmu9wx.jpg" alt="Floating Yoga Aqua Sculpt 7" loading="lazy"></div>
+          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1780497931/JMT09799_kwriwj.jpg" alt="Floating Yoga Aqua Sculpt 8" loading="lazy"></div>
+          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1780497943/JMT09938_qxuyam.jpg" alt="Floating Yoga Aqua Sculpt 9" loading="lazy"></div>
         </div>
         <div class="carousel-overlay">
-          <span class="carousel-cat">Photography · Real Estate</span>
-          <span class="carousel-name">Vireya, BSD, Tangerang</span>
+          <span class="carousel-cat">Photography · Wellness &amp; Lifestyle</span>
+          <span class="carousel-name">Floating Yoga with Aqua Sculpt, The Meru Sanur</span>
         </div>
-        <span class="carousel-counter" id="cc-vireya">1 / 5</span>
-        <div class="carousel-dots" id="cd-vireya">
+        <span class="carousel-counter" id="cc-aquasculpt">1 / 9</span>
+        <div class="carousel-dots" id="cd-aquasculpt">
           <button class="carousel-dot active" data-i="0"></button>
           <button class="carousel-dot" data-i="1"></button>
           <button class="carousel-dot" data-i="2"></button>
           <button class="carousel-dot" data-i="3"></button>
           <button class="carousel-dot" data-i="4"></button>
+          <button class="carousel-dot" data-i="5"></button>
+          <button class="carousel-dot" data-i="6"></button>
+          <button class="carousel-dot" data-i="7"></button>
+          <button class="carousel-dot" data-i="8"></button>
         </div>
-        <button class="carousel-prev" id="cp-vireya" disabled aria-label="Prev">
+        <button class="carousel-prev" id="cp-aquasculpt" disabled aria-label="Prev">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
         </button>
-        <button class="carousel-next" id="cn-vireya" aria-label="Next">
+        <button class="carousel-next" id="cn-aquasculpt" aria-label="Next">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
         </button>
       </div>
       <div class="project-footer">
         <div class="project-tags">
-          <span class="tag">Real Estate</span>
-          <span class="tag">Interior</span>
-          <span class="tag">BSD</span>
-          <span class="tag">Tangerang</span>
+          <span class="tag">Wellness</span>
+          <span class="tag">Lifestyle</span>
+          <span class="tag">Yoga</span>
+          <span class="tag">Sanur</span>
         </div>
         <a href="#contact" class="project-link">
           Similar project
@@ -1459,7 +1537,7 @@
     </div>
 
     <!-- Project 5: Qahira Top Brand Awards -->
-    <div class="project-card reveal" data-category="photography videography">
+    <div class="project-card reveal" data-category="photography">
 
       <div class="carousel-wrap" id="cw-qahira">
         <div class="carousel-track" id="ct-qahira">
@@ -1518,7 +1596,7 @@
     </div>
 
     <!-- Project 6: Jimbafest 2025 -->
-    <div class="project-card reveal" data-category="photography drone">
+    <div class="project-card reveal" data-category="photography">
       <div class="carousel-wrap" id="cw-jimbafest">
         <div class="carousel-track" id="ct-jimbafest">
           <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777101220/DJI_0800_bdnt77.jpg" alt="Jimbafest 2025 1" loading="lazy"></div>
@@ -1628,7 +1706,7 @@
     </div>
 
     <!-- Project 8: The Westin Nusa Dua -->
-    <div class="project-card reveal" data-category="photography videography">
+    <div class="project-card reveal" data-category="photography">
       <div class="carousel-wrap" id="cw-westin">
         <div class="carousel-track" id="ct-westin">
           <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777171339/AVB08145_nmzzms.jpg" alt="The Westin Nusa Dua 1" loading="lazy"></div>
@@ -1666,6 +1744,146 @@
           <span class="tag">Wedding</span>
           <span class="tag">Fine Dining</span>
           <span class="tag">Nusa Dua</span>
+        </div>
+        <a href="#contact" class="project-link">
+          Similar project
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- Project 9: Floating Yoga with Aqua Sculpt -->
+
+    <!-- ── VIDEOGRAPHY CARDS ── -->
+
+    <!-- Videography 1: Growbalization PIB 2025 -->
+    <div class="project-card reveal hidden" data-category="videography">
+      <div class="video-card-wrap" style="position:relative;aspect-ratio:16/9;background:#0D0900;overflow:hidden;">
+        <video
+          playsinline loop muted preload="none"
+          style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;cursor:pointer;"
+          ontouchstart="this.paused?this.play():this.pause()"
+          onmouseenter="this.play();this.nextElementSibling.style.opacity='0'"
+          onmouseleave="this.pause();this.nextElementSibling.style.opacity='1'">
+          <source src="https://res.cloudinary.com/dojlwvol7/video/upload/v1780499075/PIB_GROWBALIZATION_MASTER_ar181y.mp4" type="video/mp4">
+        </video>
+        <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;transition:opacity 0.3s;">
+          <div style="width:64px;height:64px;border:1.5px solid rgba(255,255,255,0.5);border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.3);backdrop-filter:blur(6px);">
+            <svg viewBox="0 0 24 24" width="22" height="22"><polygon points="6 3 20 12 6 21 6 3" fill="rgba(255,255,255,0.9)"/></svg>
+          </div>
+        </div>
+        <div class="carousel-overlay">
+          <span class="carousel-cat">Videography · Corporate</span>
+          <span class="carousel-name">Growbalization PIB 2025</span>
+        </div>
+      </div>
+      <div class="project-footer">
+        <div class="project-tags">
+          <span class="tag">Corporate</span>
+          <span class="tag">Event Film</span>
+          <span class="tag">2025</span>
+        </div>
+        <a href="#contact" class="project-link">
+          Similar project
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- Videography 2: Ponds Outdoor Activity with Beautiverse 2025 -->
+    <div class="project-card reveal hidden" data-category="videography">
+      <div class="video-card-wrap" style="position:relative;aspect-ratio:16/9;background:#0D0900;overflow:hidden;">
+        <video
+          playsinline loop muted preload="none"
+          style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;cursor:pointer;"
+          ontouchstart="this.paused?this.play():this.pause()"
+          onmouseenter="this.play();this.nextElementSibling.style.opacity='0'"
+          onmouseleave="this.pause();this.nextElementSibling.style.opacity='1'">
+          <source src="https://res.cloudinary.com/dojlwvol7/video/upload/v1780499302/IMG_0926_ustwcq.mov" type="video/mp4">
+        </video>
+        <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;transition:opacity 0.3s;">
+          <div style="width:64px;height:64px;border:1.5px solid rgba(255,255,255,0.5);border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.3);backdrop-filter:blur(6px);">
+            <svg viewBox="0 0 24 24" width="22" height="22"><polygon points="6 3 20 12 6 21 6 3" fill="rgba(255,255,255,0.9)"/></svg>
+          </div>
+        </div>
+        <div class="carousel-overlay">
+          <span class="carousel-cat">Videography · Brand</span>
+          <span class="carousel-name">Ponds Outdoor Activity with Beautiverse 2025</span>
+        </div>
+      </div>
+      <div class="project-footer">
+        <div class="project-tags">
+          <span class="tag">Brand</span>
+          <span class="tag">Lifestyle</span>
+          <span class="tag">Outdoor</span>
+        </div>
+        <a href="#contact" class="project-link">
+          Similar project
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- Videography 3: Balinese Metatah -->
+    <div class="project-card reveal hidden" data-category="videography">
+      <div class="video-card-wrap" style="position:relative;aspect-ratio:16/9;background:#0D0900;overflow:hidden;">
+        <video
+          playsinline loop muted preload="none"
+          style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;cursor:pointer;"
+          ontouchstart="this.paused?this.play():this.pause()"
+          onmouseenter="this.play();this.nextElementSibling.style.opacity='0'"
+          onmouseleave="this.pause();this.nextElementSibling.style.opacity='1'">
+          <source src="https://res.cloudinary.com/dojlwvol7/video/upload/v1780499513/METATAH_MASTER3_neve7z.mp4" type="video/mp4">
+        </video>
+        <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;transition:opacity 0.3s;">
+          <div style="width:64px;height:64px;border:1.5px solid rgba(255,255,255,0.5);border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.3);backdrop-filter:blur(6px);">
+            <svg viewBox="0 0 24 24" width="22" height="22"><polygon points="6 3 20 12 6 21 6 3" fill="rgba(255,255,255,0.9)"/></svg>
+          </div>
+        </div>
+        <div class="carousel-overlay">
+          <span class="carousel-cat">Videography · Cultural</span>
+          <span class="carousel-name">Balinese Metatah — Cultural Documentary</span>
+        </div>
+      </div>
+      <div class="project-footer">
+        <div class="project-tags">
+          <span class="tag">Cultural</span>
+          <span class="tag">Documentary</span>
+          <span class="tag">Bali</span>
+        </div>
+        <a href="#contact" class="project-link">
+          Similar project
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- Videography 4: Qahira Herbal Top Brand Awards 2025 — Portrait format -->
+    <div class="project-card reveal hidden" data-category="videography">
+      <div class="video-card-wrap" style="position:relative;aspect-ratio:9/16;max-width:360px;margin:0 auto;background:#0D0900;overflow:hidden;">
+        <video
+          playsinline loop muted preload="none"
+          style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;cursor:pointer;"
+          ontouchstart="this.paused?this.play():this.pause()"
+          onmouseenter="this.play();this.nextElementSibling.style.opacity='0'"
+          onmouseleave="this.pause();this.nextElementSibling.style.opacity='1'">
+          <source src="https://res.cloudinary.com/dojlwvol7/video/upload/v1776147461/QAHIRA_TOP_BRAND_AWARD_MASTER_FHD_aax31k.mp4" type="video/mp4">
+        </video>
+        <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;transition:opacity 0.3s;">
+          <div style="width:64px;height:64px;border:1.5px solid rgba(255,255,255,0.5);border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.3);backdrop-filter:blur(6px);">
+            <svg viewBox="0 0 24 24" width="22" height="22"><polygon points="6 3 20 12 6 21 6 3" fill="rgba(255,255,255,0.9)"/></svg>
+          </div>
+        </div>
+        <div class="carousel-overlay">
+          <span class="carousel-cat">Videography · Event</span>
+          <span class="carousel-name">Qahira Herbal Top Brand Awards 2025</span>
+        </div>
+      </div>
+      <div class="project-footer">
+        <div class="project-tags">
+          <span class="tag">Event</span>
+          <span class="tag">Awards</span>
+          <span class="tag">Commercial</span>
         </div>
         <a href="#contact" class="project-link">
           Similar project
@@ -2202,7 +2420,9 @@
     goTo(0, false);
   }
 
-  ['jimbaran', 'pilates', 'beauty', 'vireya', 'qahira', 'jimbafest', 'tomford', 'westin'].forEach(initCarousel);
+  ['jimbaran', 'pilates', 'beauty', 'vireya', 'qahira', 'jimbafest', 'tomford', 'westin', 'aquasculpt'].forEach(id => {
+    if (document.getElementById('ct-' + id)) initCarousel(id);
+  });
 
   // ── NAV ACTIVE STATE ──
   const navLinks = document.querySelectorAll('.nav-links a');
@@ -2219,22 +2439,38 @@
   }, { threshold: 0.3 });
   document.querySelectorAll('section[id]').forEach(s => navObserver.observe(s));
 
-  // ── PORTFOLIO FILTER ──
-  const filterBtns = document.querySelectorAll('.filter-btn');
+  // ── PORTFOLIO TABS ──
+  const tabBtns = document.querySelectorAll('.tab-btn');
   const projectCards = document.querySelectorAll('.project-card');
-  filterBtns.forEach(btn => {
+
+  function updateCounts() {
+    const photoCards = document.querySelectorAll('.project-card[data-category~="photography"]');
+    const videoCards = document.querySelectorAll('.project-card[data-category~="videography"]');
+    const elPhoto = document.getElementById('count-photography');
+    const elVideo = document.getElementById('count-videography');
+    if (elPhoto) elPhoto.textContent = photoCards.length;
+    if (elVideo) elVideo.textContent = videoCards.length;
+  }
+
+  function applyFilter(filter) {
+    projectCards.forEach(card => {
+      const cats = card.dataset.category || '';
+      if (cats.includes(filter)) {
+        card.classList.remove('hidden');
+      } else {
+        card.classList.add('hidden');
+      }
+    });
+  }
+
+  updateCounts();
+  applyFilter('photography');
+
+  tabBtns.forEach(btn => {
     btn.addEventListener('click', () => {
-      filterBtns.forEach(b => b.classList.remove('active'));
+      tabBtns.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
-      const filter = btn.dataset.filter;
-      projectCards.forEach(card => {
-        const cats = card.dataset.category || '';
-        if (filter === 'all' || cats.includes(filter)) {
-          card.classList.remove('hidden');
-        } else {
-          card.classList.add('hidden');
-        }
-      });
+      applyFilter(btn.dataset.filter);
     });
   });
 
