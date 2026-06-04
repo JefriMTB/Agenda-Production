@@ -542,7 +542,7 @@
   /* ── WORK / PORTFOLIO ── */
   #work { background: var(--bg); }
   .work-header { margin-bottom: 48px; }
-  .projects-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+  .projects-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; align-items: start; }
   .project-card {
     background: var(--white); border: 1px solid var(--line);
     border-radius: 8px; overflow: hidden;
@@ -553,6 +553,9 @@
     -webkit-transform: translateZ(0); transform: translateZ(0);
     touch-action: pan-y;
   }
+  .carousel-wrap.portrait { aspect-ratio: 3/4; }
+  /* Card that stretches to fill row height when paired with portrait card */
+  /* stretch-fill removed - using reordered grid instead */
   .carousel-track {
     display: flex; height: 100%; width: 100%;
     will-change: transform;
@@ -957,6 +960,7 @@
     .projects-grid { grid-template-columns: 1fr; gap: 16px; }
     .project-card.full .carousel-wrap { aspect-ratio: 4/3; }
     .carousel-wrap { aspect-ratio: 4/3; }
+    .carousel-wrap.portrait { aspect-ratio: 3/4; }
     .carousel-prev, .carousel-next { width: 44px; height: 44px; opacity: 1; }
     .carousel-prev { left: 8px; }
     .carousel-next { right: 8px; }
@@ -1102,6 +1106,32 @@
     font-size: 0.65rem; font-weight: 500;
     letter-spacing: 0.28em; text-transform: uppercase;
     color: rgba(255,255,255,0.3);
+  }
+
+  /* ── VIDEO AUTOPLAY OVERLAY ICON ── */
+  .vid-overlay-icon {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    z-index: 5;
+  }
+  .vid-play-btn {
+    width: 64px; height: 64px;
+    border: 1.5px solid rgba(255,255,255,0.5);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(0,0,0,0.3);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    transition: opacity 0.3s, transform 0.2s;
+  }
+  /* When video is playing: hide play icon by default, show pause on hover */
+  .vid-autoplay.is-playing .vid-overlay-icon { opacity: 0; }
+  .vid-autoplay.is-playing:hover .vid-overlay-icon { opacity: 1; }
+  /* On touch devices always show briefly then fade */
+  @media (hover: none) {
+    .vid-autoplay.is-playing .vid-overlay-icon { opacity: 0; }
   }
 
   /* ── COUNTER ANIMATION ── */
@@ -1335,6 +1365,8 @@
 
   <div class="projects-grid">
 
+    <!-- Row 1: Landscape + Landscape -->
+
     <!-- Project 1: Resort Jimbaran -->
     <div class="project-card reveal" data-category="photography">
       <div class="carousel-wrap" id="cw-jimbaran">
@@ -1390,102 +1422,7 @@
       </div>
     </div>
 
-    <!-- Project 2: Mate Pilates -->
-    <div class="project-card reveal" data-category="photography">
-      <div class="carousel-wrap" id="cw-pilates">
-        <div class="carousel-track" id="ct-pilates">
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_900/v1776140636/Artboard_1_l0sdwi.jpg" alt="Mate Pilates 1" loading="lazy"></div>
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_900/v1776140634/Artboard_1_copy_gq5nra.jpg" alt="Mate Pilates 2" loading="lazy"></div>
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_900/v1776140635/Artboard_1_copy_4_oeebxv.jpg" alt="Mate Pilates 3" loading="lazy"></div>
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_900/v1776140635/Artboard_1_copy_8_xpifl2.jpg" alt="Mate Pilates 4" loading="lazy"></div>
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_900/v1776140636/Artboard_1_copy_5_slhhzq.jpg" alt="Mate Pilates 5" loading="lazy"></div>
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_900/v1776140635/Artboard_1_copy_7_sbb9qq.jpg" alt="Mate Pilates 6" loading="lazy"></div>
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_900/v1776140637/Artboard_1_copy_9_q00kyv.jpg" alt="Mate Pilates 7" loading="lazy"></div>
-        </div>
-        <div class="carousel-overlay">
-          <span class="carousel-cat">Photography · Lifestyle</span>
-          <span class="carousel-name">Mate Pilates Heavnly Blush, Canggu, Bali</span>
-        </div>
-        <span class="carousel-counter" id="cc-pilates">1 / 7</span>
-        <div class="carousel-dots" id="cd-pilates">
-          <button class="carousel-dot active" data-i="0"></button>
-          <button class="carousel-dot" data-i="1"></button>
-          <button class="carousel-dot" data-i="2"></button>
-          <button class="carousel-dot" data-i="3"></button>
-          <button class="carousel-dot" data-i="4"></button>
-          <button class="carousel-dot" data-i="5"></button>
-          <button class="carousel-dot" data-i="6"></button>
-        </div>
-        <button class="carousel-prev" id="cp-pilates" disabled aria-label="Prev">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
-        </button>
-        <button class="carousel-next" id="cn-pilates" aria-label="Next">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
-        </button>
-      </div>
-      <div class="project-footer">
-        <div class="project-tags">
-          <span class="tag">Lifestyle</span>
-          <span class="tag">Studio</span>
-          <span class="tag">Canggu</span>
-        </div>
-        <a href="#contact" class="project-link">
-          Similar project
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-        </a>
-      </div>
-    </div>
-
-    <!-- Project 3: Beauty Portrait Yogyakarta -->
-    <div class="project-card reveal" data-category="photography">
-      <div class="carousel-wrap" id="cw-beauty">
-        <div class="carousel-track" id="ct-beauty">
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_900/v1776142917/DSC09378_cybkgm.jpg" alt="Beauty Portrait 1" loading="lazy"></div>
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_900/v1776142923/DSC09072-Edit_hsg7zr.jpg" alt="Beauty Portrait 2" loading="lazy"></div>
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_900/v1776142909/DSC01245_ggs4ug.jpg" alt="Beauty Portrait 3" loading="lazy"></div>
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_900/v1776143771/DSC01218_jekt8g.jpg" alt="Beauty Portrait 4" loading="lazy"></div>
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_900/v1776142904/DSC04458_lwgbqk.jpg" alt="Beauty Portrait 5" loading="lazy"></div>
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_900/v1776143770/DSC04567_zbkzgw.jpg" alt="Beauty Portrait 6" loading="lazy"></div>
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_900/v1776143778/DSC00261_f2k881.jpg" alt="Beauty Portrait 7" loading="lazy"></div>
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_900/v1776143802/DSC00230_phim2l.jpg" alt="Beauty Portrait 8" loading="lazy"></div>
-        </div>
-        <div class="carousel-overlay">
-          <span class="carousel-cat">Photography · Portrait</span>
-          <span class="carousel-name">Beauty Portrait, Yogyakarta, Indonesia</span>
-        </div>
-        <span class="carousel-counter" id="cc-beauty">1 / 8</span>
-        <div class="carousel-dots" id="cd-beauty">
-          <button class="carousel-dot active" data-i="0"></button>
-          <button class="carousel-dot" data-i="1"></button>
-          <button class="carousel-dot" data-i="2"></button>
-          <button class="carousel-dot" data-i="3"></button>
-          <button class="carousel-dot" data-i="4"></button>
-          <button class="carousel-dot" data-i="5"></button>
-          <button class="carousel-dot" data-i="6"></button>
-          <button class="carousel-dot" data-i="7"></button>
-        </div>
-        <button class="carousel-prev" id="cp-beauty" disabled aria-label="Prev">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
-        </button>
-        <button class="carousel-next" id="cn-beauty" aria-label="Next">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
-        </button>
-      </div>
-      <div class="project-footer">
-        <div class="project-tags">
-          <span class="tag">Portrait</span>
-          <span class="tag">Beauty</span>
-          <span class="tag">Yogyakarta</span>
-        </div>
-        <a href="#contact" class="project-link">
-          Similar project
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-        </a>
-      </div>
-    </div>
-
-    <!-- Project 4: Vireya BSD Tangerang -->
-    <!-- Project: Floating Yoga with Aqua Sculpt -->
+    <!-- Floating Yoga with Aqua Sculpt -->
     <div class="project-card reveal" data-category="photography">
       <div class="carousel-wrap" id="cw-aquasculpt">
         <div class="carousel-track" id="ct-aquasculpt">
@@ -1536,9 +1473,196 @@
       </div>
     </div>
 
-    <!-- Project 5: Qahira Top Brand Awards -->
-    <div class="project-card reveal" data-category="photography">
+    <!-- Row 2: Portrait + Portrait -->
 
+    <!-- Mate Pilates -->
+    <div class="project-card reveal" data-category="photography">
+      <div class="carousel-wrap portrait" id="cw-pilates">
+        <div class="carousel-track" id="ct-pilates">
+          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_900/v1776140636/Artboard_1_l0sdwi.jpg" alt="Mate Pilates 1" loading="lazy"></div>
+          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_900/v1776140634/Artboard_1_copy_gq5nra.jpg" alt="Mate Pilates 2" loading="lazy"></div>
+          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_900/v1776140635/Artboard_1_copy_4_oeebxv.jpg" alt="Mate Pilates 3" loading="lazy"></div>
+          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_900/v1776140635/Artboard_1_copy_8_xpifl2.jpg" alt="Mate Pilates 4" loading="lazy"></div>
+          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_900/v1776140636/Artboard_1_copy_5_slhhzq.jpg" alt="Mate Pilates 5" loading="lazy"></div>
+          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_900/v1776140635/Artboard_1_copy_7_sbb9qq.jpg" alt="Mate Pilates 6" loading="lazy"></div>
+          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_900/v1776140637/Artboard_1_copy_9_q00kyv.jpg" alt="Mate Pilates 7" loading="lazy"></div>
+        </div>
+        <div class="carousel-overlay">
+          <span class="carousel-cat">Photography · Lifestyle</span>
+          <span class="carousel-name">Mate Pilates Heavenly Blush, Canggu, Bali</span>
+        </div>
+        <span class="carousel-counter" id="cc-pilates">1 / 7</span>
+        <div class="carousel-dots" id="cd-pilates">
+          <button class="carousel-dot active" data-i="0"></button>
+          <button class="carousel-dot" data-i="1"></button>
+          <button class="carousel-dot" data-i="2"></button>
+          <button class="carousel-dot" data-i="3"></button>
+          <button class="carousel-dot" data-i="4"></button>
+          <button class="carousel-dot" data-i="5"></button>
+          <button class="carousel-dot" data-i="6"></button>
+        </div>
+        <button class="carousel-prev" id="cp-pilates" disabled aria-label="Prev">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <button class="carousel-next" id="cn-pilates" aria-label="Next">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+      </div>
+      <div class="project-footer">
+        <div class="project-tags">
+          <span class="tag">Lifestyle</span>
+          <span class="tag">Studio</span>
+          <span class="tag">Canggu</span>
+        </div>
+        <a href="#contact" class="project-link">
+          Similar project
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- Beauty Portrait Yogyakarta -->
+    <div class="project-card reveal" data-category="photography">
+      <div class="carousel-wrap portrait" id="cw-beauty">
+        <div class="carousel-track" id="ct-beauty">
+          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_900/v1776142917/DSC09378_cybkgm.jpg" alt="Beauty Portrait 1" loading="lazy"></div>
+          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_900/v1776142923/DSC09072-Edit_hsg7zr.jpg" alt="Beauty Portrait 2" loading="lazy"></div>
+          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_900/v1776142909/DSC01245_ggs4ug.jpg" alt="Beauty Portrait 3" loading="lazy"></div>
+          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_900/v1776143771/DSC01218_jekt8g.jpg" alt="Beauty Portrait 4" loading="lazy"></div>
+          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_900/v1776142904/DSC04458_lwgbqk.jpg" alt="Beauty Portrait 5" loading="lazy"></div>
+          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_900/v1776143770/DSC04567_zbkzgw.jpg" alt="Beauty Portrait 6" loading="lazy"></div>
+          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_900/v1776143778/DSC00261_f2k881.jpg" alt="Beauty Portrait 7" loading="lazy"></div>
+          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_900/v1776143802/DSC00230_phim2l.jpg" alt="Beauty Portrait 8" loading="lazy"></div>
+        </div>
+        <div class="carousel-overlay">
+          <span class="carousel-cat">Photography · Portrait</span>
+          <span class="carousel-name">Beauty Portrait, Yogyakarta, Indonesia</span>
+        </div>
+        <span class="carousel-counter" id="cc-beauty">1 / 8</span>
+        <div class="carousel-dots" id="cd-beauty">
+          <button class="carousel-dot active" data-i="0"></button>
+          <button class="carousel-dot" data-i="1"></button>
+          <button class="carousel-dot" data-i="2"></button>
+          <button class="carousel-dot" data-i="3"></button>
+          <button class="carousel-dot" data-i="4"></button>
+          <button class="carousel-dot" data-i="5"></button>
+          <button class="carousel-dot" data-i="6"></button>
+          <button class="carousel-dot" data-i="7"></button>
+        </div>
+        <button class="carousel-prev" id="cp-beauty" disabled aria-label="Prev">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <button class="carousel-next" id="cn-beauty" aria-label="Next">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+      </div>
+      <div class="project-footer">
+        <div class="project-tags">
+          <span class="tag">Portrait</span>
+          <span class="tag">Beauty</span>
+          <span class="tag">Yogyakarta</span>
+        </div>
+        <a href="#contact" class="project-link">
+          Similar project
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- Row 3: Tom Ford (portrait) + Westin (landscape) -->
+
+    <!-- Tom Ford Ombré Leather — Portrait -->
+    <div class="project-card reveal" data-category="photography">
+      <div class="carousel-wrap portrait" id="cw-tomford">
+        <div class="carousel-track" id="ct-tomford">
+          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777172994/IMG_6352_zvyaof.jpg" alt="Tom Ford Ombré Leather 1" loading="lazy"></div>
+          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777172992/IMG_6357_kknrpm.jpg" alt="Tom Ford Ombré Leather 2" loading="lazy"></div>
+          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777172995/IMG_6363_zrlzpd.jpg" alt="Tom Ford Ombré Leather 3" loading="lazy"></div>
+          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777172969/IMG_63661_sktogx.jpg" alt="Tom Ford Ombré Leather 4" loading="lazy"></div>
+        </div>
+        <div class="carousel-overlay">
+          <span class="carousel-cat">Photography · Product</span>
+          <span class="carousel-name">Tom Ford Ombré Leather — Product Campaign</span>
+        </div>
+        <span class="carousel-counter" id="cc-tomford">1 / 4</span>
+        <div class="carousel-dots" id="cd-tomford">
+          <button class="carousel-dot active" data-i="0"></button>
+          <button class="carousel-dot" data-i="1"></button>
+          <button class="carousel-dot" data-i="2"></button>
+          <button class="carousel-dot" data-i="3"></button>
+        </div>
+        <button class="carousel-prev" id="cp-tomford" disabled aria-label="Prev">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <button class="carousel-next" id="cn-tomford" aria-label="Next">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+      </div>
+      <div class="project-footer">
+        <div class="project-tags">
+          <span class="tag">Product</span>
+          <span class="tag">Editorial</span>
+          <span class="tag">Fragrance</span>
+          <span class="tag">Studio</span>
+        </div>
+        <a href="#contact" class="project-link">
+          Similar project
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- The Westin Nusa Dua -->
+    <div class="project-card reveal" data-category="photography">
+      <div class="carousel-wrap" id="cw-westin">
+        <div class="carousel-track" id="ct-westin">
+          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777171339/AVB08145_nmzzms.jpg" alt="The Westin Nusa Dua 1" loading="lazy"></div>
+          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777171342/AVB08020_sowffo.jpg" alt="The Westin Nusa Dua 2" loading="lazy"></div>
+          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777171338/AVB08464_nuuoqx.jpg" alt="The Westin Nusa Dua 3" loading="lazy"></div>
+          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777171339/AVB08478_jyuvnx.jpg" alt="The Westin Nusa Dua 4" loading="lazy"></div>
+          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777171338/AVB08176_fjwbsd.jpg" alt="The Westin Nusa Dua 5" loading="lazy"></div>
+          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777172947/AVB08033_dgfwwh.jpg" alt="The Westin Nusa Dua 6" loading="lazy"></div>
+          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777171345/AVB08329_zpakwq.jpg" alt="The Westin Nusa Dua 7" loading="lazy"></div>
+        </div>
+        <div class="carousel-overlay">
+          <span class="carousel-cat">Photography · Hospitality &amp; Event</span>
+          <span class="carousel-name">The Westin Resort, Nusa Dua, Bali</span>
+        </div>
+        <span class="carousel-counter" id="cc-westin">1 / 7</span>
+        <div class="carousel-dots" id="cd-westin">
+          <button class="carousel-dot active" data-i="0"></button>
+          <button class="carousel-dot" data-i="1"></button>
+          <button class="carousel-dot" data-i="2"></button>
+          <button class="carousel-dot" data-i="3"></button>
+          <button class="carousel-dot" data-i="4"></button>
+          <button class="carousel-dot" data-i="5"></button>
+          <button class="carousel-dot" data-i="6"></button>
+        </div>
+        <button class="carousel-prev" id="cp-westin" disabled aria-label="Prev">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <button class="carousel-next" id="cn-westin" aria-label="Next">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+      </div>
+      <div class="project-footer">
+        <div class="project-tags">
+          <span class="tag">Hospitality</span>
+          <span class="tag">Wedding</span>
+          <span class="tag">Fine Dining</span>
+          <span class="tag">Nusa Dua</span>
+        </div>
+        <a href="#contact" class="project-link">
+          Similar project
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- Row 4: Landscape + Landscape -->
+
+    <!-- Qahira Top Brand Awards -->
+    <div class="project-card reveal" data-category="photography">
       <div class="carousel-wrap" id="cw-qahira">
         <div class="carousel-track" id="ct-qahira">
           <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1776146975/AR_09736_vmrb8n.jpg" alt="Qahira Top Brand 1" loading="lazy"></div>
@@ -1595,7 +1719,7 @@
       </div>
     </div>
 
-    <!-- Project 6: Jimbafest 2025 -->
+    <!-- Jimbafest 2025 -->
     <div class="project-card reveal" data-category="photography">
       <div class="carousel-wrap" id="cw-jimbafest">
         <div class="carousel-track" id="ct-jimbafest">
@@ -1664,112 +1788,22 @@
       </div>
     </div>
 
-    <!-- Project 7: Tom Ford Ombré Leather -->
-    <div class="project-card reveal" data-category="photography">
-      <div class="carousel-wrap" id="cw-tomford">
-        <div class="carousel-track" id="ct-tomford">
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777172994/IMG_6352_zvyaof.jpg" alt="Tom Ford Ombré Leather 1" loading="lazy"></div>
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777172992/IMG_6357_kknrpm.jpg" alt="Tom Ford Ombré Leather 2" loading="lazy"></div>
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777172995/IMG_6363_zrlzpd.jpg" alt="Tom Ford Ombré Leather 3" loading="lazy"></div>
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777172969/IMG_63661_sktogx.jpg" alt="Tom Ford Ombré Leather 4" loading="lazy"></div>
-        </div>
-        <div class="carousel-overlay">
-          <span class="carousel-cat">Photography · Product</span>
-          <span class="carousel-name">Tom Ford Ombré Leather — Product Campaign</span>
-        </div>
-        <span class="carousel-counter" id="cc-tomford">1 / 4</span>
-        <div class="carousel-dots" id="cd-tomford">
-          <button class="carousel-dot active" data-i="0"></button>
-          <button class="carousel-dot" data-i="1"></button>
-          <button class="carousel-dot" data-i="2"></button>
-          <button class="carousel-dot" data-i="3"></button>
-        </div>
-        <button class="carousel-prev" id="cp-tomford" disabled aria-label="Prev">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
-        </button>
-        <button class="carousel-next" id="cn-tomford" aria-label="Next">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
-        </button>
-      </div>
-      <div class="project-footer">
-        <div class="project-tags">
-          <span class="tag">Product</span>
-          <span class="tag">Editorial</span>
-          <span class="tag">Fragrance</span>
-          <span class="tag">Studio</span>
-        </div>
-        <a href="#contact" class="project-link">
-          Similar project
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-        </a>
-      </div>
-    </div>
-
-    <!-- Project 8: The Westin Nusa Dua -->
-    <div class="project-card reveal" data-category="photography">
-      <div class="carousel-wrap" id="cw-westin">
-        <div class="carousel-track" id="ct-westin">
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777171339/AVB08145_nmzzms.jpg" alt="The Westin Nusa Dua 1" loading="lazy"></div>
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777171342/AVB08020_sowffo.jpg" alt="The Westin Nusa Dua 2" loading="lazy"></div>
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777171338/AVB08464_nuuoqx.jpg" alt="The Westin Nusa Dua 3" loading="lazy"></div>
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777171339/AVB08478_jyuvnx.jpg" alt="The Westin Nusa Dua 4" loading="lazy"></div>
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777171338/AVB08176_fjwbsd.jpg" alt="The Westin Nusa Dua 5" loading="lazy"></div>
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777172947/AVB08033_dgfwwh.jpg" alt="The Westin Nusa Dua 6" loading="lazy"></div>
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777171345/AVB08329_zpakwq.jpg" alt="The Westin Nusa Dua 7" loading="lazy"></div>
-        </div>
-        <div class="carousel-overlay">
-          <span class="carousel-cat">Photography · Hospitality &amp; Event</span>
-          <span class="carousel-name">The Westin Resort, Nusa Dua, Bali</span>
-        </div>
-        <span class="carousel-counter" id="cc-westin">1 / 7</span>
-        <div class="carousel-dots" id="cd-westin">
-          <button class="carousel-dot active" data-i="0"></button>
-          <button class="carousel-dot" data-i="1"></button>
-          <button class="carousel-dot" data-i="2"></button>
-          <button class="carousel-dot" data-i="3"></button>
-          <button class="carousel-dot" data-i="4"></button>
-          <button class="carousel-dot" data-i="5"></button>
-          <button class="carousel-dot" data-i="6"></button>
-        </div>
-        <button class="carousel-prev" id="cp-westin" disabled aria-label="Prev">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
-        </button>
-        <button class="carousel-next" id="cn-westin" aria-label="Next">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
-        </button>
-      </div>
-      <div class="project-footer">
-        <div class="project-tags">
-          <span class="tag">Hospitality</span>
-          <span class="tag">Wedding</span>
-          <span class="tag">Fine Dining</span>
-          <span class="tag">Nusa Dua</span>
-        </div>
-        <a href="#contact" class="project-link">
-          Similar project
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-        </a>
-      </div>
-    </div>
-
     <!-- Project 9: Floating Yoga with Aqua Sculpt -->
 
     <!-- ── VIDEOGRAPHY CARDS ── -->
 
     <!-- Videography 1: Growbalization PIB 2025 -->
     <div class="project-card reveal hidden" data-category="videography">
-      <div class="video-card-wrap" style="position:relative;aspect-ratio:16/9;background:#0D0900;overflow:hidden;">
-        <video
+      <div class="video-card-wrap vid-autoplay" style="position:relative;aspect-ratio:16/9;background:#0D0900;overflow:hidden;">
+        <video class="vid-el"
           playsinline loop muted preload="none"
-          style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;cursor:pointer;"
-          ontouchstart="this.paused?this.play():this.pause()"
-          onmouseenter="this.play();this.nextElementSibling.style.opacity='0'"
-          onmouseleave="this.pause();this.nextElementSibling.style.opacity='1'">
+          style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;cursor:pointer;">
           <source src="https://res.cloudinary.com/dojlwvol7/video/upload/v1780499075/PIB_GROWBALIZATION_MASTER_ar181y.mp4" type="video/mp4">
         </video>
-        <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;transition:opacity 0.3s;">
-          <div style="width:64px;height:64px;border:1.5px solid rgba(255,255,255,0.5);border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.3);backdrop-filter:blur(6px);">
-            <svg viewBox="0 0 24 24" width="22" height="22"><polygon points="6 3 20 12 6 21 6 3" fill="rgba(255,255,255,0.9)"/></svg>
+        <div class="vid-overlay-icon">
+          <div class="vid-play-btn">
+            <svg class="icon-play" viewBox="0 0 24 24" width="22" height="22"><polygon points="6 3 20 12 6 21 6 3" fill="rgba(255,255,255,0.9)"/></svg>
+            <svg class="icon-pause" viewBox="0 0 24 24" width="22" height="22" style="display:none"><rect x="6" y="4" width="4" height="16" fill="rgba(255,255,255,0.9)"/><rect x="14" y="4" width="4" height="16" fill="rgba(255,255,255,0.9)"/></svg>
           </div>
         </div>
         <div class="carousel-overlay">
@@ -1792,18 +1826,16 @@
 
     <!-- Videography 2: Ponds Outdoor Activity with Beautiverse 2025 -->
     <div class="project-card reveal hidden" data-category="videography">
-      <div class="video-card-wrap" style="position:relative;aspect-ratio:16/9;background:#0D0900;overflow:hidden;">
-        <video
+      <div class="video-card-wrap vid-autoplay" style="position:relative;aspect-ratio:16/9;background:#0D0900;overflow:hidden;">
+        <video class="vid-el"
           playsinline loop muted preload="none"
-          style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;cursor:pointer;"
-          ontouchstart="this.paused?this.play():this.pause()"
-          onmouseenter="this.play();this.nextElementSibling.style.opacity='0'"
-          onmouseleave="this.pause();this.nextElementSibling.style.opacity='1'">
+          style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;cursor:pointer;">
           <source src="https://res.cloudinary.com/dojlwvol7/video/upload/v1780499302/IMG_0926_ustwcq.mov" type="video/mp4">
         </video>
-        <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;transition:opacity 0.3s;">
-          <div style="width:64px;height:64px;border:1.5px solid rgba(255,255,255,0.5);border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.3);backdrop-filter:blur(6px);">
-            <svg viewBox="0 0 24 24" width="22" height="22"><polygon points="6 3 20 12 6 21 6 3" fill="rgba(255,255,255,0.9)"/></svg>
+        <div class="vid-overlay-icon">
+          <div class="vid-play-btn">
+            <svg class="icon-play" viewBox="0 0 24 24" width="22" height="22"><polygon points="6 3 20 12 6 21 6 3" fill="rgba(255,255,255,0.9)"/></svg>
+            <svg class="icon-pause" viewBox="0 0 24 24" width="22" height="22" style="display:none"><rect x="6" y="4" width="4" height="16" fill="rgba(255,255,255,0.9)"/><rect x="14" y="4" width="4" height="16" fill="rgba(255,255,255,0.9)"/></svg>
           </div>
         </div>
         <div class="carousel-overlay">
@@ -1826,18 +1858,16 @@
 
     <!-- Videography 3: Balinese Metatah -->
     <div class="project-card reveal hidden" data-category="videography">
-      <div class="video-card-wrap" style="position:relative;aspect-ratio:16/9;background:#0D0900;overflow:hidden;">
-        <video
+      <div class="video-card-wrap vid-autoplay" style="position:relative;aspect-ratio:16/9;background:#0D0900;overflow:hidden;">
+        <video class="vid-el"
           playsinline loop muted preload="none"
-          style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;cursor:pointer;"
-          ontouchstart="this.paused?this.play():this.pause()"
-          onmouseenter="this.play();this.nextElementSibling.style.opacity='0'"
-          onmouseleave="this.pause();this.nextElementSibling.style.opacity='1'">
+          style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;cursor:pointer;">
           <source src="https://res.cloudinary.com/dojlwvol7/video/upload/v1780499513/METATAH_MASTER3_neve7z.mp4" type="video/mp4">
         </video>
-        <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;transition:opacity 0.3s;">
-          <div style="width:64px;height:64px;border:1.5px solid rgba(255,255,255,0.5);border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.3);backdrop-filter:blur(6px);">
-            <svg viewBox="0 0 24 24" width="22" height="22"><polygon points="6 3 20 12 6 21 6 3" fill="rgba(255,255,255,0.9)"/></svg>
+        <div class="vid-overlay-icon">
+          <div class="vid-play-btn">
+            <svg class="icon-play" viewBox="0 0 24 24" width="22" height="22"><polygon points="6 3 20 12 6 21 6 3" fill="rgba(255,255,255,0.9)"/></svg>
+            <svg class="icon-pause" viewBox="0 0 24 24" width="22" height="22" style="display:none"><rect x="6" y="4" width="4" height="16" fill="rgba(255,255,255,0.9)"/><rect x="14" y="4" width="4" height="16" fill="rgba(255,255,255,0.9)"/></svg>
           </div>
         </div>
         <div class="carousel-overlay">
@@ -1860,18 +1890,16 @@
 
     <!-- Videography 4: Qahira Herbal Top Brand Awards 2025 — Portrait format -->
     <div class="project-card reveal hidden" data-category="videography">
-      <div class="video-card-wrap" style="position:relative;aspect-ratio:9/16;max-width:360px;margin:0 auto;background:#0D0900;overflow:hidden;">
-        <video
+      <div class="video-card-wrap vid-autoplay" style="position:relative;aspect-ratio:9/16;max-width:360px;margin:0 auto;background:#0D0900;overflow:hidden;">
+        <video class="vid-el"
           playsinline loop muted preload="none"
-          style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;cursor:pointer;"
-          ontouchstart="this.paused?this.play():this.pause()"
-          onmouseenter="this.play();this.nextElementSibling.style.opacity='0'"
-          onmouseleave="this.pause();this.nextElementSibling.style.opacity='1'">
+          style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;cursor:pointer;">
           <source src="https://res.cloudinary.com/dojlwvol7/video/upload/v1776147461/QAHIRA_TOP_BRAND_AWARD_MASTER_FHD_aax31k.mp4" type="video/mp4">
         </video>
-        <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;transition:opacity 0.3s;">
-          <div style="width:64px;height:64px;border:1.5px solid rgba(255,255,255,0.5);border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.3);backdrop-filter:blur(6px);">
-            <svg viewBox="0 0 24 24" width="22" height="22"><polygon points="6 3 20 12 6 21 6 3" fill="rgba(255,255,255,0.9)"/></svg>
+        <div class="vid-overlay-icon">
+          <div class="vid-play-btn">
+            <svg class="icon-play" viewBox="0 0 24 24" width="22" height="22"><polygon points="6 3 20 12 6 21 6 3" fill="rgba(255,255,255,0.9)"/></svg>
+            <svg class="icon-pause" viewBox="0 0 24 24" width="22" height="22" style="display:none"><rect x="6" y="4" width="4" height="16" fill="rgba(255,255,255,0.9)"/><rect x="14" y="4" width="4" height="16" fill="rgba(255,255,255,0.9)"/></svg>
           </div>
         </div>
         <div class="carousel-overlay">
@@ -2545,7 +2573,49 @@
     start();
   })();
 
-  // ── COUNTER ANIMATION ──
+  // ── VIDEO AUTOPLAY (GIF-like) ──
+  (function() {
+    const wraps = document.querySelectorAll('.vid-autoplay');
+    if (!wraps.length) return;
+
+    function updateIcons(wrap, playing) {
+      const iconPlay  = wrap.querySelector('.icon-play');
+      const iconPause = wrap.querySelector('.icon-pause');
+      if (iconPlay)  iconPlay.style.display  = playing ? 'none'  : 'block';
+      if (iconPause) iconPause.style.display = playing ? 'block' : 'none';
+      if (playing) wrap.classList.add('is-playing');
+      else         wrap.classList.remove('is-playing');
+    }
+
+    wraps.forEach(wrap => {
+      const vid = wrap.querySelector('.vid-el');
+      if (!vid) return;
+
+      // Click / tap to toggle pause
+      wrap.addEventListener('click', () => {
+        if (vid.paused) { vid.play(); }
+        else            { vid.pause(); }
+      });
+
+      vid.addEventListener('play',  () => updateIcons(wrap, true));
+      vid.addEventListener('pause', () => updateIcons(wrap, false));
+
+      // IntersectionObserver: autoplay when visible, pause when off-screen
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            vid.play().catch(() => {});
+          } else {
+            vid.pause();
+          }
+        });
+      }, { threshold: 0.3 });
+
+      io.observe(wrap);
+    });
+  })();
+
+
   (function() {
     const counters = document.querySelectorAll('.stat-n[data-target]');
     if (!counters.length) return;
