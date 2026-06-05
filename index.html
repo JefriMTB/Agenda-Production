@@ -1828,9 +1828,9 @@
     <div class="project-card reveal hidden" data-category="videography">
       <div class="video-card-wrap vid-autoplay" style="position:relative;aspect-ratio:16/9;background:#0D0900;overflow:hidden;">
         <video class="vid-el"
-          playsinline loop muted preload="none"
+          playsinline loop muted preload="metadata"
           style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;cursor:pointer;">
-          <source src="https://res.cloudinary.com/dojlwvol7/video/upload/v1780499302/IMG_0926_ustwcq.mov" type="video/mp4">
+          <source src="https://res.cloudinary.com/dojlwvol7/video/upload/f_mp4,vc_h264,q_auto:good/v1780499302/IMG_0926_ustwcq.mov" type="video/mp4">
         </video>
         <div class="vid-overlay-icon">
           <div class="vid-play-btn">
@@ -2578,6 +2578,9 @@
     const wraps = document.querySelectorAll('.vid-autoplay');
     if (!wraps.length) return;
 
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    const isIOS    = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+
     function updateIcons(wrap, playing) {
       const iconPlay  = wrap.querySelector('.icon-play');
       const iconPause = wrap.querySelector('.icon-pause');
@@ -2587,31 +2590,72 @@
       else         wrap.classList.remove('is-playing');
     }
 
+    function tryPlay(vid, retries) {
+      retries = retries || 0;
+      // iOS Safari: must call load() first if preload=none and no data yet
+      if (vid.readyState === 0) { vid.load(); }
+      var p = vid.play();
+      if (p && typeof p.then === 'function') {
+        p.catch(function(e) {
+          // NotAllowedError on iOS: only retry a couple times
+          if (retries < 2 && e.name !== 'NotAllowedError') {
+            setTimeout(function() { tryPlay(vid, retries + 1); }, 300);
+          }
+        });
+      }
+    }
+
     wraps.forEach(wrap => {
       const vid = wrap.querySelector('.vid-el');
       if (!vid) return;
 
+      // On mobile, switch preload to metadata so browser knows duration/dimensions
+      if (isMobile) { vid.preload = 'metadata'; }
+
       // Click / tap to toggle pause
       wrap.addEventListener('click', () => {
-        if (vid.paused) { vid.play(); }
+        if (vid.paused) { tryPlay(vid, 0); }
         else            { vid.pause(); }
       });
 
       vid.addEventListener('play',  () => updateIcons(wrap, true));
       vid.addEventListener('pause', () => updateIcons(wrap, false));
 
-      // IntersectionObserver: autoplay when visible, pause when off-screen
+      // Lower threshold on mobile so video triggers earlier
+      const thresh = isMobile ? 0.1 : 0.3;
+
       const io = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
-            vid.play().catch(() => {});
+            tryPlay(vid, 0);
           } else {
             vid.pause();
           }
         });
-      }, { threshold: 0.3 });
+      }, { threshold: thresh });
 
       io.observe(wrap);
+
+      // iOS extra: on first user interaction anywhere, try to play all visible videos
+      // (browser requires user gesture to unlock autoplay)
+      if (isIOS) {
+        var unlocked = false;
+        function unlockIOS() {
+          if (unlocked) return;
+          unlocked = true;
+          wraps.forEach(w => {
+            var v = w.querySelector('.vid-el');
+            if (!v) return;
+            var rect = w.getBoundingClientRect();
+            var visible = rect.top < window.innerHeight && rect.bottom > 0;
+            if (visible) tryPlay(v, 0);
+          });
+          document.removeEventListener('touchstart', unlockIOS);
+          document.removeEventListener('touchend',   unlockIOS);
+        }
+        document.addEventListener('touchstart', unlockIOS, { passive: true, once: true });
+        document.addEventListener('touchend',   unlockIOS, { passive: true, once: true });
+      }
     });
   })();
 
