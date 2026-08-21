@@ -610,6 +610,45 @@
   .project-card.full { flex-basis: 100%; }
   .project-card.full .carousel-wrap { aspect-ratio: 16/7; }
 
+  /* Photo grid gallery style — true masonry layout so mixed vertical/landscape photos each keep their natural proportions (no forced cropping) for a curated, editorial look (e.g. Portrait). */
+  .photo-grid-card { flex-basis: 100%; }
+  .photo-grid {
+    columns: 4 220px;
+    column-gap: 8px;
+    padding: 8px;
+  }
+  .photo-grid-item {
+    position: relative; overflow: hidden; cursor: zoom-in;
+    break-inside: avoid;
+    margin-bottom: 8px;
+    background: var(--line);
+    border-radius: 2px;
+    -webkit-transform: translateZ(0); transform: translateZ(0);
+  }
+  .photo-grid-item img {
+    display: block; width: 100%; height: auto;
+    transition: transform 0.5s ease;
+    -webkit-user-drag: none; user-select: none;
+  }
+  @media (hover: hover) {
+    .photo-grid-item:hover img { transform: scale(1.04); }
+  }
+  @media (min-width: 1400px) {
+    .photo-grid { columns: 5 230px; column-gap: 10px; padding: 10px; }
+    .photo-grid-item { margin-bottom: 10px; }
+  }
+  @media (max-width: 900px) {
+    .photo-grid { columns: 3 160px; column-gap: 6px; padding: 6px; }
+    .photo-grid-item { margin-bottom: 6px; }
+  }
+  @media (max-width: 560px) {
+    .photo-grid { columns: 2 140px; }
+  }
+  @media (max-width: 380px) {
+    .photo-grid { columns: 2 120px; column-gap: 5px; padding: 5px; }
+    .photo-grid-item { margin-bottom: 5px; }
+  }
+
   /* Lightbox */
   .lightbox { display: none; position: fixed; inset: 0; z-index: 999; background: rgba(20,12,6,0.95); align-items: center; justify-content: center; }
   .lightbox.open { display: flex; }
@@ -659,6 +698,7 @@
     .projects-grid.few-items { justify-content: flex-start; }
     .projects-grid.few-items .project-card { flex: 0 1 380px; max-width: 380px; }
     .projects-grid.few-items .project-card.full { max-width: 600px; }
+    .projects-grid.few-items .project-card.photo-grid-card { flex-basis: 100%; max-width: 100%; }
   }
 
   /* ── REEL ── */
@@ -1340,40 +1380,24 @@
       </div>
     </div>
 
-    <!-- Beauty Portrait Yogyakarta -->
-    <div class="project-card reveal" data-category="photography portrait">
-      <div class="carousel-wrap portrait" id="cw-beauty">
-        <div class="carousel-track" id="ct-beauty">
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_900/v1776142917/DSC09378_cybkgm.jpg" alt="Beauty Portrait 1" loading="lazy"></div>
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_900/v1776142923/DSC09072-Edit_hsg7zr.jpg" alt="Beauty Portrait 2" loading="lazy"></div>
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_900/v1776142909/DSC01245_ggs4ug.jpg" alt="Beauty Portrait 3" loading="lazy"></div>
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_900/v1776143771/DSC01218_jekt8g.jpg" alt="Beauty Portrait 4" loading="lazy"></div>
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_900/v1776142904/DSC04458_lwgbqk.jpg" alt="Beauty Portrait 5" loading="lazy"></div>
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_900/v1776143770/DSC04567_zbkzgw.jpg" alt="Beauty Portrait 6" loading="lazy"></div>
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_900/v1776143778/DSC00261_f2k881.jpg" alt="Beauty Portrait 7" loading="lazy"></div>
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_900/v1776143802/DSC00230_phim2l.jpg" alt="Beauty Portrait 8" loading="lazy"></div>
-        </div>
-        <div class="carousel-overlay">
-          <span class="carousel-cat">Photography · Portrait</span>
-          <span class="carousel-name">Beauty Portrait, Yogyakarta, Indonesia</span>
-        </div>
-        <span class="carousel-counter" id="cc-beauty">1 / 8</span>
-        <div class="carousel-dots" id="cd-beauty">
-          <button class="carousel-dot active" data-i="0"></button>
-          <button class="carousel-dot" data-i="1"></button>
-          <button class="carousel-dot" data-i="2"></button>
-          <button class="carousel-dot" data-i="3"></button>
-          <button class="carousel-dot" data-i="4"></button>
-          <button class="carousel-dot" data-i="5"></button>
-          <button class="carousel-dot" data-i="6"></button>
-          <button class="carousel-dot" data-i="7"></button>
-        </div>
-        <button class="carousel-prev" id="cp-beauty" disabled aria-label="Prev">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
-        </button>
-        <button class="carousel-next" id="cn-beauty" aria-label="Next">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
-        </button>
+    <!-- Portrait — Photo Grid Gallery -->
+    <div class="project-card photo-grid-card reveal" data-category="photography portrait">
+      <div class="photo-grid" id="pg-portrait">
+        <div class="photo-grid-item"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_700/v1776142917/DSC09378_cybkgm.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_450/v1776142917/DSC09378_cybkgm.jpg 450w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_700/v1776142917/DSC09378_cybkgm.jpg 700w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_950/v1776142917/DSC09378_cybkgm.jpg 950w" sizes="(max-width: 560px) 50vw, (max-width: 900px) 33vw, 25vw" alt="Portrait 1" loading="lazy" decoding="async"></div>
+        <div class="photo-grid-item"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_700/v1776142927/DSC09381_j23ya5.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_450/v1776142927/DSC09381_j23ya5.jpg 450w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_700/v1776142927/DSC09381_j23ya5.jpg 700w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_950/v1776142927/DSC09381_j23ya5.jpg 950w" sizes="(max-width: 560px) 50vw, (max-width: 900px) 33vw, 25vw" alt="Portrait 2" loading="lazy" decoding="async"></div>
+        <div class="photo-grid-item"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_700/v1776142923/DSC09072-Edit_hsg7zr.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_450/v1776142923/DSC09072-Edit_hsg7zr.jpg 450w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_700/v1776142923/DSC09072-Edit_hsg7zr.jpg 700w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_950/v1776142923/DSC09072-Edit_hsg7zr.jpg 950w" sizes="(max-width: 560px) 50vw, (max-width: 900px) 33vw, 25vw" alt="Portrait 3" loading="lazy" decoding="async"></div>
+        <div class="photo-grid-item"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_700/v1776142973/DSC09076_fy2ypg.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_450/v1776142973/DSC09076_fy2ypg.jpg 450w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_700/v1776142973/DSC09076_fy2ypg.jpg 700w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_950/v1776142973/DSC09076_fy2ypg.jpg 950w" sizes="(max-width: 560px) 50vw, (max-width: 900px) 33vw, 25vw" alt="Portrait 4" loading="lazy" decoding="async"></div>
+        <div class="photo-grid-item"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_700/v1776143772/DSC04470_mloud8.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_450/v1776143772/DSC04470_mloud8.jpg 450w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_700/v1776143772/DSC04470_mloud8.jpg 700w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_950/v1776143772/DSC04470_mloud8.jpg 950w" sizes="(max-width: 560px) 50vw, (max-width: 900px) 33vw, 25vw" alt="Portrait 5" loading="lazy" decoding="async"></div>
+        <div class="photo-grid-item"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_700/v1776142904/DSC04458_lwgbqk.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_450/v1776142904/DSC04458_lwgbqk.jpg 450w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_700/v1776142904/DSC04458_lwgbqk.jpg 700w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_950/v1776142904/DSC04458_lwgbqk.jpg 950w" sizes="(max-width: 560px) 50vw, (max-width: 900px) 33vw, 25vw" alt="Portrait 6" loading="lazy" decoding="async"></div>
+        <div class="photo-grid-item"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_700/v1776142909/DSC01245_ggs4ug.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_450/v1776142909/DSC01245_ggs4ug.jpg 450w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_700/v1776142909/DSC01245_ggs4ug.jpg 700w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_950/v1776142909/DSC01245_ggs4ug.jpg 950w" sizes="(max-width: 560px) 50vw, (max-width: 900px) 33vw, 25vw" alt="Portrait 7" loading="lazy" decoding="async"></div>
+        <div class="photo-grid-item"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_700/v1787305332/DSC01213_ofnrxb.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_450/v1787305332/DSC01213_ofnrxb.jpg 450w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_700/v1787305332/DSC01213_ofnrxb.jpg 700w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_950/v1787305332/DSC01213_ofnrxb.jpg 950w" sizes="(max-width: 560px) 50vw, (max-width: 900px) 33vw, 25vw" alt="Portrait 8" loading="lazy" decoding="async"></div>
+        <div class="photo-grid-item"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_700/v1776143771/DSC01218_jekt8g.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_450/v1776143771/DSC01218_jekt8g.jpg 450w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_700/v1776143771/DSC01218_jekt8g.jpg 700w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_950/v1776143771/DSC01218_jekt8g.jpg 950w" sizes="(max-width: 560px) 50vw, (max-width: 900px) 33vw, 25vw" alt="Portrait 9" loading="lazy" decoding="async"></div>
+        <div class="photo-grid-item"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_700/v1776143771/DSC01220_wnclke.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_450/v1776143771/DSC01220_wnclke.jpg 450w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_700/v1776143771/DSC01220_wnclke.jpg 700w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_950/v1776143771/DSC01220_wnclke.jpg 950w" sizes="(max-width: 560px) 50vw, (max-width: 900px) 33vw, 25vw" alt="Portrait 10" loading="lazy" decoding="async"></div>
+        <div class="photo-grid-item"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_700/v1787305333/DSC07690_yagzlt.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_450/v1787305333/DSC07690_yagzlt.jpg 450w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_700/v1787305333/DSC07690_yagzlt.jpg 700w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_950/v1787305333/DSC07690_yagzlt.jpg 950w" sizes="(max-width: 560px) 50vw, (max-width: 900px) 33vw, 25vw" alt="Portrait 11" loading="lazy" decoding="async"></div>
+        <div class="photo-grid-item"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_700/v1787305333/DSC04508-Edit_p3lij8.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_450/v1787305333/DSC04508-Edit_p3lij8.jpg 450w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_700/v1787305333/DSC04508-Edit_p3lij8.jpg 700w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_950/v1787305333/DSC04508-Edit_p3lij8.jpg 950w" sizes="(max-width: 560px) 50vw, (max-width: 900px) 33vw, 25vw" alt="Portrait 12" loading="lazy" decoding="async"></div>
+        <div class="photo-grid-item"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_700/v1787305308/NAY-07025_k5qivy.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_450/v1787305308/NAY-07025_k5qivy.jpg 450w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_700/v1787305308/NAY-07025_k5qivy.jpg 700w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_950/v1787305308/NAY-07025_k5qivy.jpg 950w" sizes="(max-width: 560px) 50vw, (max-width: 900px) 33vw, 25vw" alt="Portrait 13" loading="lazy" decoding="async"></div>
+        <div class="photo-grid-item"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_700/v1787305308/NAY-07049_pzogbj.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_450/v1787305308/NAY-07049_pzogbj.jpg 450w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_700/v1787305308/NAY-07049_pzogbj.jpg 700w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_950/v1787305308/NAY-07049_pzogbj.jpg 950w" sizes="(max-width: 560px) 50vw, (max-width: 900px) 33vw, 25vw" alt="Portrait 14" loading="lazy" decoding="async"></div>
+        <div class="photo-grid-item"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_700/v1787305311/NAY-06991_htfl7o.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_450/v1787305311/NAY-06991_htfl7o.jpg 450w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_700/v1787305311/NAY-06991_htfl7o.jpg 700w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_950/v1787305311/NAY-06991_htfl7o.jpg 950w" sizes="(max-width: 560px) 50vw, (max-width: 900px) 33vw, 25vw" alt="Portrait 15" loading="lazy" decoding="async"></div>
       </div>
       <div class="project-footer">
         <div class="project-tags">
@@ -1389,6 +1413,7 @@
     </div>
 
     <!-- Row 3: Tom Ford (portrait) + Westin (landscape) -->
+
 
     <!-- Tom Ford Ombré Leather — Portrait -->
     <div class="project-card reveal" data-category="photography product">
@@ -2253,6 +2278,15 @@
         if (Math.abs(e.clientX) === 0 && Math.abs(e.clientY) === 0) return;
         openLb(photos, i);
       });
+    });
+  });
+
+  // Lightbox click on photo-grid galleries (e.g. Portrait)
+  document.querySelectorAll('.photo-grid').forEach(grid => {
+    const imgs = Array.from(grid.querySelectorAll('.photo-grid-item img'));
+    const photos = imgs.map(img => img.src);
+    imgs.forEach((img, i) => {
+      img.addEventListener('click', () => openLb(photos, i));
     });
   });
 
