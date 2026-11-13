@@ -1586,6 +1586,12 @@
     .hero-sub { margin-bottom: 28px; }
     .hero-right { aspect-ratio: 16/7.5; }
   }
+
+  /* video sedang diputar: matikan blur pada elemen fixed supaya ringan */
+  body.video-playing nav { -webkit-backdrop-filter: none; backdrop-filter: none; background: rgba(0,0,0,0.94); }
+  body.video-playing nav.scrolled { background: rgba(255,255,255,0.94); }
+  body.video-playing .glass-tabbar { -webkit-backdrop-filter: none; backdrop-filter: none; background: rgba(255,255,255,0.94); }
+  .vid-el { transform: translateZ(0); }
 </style>
 </head>
 <body>
@@ -3377,6 +3383,8 @@
       if (iconPause) iconPause.style.display = playing ? 'block' : 'none';
       if (playing) wrap.classList.add('is-playing');
       else         wrap.classList.remove('is-playing');
+      // saat ada video diputar, matikan blur kaca di elemen fixed (berat di GPU)
+      document.body.classList.toggle('video-playing', !!document.querySelector('.vid-autoplay.is-playing'));
     }
 
     function tryPlay(vid, retries) {
@@ -3394,36 +3402,68 @@
       }
     }
 
+    // Batasi video yang diputar bersamaan (HP: 1, desktop: 2) agar tidak berat
+    const maxPlaying = isMobile ? 1 : 2;
+    const vis = new Map();
+    function rebalance() {
+      const vh = window.innerHeight, mid = vh / 2;
+      const cands = [];
+      vis.forEach((on, w) => {
+        if (!on) return;
+        const r = w.getBoundingClientRect();
+        if (r.bottom <= 0 || r.top >= vh) return;
+        cands.push({ w: w, d: Math.abs((r.top + r.bottom) / 2 - mid) });
+      });
+      cands.sort((a, b) => a.d - b.d);
+      const keep = new Set(cands.slice(0, maxPlaying).map(c => c.w));
+      vis.forEach((on, w) => {
+        const v = w.querySelector('.vid-el');
+        if (!v) return;
+        if (keep.has(w)) { if (v.paused && !w._userPaused) tryPlay(v, 0); }
+        else if (!v.paused) v.pause();
+      });
+    }
+    const playIO = new IntersectionObserver(entries => {
+      entries.forEach(e => vis.set(e.target, e.isIntersecting));
+      rebalance();
+    }, { threshold: isMobile ? 0.15 : 0.3 });
+    // muat metadata hanya untuk video yang sudah dekat layar
+    const nearIO = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (!e.isIntersecting) return;
+        const v = e.target.querySelector('.vid-el');
+        if (v && v.preload === 'none') v.preload = 'metadata';
+        nearIO.unobserve(e.target);
+      });
+    }, { rootMargin: '300px 0px' });
+    let ticking = false;
+    window.addEventListener('scroll', () => {
+      if (ticking) return; ticking = true;
+      requestAnimationFrame(() => { ticking = false; rebalance(); });
+    }, { passive: true });
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) wraps.forEach(w => { const v = w.querySelector('.vid-el'); if (v) v.pause(); });
+      else rebalance();
+    });
+
     wraps.forEach(wrap => {
       const vid = wrap.querySelector('.vid-el');
       if (!vid) return;
 
       // On mobile, switch preload to metadata so browser knows duration/dimensions
-      if (isMobile) { vid.preload = 'metadata'; }
 
       // Click / tap to toggle pause
       wrap.addEventListener('click', () => {
-        if (vid.paused) { tryPlay(vid, 0); }
-        else            { vid.pause(); }
+        if (vid.paused) { wrap._userPaused = false; tryPlay(vid, 0); }
+        else            { wrap._userPaused = true; vid.pause(); }
       });
 
       vid.addEventListener('play',  () => updateIcons(wrap, true));
       vid.addEventListener('pause', () => updateIcons(wrap, false));
 
-      // Lower threshold on mobile so video triggers earlier
-      const thresh = isMobile ? 0.1 : 0.3;
-
-      const io = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            tryPlay(vid, 0);
-          } else {
-            vid.pause();
-          }
-        });
-      }, { threshold: thresh });
-
-      io.observe(wrap);
+      vis.set(wrap, false);
+      playIO.observe(wrap);
+      nearIO.observe(wrap);
 
       // iOS extra: on first user interaction anywhere, try to play all visible videos
       // (browser requires user gesture to unlock autoplay)
