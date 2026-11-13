@@ -3402,6 +3402,30 @@
       }
     }
 
+    // ── Ringankan video: versi kecil dari Cloudinary + poster, dengan fallback ke file asli ──
+    wraps.forEach(wrap => {
+      const vid = wrap.querySelector('.vid-el');
+      const srcEl = vid && vid.querySelector('source');
+      if (!srcEl) return;
+      const orig = srcEl.getAttribute('src');
+      const m = orig.match(/^(https:\/\/res\.cloudinary\.com\/[^/]+\/video\/upload\/)(v\d+\/.+)\.(mp4|mov)$/i);
+      if (!m) return; // sudah punya transformasi sendiri → biarkan
+      const portrait = (wrap.style.aspectRatio || '').replace(/\s/g,'') === '9/16';
+      const w = portrait ? 540 : 900;
+      vid.poster = m[1] + 'so_0,w_' + w + ',q_auto,f_jpg/' + m[2] + '.jpg';
+      srcEl.setAttribute('src', m[1] + 'f_mp4,vc_h264,q_auto:good,w_' + w + '/' + m[2] + '.mp4');
+      vid.load();
+      let fellBack = false;
+      const fallback = () => {
+        if (fellBack) return; fellBack = true;
+        srcEl.setAttribute('src', orig);
+        vid.load();
+        if (!vid.paused || wrap.classList.contains('is-playing')) tryPlay(vid, 0);
+      };
+      srcEl.addEventListener('error', fallback);
+      vid.addEventListener('error', fallback);
+    });
+
     // Batasi video yang diputar bersamaan (HP: 1, desktop: 2) agar tidak berat
     const maxPlaying = isMobile ? 1 : 2;
     const vis = new Map();
