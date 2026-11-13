@@ -30,8 +30,10 @@
 <!-- WhatsApp / iMessage -->
 <meta property="og:image:alt" content="Agenda Production logo">
 
+<link rel="preconnect" href="https://res.cloudinary.com" crossorigin>
+<link rel="dns-prefetch" href="https://res.cloudinary.com">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
     --bg: #FFFFFF;
@@ -626,13 +628,25 @@
     margin-bottom: 8px;
     background: var(--line);
     border-radius: 2px;
-    -webkit-transform: translateZ(0); transform: translateZ(0);
+    aspect-ratio: 3 / 4; /* reserved space until the photo loads, so the layout doesn't jump */
   }
+  .photo-grid-item.loaded { aspect-ratio: auto; }
+  .photo-grid-item.pg-more { display: none; }
   .photo-grid-item img {
     display: block; width: 100%; height: auto;
     transition: transform 0.5s ease;
     -webkit-user-drag: none; user-select: none;
   }
+  .pg-more-wrap { display: flex; justify-content: center; padding: 14px 0 22px; }
+  .pg-more-wrap[hidden] { display: none; }
+  .pg-more-btn {
+    font-size: 0.7rem; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase;
+    padding: 12px 28px; border: 1px solid var(--line); border-radius: 999px;
+    background: transparent; color: var(--ink-2); cursor: pointer;
+    transition: background 0.25s, border-color 0.25s, color 0.25s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .pg-more-btn:hover { border-color: var(--ink); color: var(--ink); }
   @media (hover: hover) {
     .photo-grid-item:hover img { transform: scale(1.04); }
   }
@@ -1009,12 +1023,12 @@
     position: absolute; inset: 0;
     display: flex; flex-direction: column;
     align-items: center; justify-content: center; gap: 16px;
-    background: linear-gradient(135deg, #1a1208 0%, #2d1f0a 100%);
+    background: linear-gradient(135deg, #0a0a0a 0%, #1d1d1f 100%);
   }
   .video-card-play {
     width: 72px; height: 72px; border-radius: 50%;
     border: 1.5px solid rgba(255,255,255,0.25);
-    background: rgba(168,112,63,0.15);
+    background: rgba(255,255,255,0.10);
     display: flex; align-items: center; justify-content: center;
     transition: background 0.3s, border-color 0.3s;
   }
@@ -1049,6 +1063,528 @@
   /* On touch devices always show briefly then fade */
   @media (hover: none) {
     .vid-autoplay.is-playing .vid-overlay-icon { opacity: 0; }
+  }
+
+  /* ══════════════════════════════════════════════
+     LIQUID GLASS — navbar, tabs, buttons only
+     (media tetap bersih; efek ini hanya pada kontrol)
+     ══════════════════════════════════════════════ */
+  :root {
+    --glass-bg: rgba(255,255,255,0.58);
+    --glass-bg-strong: rgba(255,255,255,0.78);
+    --glass-border: rgba(255,255,255,0.65);
+    --glass-edge: rgba(51,53,46,0.08);
+    --glass-blur: blur(18px) saturate(180%);
+    --glass-shadow:
+      0 8px 32px rgba(35,38,31,0.10),
+      0 1px 2px rgba(35,38,31,0.06),
+      inset 0 1px 0 rgba(255,255,255,0.9),
+      inset 0 -1px 0 rgba(255,255,255,0.25);
+    --spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  /* ── NAVBAR: pil kaca melayang ── */
+  nav, nav.scrolled {
+    top: 12px; left: 50%; right: auto;
+    width: min(1120px, calc(100% - 24px));
+    transform: translateX(-50%);
+    padding: 8px 10px 8px 22px;
+    border-radius: 999px;
+    background: var(--glass-bg);
+    -webkit-backdrop-filter: var(--glass-blur);
+    backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
+    transition: background 0.4s, box-shadow 0.4s, top 0.4s var(--spring);
+  }
+  nav.scrolled { background: var(--glass-bg-strong); top: 10px; }
+  .nav-logo img { height: 32px; }
+  .nav-right { gap: 10px; }
+  .nav-links { gap: 2px; }
+  .nav-links a {
+    display: block; padding: 9px 16px; border-radius: 999px;
+    transition: background 0.25s, color 0.25s;
+  }
+  .nav-links a:hover { background: rgba(255,255,255,0.7); color: var(--ink); }
+  .nav-links a.active {
+    background: rgba(255,255,255,0.85); color: var(--accent-dark);
+    box-shadow: 0 1px 4px rgba(35,38,31,0.08), inset 0 1px 0 #fff;
+  }
+
+  /* ── TOMBOL ── */
+  .nav-btn, .btn-fill, .btn-outline, .cta-banner-btn, .f-submit,
+  .mobile-menu .m-cta, .pg-more-btn {
+    border-radius: 999px;
+    transition: transform 0.35s var(--spring), box-shadow 0.25s, background 0.25s, color 0.25s, border-color 0.25s;
+  }
+  .nav-btn {
+    padding: 11px 24px;
+    background: linear-gradient(180deg, rgba(190,130,78,0.95), rgba(168,112,63,0.95));
+    box-shadow: 0 4px 14px rgba(168,112,63,0.35), inset 0 1px 0 rgba(255,255,255,0.45);
+  }
+  .nav-btn:hover {
+    background: linear-gradient(180deg, rgba(168,112,63,1), rgba(122,80,41,1));
+    transform: translateY(-1px) scale(1.03);
+  }
+  .btn-fill {
+    background: linear-gradient(180deg, rgba(70,72,64,0.96), rgba(35,38,31,0.96));
+    box-shadow: 0 6px 20px rgba(35,38,31,0.25), inset 0 1px 0 rgba(255,255,255,0.18);
+  }
+  .btn-fill:hover { transform: translateY(-2px) scale(1.03); box-shadow: 0 10px 26px rgba(35,38,31,0.3), inset 0 1px 0 rgba(255,255,255,0.22); }
+  .btn-outline {
+    background: var(--glass-bg);
+    -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--glass-border);
+    color: var(--ink);
+    box-shadow: var(--glass-shadow);
+  }
+  .btn-outline:hover { background: var(--glass-bg-strong); border-color: #fff; color: var(--accent-dark); transform: translateY(-2px) scale(1.03); }
+  .cta-banner-btn, .f-submit, .mobile-menu .m-cta { box-shadow: inset 0 1px 0 rgba(255,255,255,0.4), 0 4px 16px rgba(0,0,0,0.18); }
+  .cta-banner-btn { background: linear-gradient(180deg, #3BE07B, #25D366); }
+  .cta-banner-btn:hover, .f-submit:hover { transform: translateY(-2px) scale(1.03); }
+  .f-submit { background: linear-gradient(180deg, rgba(190,130,78,0.95), rgba(168,112,63,0.95)); }
+  .pg-more-btn {
+    background: var(--glass-bg);
+    -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
+  }
+  .pg-more-btn:hover { background: var(--glass-bg-strong); transform: translateY(-1px) scale(1.03); }
+  .btn-fill:active, .btn-outline:active, .nav-btn:active, .pg-more-btn:active,
+  .cta-banner-btn:active, .f-submit:active { transform: scale(0.97); }
+
+  /* ── TAB UTAMA: segmented control kaca ── */
+  .main-tab-bar {
+    display: inline-flex; max-width: 100%;
+    gap: 2px; padding: 4px;
+    border-bottom: none; border-radius: 999px;
+    background: rgba(51,53,46,0.05);
+    -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--glass-edge);
+    box-shadow: inset 0 1px 2px rgba(35,38,31,0.06);
+  }
+  .main-tab-bar .tab-btn {
+    padding: 11px 24px; border-radius: 999px;
+    transition: background 0.3s, color 0.25s, box-shadow 0.3s;
+  }
+  .main-tab-bar .tab-btn::after { display: none; }
+  .main-tab-bar .tab-btn.active {
+    background: var(--glass-bg-strong);
+    color: var(--ink);
+    box-shadow: 0 2px 10px rgba(35,38,31,0.12), inset 0 1px 0 #fff;
+  }
+
+  /* ── SUB-TAB: pil kaca ── */
+  .sub-tab-btn {
+    background: var(--glass-bg);
+    -webkit-backdrop-filter: blur(12px) saturate(160%); backdrop-filter: blur(12px) saturate(160%);
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 2px 8px rgba(35,38,31,0.06), inset 0 1px 0 rgba(255,255,255,0.8);
+    transition: background 0.25s, color 0.25s, transform 0.35s var(--spring), box-shadow 0.25s;
+  }
+  .sub-tab-btn:hover { background: var(--glass-bg-strong); border-color: #fff; transform: translateY(-1px); }
+  .sub-tab-btn.active {
+    background: linear-gradient(180deg, rgba(70,72,64,0.96), rgba(35,38,31,0.96));
+    border-color: rgba(255,255,255,0.12); color: #fff;
+    box-shadow: 0 6px 18px rgba(35,38,31,0.22), inset 0 1px 0 rgba(255,255,255,0.18);
+  }
+
+  /* ── MOBILE: pil lebih ringkas ── */
+  @media (max-width: 900px) {
+    nav, nav.scrolled { top: max(8px, env(safe-area-inset-top)); padding: 6px 8px 6px 18px; width: calc(100% - 20px); }
+    .hamburger {
+      width: 40px; height: 40px; align-items: center; justify-content: center;
+      border-radius: 50%; background: rgba(255,255,255,0.7);
+      box-shadow: inset 0 1px 0 #fff, 0 1px 4px rgba(35,38,31,0.1);
+    }
+    .hamburger span { width: 18px; }
+    .hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+    .hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+    .mobile-menu { padding-top: 96px; }
+  }
+  @media (max-width: 640px) {
+    .main-tab-bar { display: flex; }
+    .main-tab-bar .tab-btn { flex: 1; padding: 11px 12px; }
+  }
+
+  /* ── FALLBACK: tanpa backdrop-filter / reduce transparency ── */
+  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    nav, nav.scrolled, .btn-outline, .pg-more-btn, .sub-tab-btn { background: rgba(255,255,255,0.96); }
+  }
+  @media (prefers-reduced-transparency: reduce) {
+    nav, nav.scrolled, .btn-outline, .pg-more-btn, .sub-tab-btn,
+    .main-tab-bar .tab-btn.active { background: #fff; -webkit-backdrop-filter: none; backdrop-filter: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .nav-btn, .btn-fill, .btn-outline, .pg-more-btn, .sub-tab-btn, .cta-banner-btn, .f-submit { transition: background 0.2s, color 0.2s; }
+    .nav-btn:hover, .btn-fill:hover, .btn-outline:hover, .pg-more-btn:hover, .sub-tab-btn:hover { transform: none; }
+  }
+
+  /* ── SERVICES: bento ── */
+  .services-grid {
+    grid-template-columns: 1.35fr 1fr 1fr;
+    gap: 16px; background: transparent; border: none;
+  }
+  .svc-card {
+    background: var(--section-bg);
+    border: 1px solid var(--line); border-radius: 28px;
+    transition: transform 0.45s var(--spring), box-shadow 0.3s, background 0.3s;
+  }
+  .svc-card:hover {
+    background: #fff; transform: translateY(-4px);
+    box-shadow: 0 18px 44px rgba(35,38,31,0.10);
+  }
+  .svc-card::after { display: none; }
+  .svc-icon {
+    padding: 10px; width: 52px; height: 52px; border-radius: 16px;
+    background: rgba(168,112,63,0.10); opacity: 1;
+  }
+  .tag { border-radius: 999px; }
+
+  /* ── TAB BAR KACA (HP) ── */
+  .glass-tabbar { display: none; }
+  @media (max-width: 900px) {
+    .services-grid { grid-template-columns: 1fr; gap: 12px; }
+    .svc-card { border-radius: 24px; }
+    .wa-float { display: none; }
+    footer { padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px)) !important; }
+    .glass-tabbar {
+      display: flex; position: fixed; z-index: 300;
+      left: 50%; transform: translateX(-50%);
+      bottom: max(12px, env(safe-area-inset-bottom));
+      width: min(360px, calc(100% - 28px));
+      padding: 6px; gap: 2px; border-radius: 999px;
+      background: var(--glass-bg);
+      -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur);
+      border: 1px solid var(--glass-border);
+      box-shadow: var(--glass-shadow);
+    }
+    .glass-tabbar a {
+      flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px;
+      padding: 8px 4px 7px; border-radius: 999px;
+      font-size: 0.62rem; font-weight: 500; letter-spacing: 0.04em;
+      color: var(--ink-2); -webkit-tap-highlight-color: transparent;
+      transition: background 0.3s, color 0.25s, transform 0.35s var(--spring);
+    }
+    .glass-tabbar svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+    .glass-tabbar a.active {
+      background: rgba(255,255,255,0.9); color: var(--accent-dark);
+      box-shadow: 0 2px 8px rgba(35,38,31,0.12), inset 0 1px 0 #fff;
+    }
+    .glass-tabbar a:active { transform: scale(0.94); }
+    .glass-tabbar a.wa { color: #1a9d4c; }
+    .glass-tabbar a.wa svg { fill: currentColor; stroke: none; }
+  }
+  @media (prefers-reduced-transparency: reduce) {
+    .glass-tabbar { background: #fff; -webkit-backdrop-filter: none; backdrop-filter: none; }
+  }
+
+  /* ══════════════════════════════════════════════
+     TEMA APPLE: putih & hitam, gambar besar,
+     liquid glass hanya saat hover
+     ══════════════════════════════════════════════ */
+  :root {
+    --bg:#fff; --white:#fff; --ink:#000; --ink-2:#6e6e73; --ink-3:#a1a1a6;
+    --accent:#000; --accent-dark:#000; --line:#e5e5e7; --dark:#000; --section-bg:#fff;
+  }
+  #page-loader, #reel, #contact, .cta-banner, footer { --accent:#fff; --ink-2:#a1a1a6; }
+  body, button, input, select, textarea {
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', 'DM Sans', sans-serif;
+  }
+  .hero-title, .s-title, .svc-name, .svc-num, .carousel-name, .cta-banner-title,
+  .footer-brand-logo, .mobile-menu a, .video-placeholder p, .process-num, .process-step-name, .work-empty p {
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', 'DM Sans', sans-serif !important;
+    font-style: normal;
+  }
+  .hero-title em, .s-title em, .cta-banner-title em { font-style: normal; opacity: 0.4; color: inherit; }
+  #reel .s-title em, #contact .s-title em { color: #fff; }
+  .s-eyebrow, .hero-tag { letter-spacing: 0.01em; text-transform: none; font-size: 0.9rem; font-weight: 600; color: var(--ink-2); }
+
+  /* ── NAVBAR: bar hitam tipis ala apple.com ── */
+  nav, nav.scrolled {
+    top: 0; left: 0; width: 100%; transform: none; border-radius: 0;
+    height: 48px; padding: 0 max(22px, 4%);
+    background: rgba(0,0,0,0.82);
+    -webkit-backdrop-filter: saturate(180%) blur(20px); backdrop-filter: saturate(180%) blur(20px);
+    border: none; box-shadow: none;
+  }
+  .nav-logo img { height: 22px; filter: brightness(0) invert(1); }
+  .nav-right { gap: 18px; }
+  .nav-links { position: relative; gap: 0; }
+  .nav-links a {
+    position: relative; z-index: 1; padding: 7px 16px;
+    font-size: 0.78rem; font-weight: 400; letter-spacing: 0; text-transform: none;
+    color: rgba(255,255,255,0.8); background: transparent;
+  }
+  .nav-links a:hover, .nav-links a.active { color: #fff; background: transparent; box-shadow: none; }
+  .nav-btn {
+    padding: 7px 16px; font-size: 0.78rem; letter-spacing: 0; text-transform: none; font-weight: 500;
+    background: #fff; color: #000; box-shadow: none;
+  }
+  .nav-btn:hover { background: #e8e8ed; transform: scale(1.04); }
+  .hamburger { background: none; box-shadow: none; }
+  .hamburger span { background: #fff; }
+
+  /* kaca cair yang mengikuti kursor di navbar */
+  .nav-glass {
+    position: absolute; top: 50%; left: 0; height: 32px; width: 0; margin-top: -16px;
+    border-radius: 999px; pointer-events: none; opacity: 0; z-index: 0;
+    background: radial-gradient(120% 140% at 30% 0%, rgba(255,255,255,0.34), rgba(255,255,255,0.10) 60%);
+    -webkit-backdrop-filter: blur(10px) saturate(190%); backdrop-filter: blur(10px) saturate(190%);
+    border: 1px solid rgba(255,255,255,0.28);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.55), inset 0 -1px 0 rgba(255,255,255,0.08), 0 6px 20px rgba(0,0,0,0.35);
+    transition: left 0.45s var(--spring), width 0.45s var(--spring), opacity 0.25s;
+  }
+  .nav-glass.on { opacity: 1; }
+
+  /* ── TOMBOL monokrom ── */
+  .btn-fill, .f-submit {
+    background: #000; color: #fff; box-shadow: none; border: 1px solid #000;
+  }
+  .btn-fill:hover { background: #1d1d1f; box-shadow: 0 10px 26px rgba(0,0,0,0.2); }
+  .btn-outline { background: transparent; color: #000; border: 1px solid #000; box-shadow: none; -webkit-backdrop-filter: none; backdrop-filter: none; }
+  .btn-outline:hover { background: rgba(0,0,0,0.06); color: #000; border-color: #000; }
+  #contact .f-submit, .mobile-menu .m-cta { background: #fff; color: #000; border-color: #fff; }
+  #contact .f-submit svg { fill: #000; }
+  .cta-banner-btn { background: #fff; color: #000; box-shadow: none; }
+  .cta-banner-btn svg { fill: #000; }
+  .pg-more-btn { background: transparent; border: 1px solid #000; color: #000; box-shadow: none; -webkit-backdrop-filter: none; backdrop-filter: none; }
+  .pg-more-btn:hover { background: rgba(0,0,0,0.06); }
+  .wa-btn-float { background: #000; box-shadow: 0 6px 24px rgba(0,0,0,0.3); }
+  .wa-pulse-ring { border-color: rgba(0,0,0,0.25); }
+  .footer-socials a:hover, .footer-col-links a:hover, .c-val a { color: #fff; }
+  .glass-tabbar a.wa { color: var(--ink); }
+
+  /* ── HERO: teks di tengah, gambar besar di bawah ── */
+  #hero { grid-template-columns: 1fr; min-height: auto; }
+  .hero-left { align-items: center; text-align: center; padding: 120px 6% 40px; }
+  .hero-title { font-size: clamp(2.8rem, 7.5vw, 6rem); font-weight: 600; letter-spacing: -0.035em; line-height: 1.04; }
+  .hero-sub { max-width: 560px; font-size: 1.1rem; font-weight: 400; line-height: 1.5; margin-left: auto; margin-right: auto; }
+  .hero-actions, .hero-social-proof { justify-content: center; align-items: center; }
+  .hero-right { margin: 0 16px 16px; width: auto; aspect-ratio: 16/8; border-radius: 28px; }
+  .hero-img-overlay { display: none; }
+  .hero-badge {
+    border-radius: 999px; bottom: 24px; left: 24px;
+    background: rgba(255,255,255,0.55);
+    -webkit-backdrop-filter: blur(16px) saturate(180%); backdrop-filter: blur(16px) saturate(180%);
+    border: 1px solid rgba(255,255,255,0.6);
+  }
+  .hero-badge-dot { background: #000; }
+
+  /* ── SECTION: judul besar di tengah ── */
+  #services, #work, #process { text-align: center; }
+  section { padding: 100px 5%; }
+  .s-title { font-size: clamp(2.2rem, 5vw, 3.8rem); font-weight: 600; letter-spacing: -0.03em; line-height: 1.08; }
+  .s-sub { margin-left: auto; margin-right: auto; font-size: 1.05rem; font-weight: 400; }
+
+  /* ── TAB PORTFOLIO: monokrom + kaca saat hover ── */
+  .main-tab-bar { display: flex; width: fit-content; max-width: 100%; margin: 32px auto 0; background: transparent; border: 1px solid var(--line); box-shadow: none; }
+  .sub-tab-bar { justify-content: center; flex-wrap: wrap; }
+  .main-tab-bar .tab-btn.active { background: #000; color: #fff; box-shadow: none; }
+  .tab-btn.active .tab-count { background: #fff; color: #000; }
+  .tab-btn:hover:not(.active), .sub-tab-btn:hover:not(.active) {
+    color: #000;
+    background: radial-gradient(120% 140% at 30% 0%, rgba(255,255,255,0.9), rgba(0,0,0,0.05) 70%);
+    -webkit-backdrop-filter: blur(10px) saturate(180%); backdrop-filter: blur(10px) saturate(180%);
+    box-shadow: inset 0 1px 0 #fff, 0 4px 14px rgba(0,0,0,0.10);
+    transform: translateY(-1px);
+  }
+  .sub-tab-btn { background: transparent; border: 1px solid var(--line); box-shadow: none; -webkit-backdrop-filter: none; backdrop-filter: none; }
+  .sub-tab-btn.active { background: #000; border-color: #000; color: #fff; box-shadow: none; }
+
+  /* ── SERVICES: tile hitam & putih ── */
+  .svc-card { background: #fff; border: 1px solid var(--line); text-align: left; min-height: 420px; padding: 44px 36px; }
+  .svc-card:hover { background: #fff; box-shadow: 0 24px 60px rgba(0,0,0,0.12); }
+  .svc-card:nth-child(1), .svc-card:nth-child(3) { background: #000; border-color: #000; }
+  .svc-card:nth-child(1) *, .svc-card:nth-child(3) * { color: #fff; border-color: rgba(255,255,255,0.3); }
+  .svc-card:nth-child(1) .svc-desc, .svc-card:nth-child(3) .svc-desc, .svc-card:nth-child(1) .svc-num, .svc-card:nth-child(3) .svc-num { color: #a1a1a6; }
+  .svc-icon { background: rgba(0,0,0,0.06); }
+  .svc-card:nth-child(1) .svc-icon, .svc-card:nth-child(3) .svc-icon { background: rgba(255,255,255,0.12); }
+
+  /* ── KARTU PROYEK ── */
+  .project-card { border-radius: 28px; overflow: hidden; border: none; }
+
+  /* ── MOBILE ── */
+  .mobile-menu { background: #000; }
+  .mobile-menu a { color: #fff; font-weight: 600; letter-spacing: -0.02em; }
+  @media (max-width: 900px) {
+    nav, nav.scrolled { top: 0; width: 100%; height: 48px; padding: 0 5%; }
+    .hero-left { min-height: auto; padding: 100px 6% 28px; }
+    .hero-right { margin: 0 12px 12px; aspect-ratio: 4/5; border-radius: 24px; }
+    .svc-card { min-height: 0; }
+    #hero .hero-actions a { width: auto; }
+  }
+  @media (max-width: 640px) { .hero-actions { flex-direction: row; justify-content: center; } }
+  @media (prefers-reduced-transparency: reduce) {
+    nav, nav.scrolled { background: #000; -webkit-backdrop-filter: none; backdrop-filter: none; }
+    .hero-badge { background: #fff; }
+  }
+
+  /* ══ WARNA SEKUNDER: abu Apple + kaca terang ══ */
+  :root { --gray-1: #f5f5f7; --gray-2: #e8e8ed; --section-bg: #f5f5f7; --line: #d2d2d7; }
+  #work { background: var(--gray-1); }
+  #process { background: #fff; }
+
+  /* Services: tile tengah jadi abu */
+  .svc-card:nth-child(2) { background: var(--gray-1); border-color: transparent; }
+  .svc-card:nth-child(2):hover { background: var(--gray-2); }
+  .svc-card:nth-child(2) .svc-icon { background: rgba(255,255,255,0.7); box-shadow: inset 0 1px 0 #fff; }
+
+  /* Work: kontrol tab berupa kaca terang di atas abu */
+  .main-tab-bar {
+    background: rgba(255,255,255,0.55);
+    -webkit-backdrop-filter: blur(18px) saturate(180%); backdrop-filter: blur(18px) saturate(180%);
+    border: 1px solid rgba(255,255,255,0.85);
+    box-shadow: 0 6px 24px rgba(0,0,0,0.07), inset 0 1px 0 #fff;
+  }
+  .sub-tab-btn {
+    background: rgba(255,255,255,0.6);
+    -webkit-backdrop-filter: blur(12px) saturate(170%); backdrop-filter: blur(12px) saturate(170%);
+    border: 1px solid rgba(255,255,255,0.9);
+    color: var(--ink-2);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05), inset 0 1px 0 #fff;
+  }
+  .sub-tab-btn .tab-count { background: var(--gray-2); }
+  .project-card { background: #fff; box-shadow: 0 2px 14px rgba(0,0,0,0.04); }
+  .pg-more-btn { background: rgba(255,255,255,0.7); border-color: rgba(0,0,0,0.12); }
+
+  /* Hero: pinggir bawah abu halus agar transisi ke section berikutnya lembut */
+  .hero-left { background: linear-gradient(180deg, #fff 0%, #fff 60%, var(--gray-1) 100%); }
+  .hero-badge { background: rgba(255,255,255,0.6); }
+
+  /* Tab bar HP & hover tab mengikuti abu */
+  .tab-btn:hover:not(.active), .sub-tab-btn:hover:not(.active) {
+    background: radial-gradient(120% 140% at 30% 0%, #fff, var(--gray-2) 80%);
+  }
+  @media (prefers-reduced-transparency: reduce) {
+    .main-tab-bar, .sub-tab-btn, .pg-more-btn { background: #fff; -webkit-backdrop-filter: none; backdrop-filter: none; }
+  }
+
+  /* ── SERVICES: satu warna, gradasi putih → abu ── */
+  .services-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .svc-card, .svc-card:nth-child(1), .svc-card:nth-child(2), .svc-card:nth-child(3) {
+    background: linear-gradient(180deg, #ffffff 0%, #f5f5f7 55%, #e4e4e9 100%);
+    border: 1px solid rgba(0,0,0,0.06);
+  }
+  .svc-card:hover, .svc-card:nth-child(1):hover, .svc-card:nth-child(2):hover, .svc-card:nth-child(3):hover {
+    background: linear-gradient(180deg, #ffffff 0%, #f0f0f3 50%, #d9d9df 100%);
+  }
+  .svc-card:nth-child(n) .svc-name { color: var(--ink); }
+  .svc-card:nth-child(n) .svc-desc { color: var(--ink-2); }
+  .svc-card:nth-child(n) .svc-num { color: var(--ink-3); }
+  .svc-card:nth-child(n) .svc-icon {
+    color: #000; background: rgba(255,255,255,0.8);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06), inset 0 1px 0 #fff;
+  }
+  .svc-card:nth-child(n) .tag { color: var(--ink-2); border-color: rgba(0,0,0,0.15); background: rgba(255,255,255,0.5); }
+  .svc-card:nth-child(n):hover .tag { color: #000; border-color: rgba(0,0,0,0.35); }
+
+  @media (max-width: 900px) { .services-grid { grid-template-columns: minmax(0, 1fr); } }
+
+  /* footer dihapus: info kontak sudah ada di section Contact */
+  #contact .s-sub { margin-left: 0; margin-right: 0; }
+  @media (max-width: 900px) { #contact { padding-bottom: calc(110px + env(safe-area-inset-bottom, 0px)); } }
+
+  /* ── FIX ikon Services (path ikut mewarisi warna putih lama) ── */
+  .svc-card:nth-child(n) .svc-icon, .svc-card:nth-child(n) .svc-icon * { color: #000; }
+
+  /* ── NAVBAR SAAT SCROLL: bar hitam → pil liquid glass melayang ── */
+  nav, nav.scrolled {
+    left: 50%; transform: translateX(-50%);
+    transition: top 0.5s var(--spring), width 0.5s var(--spring), height 0.4s var(--spring),
+                border-radius 0.5s var(--spring), padding 0.4s, background 0.35s, box-shadow 0.35s, border-color 0.35s;
+    border: 1px solid transparent;
+  }
+  nav.scrolled {
+    top: 12px; width: min(1120px, calc(100% - 24px)); height: 56px;
+    padding: 0 10px 0 24px; border-radius: 999px;
+    background: radial-gradient(140% 160% at 20% 0%, rgba(255,255,255,0.78), rgba(255,255,255,0.46) 70%);
+    -webkit-backdrop-filter: blur(22px) saturate(190%); backdrop-filter: blur(22px) saturate(190%);
+    border-color: rgba(255,255,255,0.75);
+    box-shadow: 0 10px 36px rgba(0,0,0,0.14), 0 1px 3px rgba(0,0,0,0.06),
+                inset 0 1px 0 rgba(255,255,255,0.95), inset 0 -1px 0 rgba(255,255,255,0.3);
+  }
+  nav.scrolled .nav-logo img { filter: none; height: 28px; }
+  nav.scrolled .nav-links a { color: rgba(0,0,0,0.62); }
+  nav.scrolled .nav-links a:hover, nav.scrolled .nav-links a.active { color: #000; }
+  nav.scrolled .nav-btn { background: #000; color: #fff; }
+  nav.scrolled .nav-btn:hover { background: #1d1d1f; }
+  nav.scrolled .hamburger span { background: #000; }
+  nav.scrolled .nav-glass {
+    background: radial-gradient(120% 140% at 30% 0%, rgba(255,255,255,0.95), rgba(0,0,0,0.06) 75%);
+    border-color: rgba(255,255,255,0.9);
+    box-shadow: inset 0 1px 0 #fff, 0 4px 14px rgba(0,0,0,0.12);
+  }
+  @media (max-width: 900px) {
+    nav, nav.scrolled { left: 50%; }
+    nav.scrolled { top: max(8px, env(safe-area-inset-top)); width: calc(100% - 20px); height: 52px; padding: 0 8px 0 20px; }
+  }
+  @media (prefers-reduced-transparency: reduce) {
+    nav.scrolled { background: #fff; -webkit-backdrop-filter: none; backdrop-filter: none; }
+  }
+
+  /* ══ OPTIMASI WEB & MOBILE ══ */
+  #hero { padding: 0; }
+  .hero-right { max-height: 82vh; }
+  .hero-slide img { object-fit: cover; }
+  html { -webkit-text-size-adjust: 100%; scroll-padding-top: 76px; }
+  img { height: auto; }
+  .hero-slide img, .carousel-slide img { height: 100%; }
+
+  @media (min-width: 1600px) {
+    section { padding-left: max(5%, calc((100% - 1440px) / 2)); padding-right: max(5%, calc((100% - 1440px) / 2)); }
+    .hero-title { font-size: 5.4rem; }
+  }
+
+  /* tablet */
+  @media (max-width: 900px) {
+    .hero-right { aspect-ratio: 4/3; max-height: none; }
+    .s-title { font-size: clamp(2rem, 8vw, 3rem); }
+    section { padding: 72px 5%; }
+    .svc-card { padding: 32px 26px; }
+  }
+
+  /* HP */
+  @media (max-width: 640px) {
+    .hero-left { padding: 88px 6% 24px; }
+    .hero-title { font-size: clamp(2.5rem, 11.5vw, 3.4rem); }
+    .hero-sub { font-size: 1rem; margin-bottom: 28px; }
+    .hero-actions { gap: 10px; }
+    .hero-right { aspect-ratio: 4/3; margin: 0 10px 10px; border-radius: 22px; }
+    .hero-badge { bottom: 14px; left: 14px; }
+    section { padding: 64px 5%; }
+    .sub-tab-bar {
+      flex-wrap: nowrap; justify-content: flex-start; overflow-x: auto;
+      margin-left: -5vw; margin-right: -5vw; padding-left: 5vw; padding-right: 5vw;
+      scroll-snap-type: x proximity; margin-bottom: 28px;
+    }
+    .sub-tab-btn { scroll-snap-align: start; padding: 9px 16px; }
+    .sub-tab-btn, .pg-more-btn { -webkit-backdrop-filter: none; backdrop-filter: none; }
+    .main-tab-bar .tab-btn { font-size: 0.74rem; letter-spacing: 0.1em; }
+    .project-card { border-radius: 22px; }
+    .svc-card { border-radius: 22px; }
+  }
+
+  /* perangkat sentuh: tanpa efek hover yang menempel */
+  @media (hover: none) {
+    .svc-card:hover, .btn-fill:hover, .btn-outline:hover, .nav-btn:hover,
+    .sub-tab-btn:hover, .tab-btn:hover, .pg-more-btn:hover { transform: none; }
+    .tab-btn:hover:not(.active), .sub-tab-btn:hover:not(.active) { box-shadow: none; }
+  }
+
+  /* hormati pengguna yang mengurangi gerakan */
+  @media (prefers-reduced-motion: reduce) {
+    .reveal { opacity: 1; transform: none; transition: none; }
+    .nav-glass, nav { transition: none !important; }
+  }
+
+  .hero-left { background: none; }
+
+  @media (min-width: 901px) {
+    .hero-left { padding: 104px 6% 36px; }
+    .hero-title { font-size: clamp(2.8rem, 5.4vw, 5.2rem); max-width: 22ch; margin-left: auto; margin-right: auto; margin-bottom: 18px; }
+    .hero-sub { margin-bottom: 28px; }
+    .hero-right { aspect-ratio: 16/7.5; }
   }
 </style>
 </head>
@@ -1115,19 +1651,22 @@
   <div class="hero-right">
     <div class="hero-slides" id="heroSlides">
       <div class="hero-slide active">
-        <img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1776085620/AVB09429-HDR_nu4jem.jpg" alt="Natadesa Resort Jimbaran Bali" loading="eager">
+        <img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1400/v1776085620/AVB09429-HDR_nu4jem.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_800/v1776085620/AVB09429-HDR_nu4jem.jpg 800w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1400/v1776085620/AVB09429-HDR_nu4jem.jpg 1400w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_2000/v1776085620/AVB09429-HDR_nu4jem.jpg 2000w" sizes="(max-width: 900px) 100vw, 96vw" alt="Natadesa Resort Jimbaran Bali" loading="eager">
       </div>
       <div class="hero-slide">
-        <img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1780497933/DJI_0994_ffqxoi.jpg" alt="Floating Yoga Aqua Sculpt" loading="lazy">
+        <img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1400/v1780497933/DJI_0994_ffqxoi.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_800/v1780497933/DJI_0994_ffqxoi.jpg 800w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1400/v1780497933/DJI_0994_ffqxoi.jpg 1400w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_2000/v1780497933/DJI_0994_ffqxoi.jpg 2000w" sizes="(max-width: 900px) 100vw, 96vw" alt="Floating Yoga Aqua Sculpt, The Meru Sanur" loading="lazy">
       </div>
       <div class="hero-slide">
-        <img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1776142917/DSC09378_cybkgm.jpg" alt="Beauty Portrait Yogyakarta" loading="lazy">
+        <img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1400/v1777171339/AVB08145_nmzzms.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_800/v1777171339/AVB08145_nmzzms.jpg 800w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1400/v1777171339/AVB08145_nmzzms.jpg 1400w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_2000/v1777171339/AVB08145_nmzzms.jpg 2000w" sizes="(max-width: 900px) 100vw, 96vw" alt="The Westin Resort Nusa Dua Bali" loading="lazy">
       </div>
       <div class="hero-slide">
-        <img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_900/v1776140636/Artboard_1_l0sdwi.jpg" alt="Mate Pilates Canggu" loading="lazy">
+        <img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1400/v1777101220/DJI_0800_bdnt77.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_800/v1777101220/DJI_0800_bdnt77.jpg 800w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1400/v1777101220/DJI_0800_bdnt77.jpg 1400w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_2000/v1777101220/DJI_0800_bdnt77.jpg 2000w" sizes="(max-width: 900px) 100vw, 96vw" alt="Jimbafest 2025 Bali" loading="lazy">
       </div>
       <div class="hero-slide">
-        <img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777101220/DJI_0800_bdnt77.jpg" alt="Jimbafest 2025" loading="lazy">
+        <img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1400/v1776146975/AR_09736_vmrb8n.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_800/v1776146975/AR_09736_vmrb8n.jpg 800w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1400/v1776146975/AR_09736_vmrb8n.jpg 1400w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_2000/v1776146975/AR_09736_vmrb8n.jpg 2000w" sizes="(max-width: 900px) 100vw, 96vw" alt="Qahira Top Brand Awards Bali" loading="lazy">
+      </div>
+      <div class="hero-slide">
+        <img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1400/v1787308066/JMT00669_jlpjpx.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_800/v1787308066/JMT00669_jlpjpx.jpg 800w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1400/v1787308066/JMT00669_jlpjpx.jpg 1400w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_2000/v1787308066/JMT00669_jlpjpx.jpg 2000w" sizes="(max-width: 900px) 100vw, 96vw" alt="AirTrunk Connect 2025" loading="lazy">
       </div>
     </div>
     <div class="hero-img-overlay"></div>
@@ -1136,11 +1675,12 @@
       <span class="hero-badge-text">Bali, Indonesia · Available Now</span>
     </div>
     <div class="hero-slide-dots" id="heroSlideDots">
-      <button class="hero-slide-dot active" data-i="0"></button>
-      <button class="hero-slide-dot" data-i="1"></button>
-      <button class="hero-slide-dot" data-i="2"></button>
-      <button class="hero-slide-dot" data-i="3"></button>
-      <button class="hero-slide-dot" data-i="4"></button>
+      <button class="hero-slide-dot active" data-i="0" aria-label="Foto 1"></button>
+      <button class="hero-slide-dot" data-i="1" aria-label="Foto 2"></button>
+      <button class="hero-slide-dot" data-i="2" aria-label="Foto 3"></button>
+      <button class="hero-slide-dot" data-i="3" aria-label="Foto 4"></button>
+      <button class="hero-slide-dot" data-i="4" aria-label="Foto 5"></button>
+      <button class="hero-slide-dot" data-i="5" aria-label="Foto 6"></button>
     </div>
   </div>
 </section>
@@ -1386,40 +1926,41 @@
     <!-- Portrait — Photo Grid Gallery -->
     <div class="project-card photo-grid-card reveal" data-category="photography portrait">
       <div class="photo-grid" id="pg-portrait">
-        <div class="photo-grid-item"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_700/v1776142917/DSC09378_cybkgm.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_450/v1776142917/DSC09378_cybkgm.jpg 450w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_700/v1776142917/DSC09378_cybkgm.jpg 700w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_950/v1776142917/DSC09378_cybkgm.jpg 950w" sizes="(max-width: 560px) 50vw, (max-width: 900px) 33vw, 25vw" alt="Portrait 1" loading="lazy" decoding="async"></div>
-        <div class="photo-grid-item"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_700/v1776142927/DSC09381_j23ya5.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_450/v1776142927/DSC09381_j23ya5.jpg 450w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_700/v1776142927/DSC09381_j23ya5.jpg 700w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_950/v1776142927/DSC09381_j23ya5.jpg 950w" sizes="(max-width: 560px) 50vw, (max-width: 900px) 33vw, 25vw" alt="Portrait 2" loading="lazy" decoding="async"></div>
-        <div class="photo-grid-item"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_700/v1776142923/DSC09072-Edit_hsg7zr.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_450/v1776142923/DSC09072-Edit_hsg7zr.jpg 450w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_700/v1776142923/DSC09072-Edit_hsg7zr.jpg 700w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_950/v1776142923/DSC09072-Edit_hsg7zr.jpg 950w" sizes="(max-width: 560px) 50vw, (max-width: 900px) 33vw, 25vw" alt="Portrait 3" loading="lazy" decoding="async"></div>
-        <div class="photo-grid-item"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_700/v1776142973/DSC09076_fy2ypg.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_450/v1776142973/DSC09076_fy2ypg.jpg 450w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_700/v1776142973/DSC09076_fy2ypg.jpg 700w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_950/v1776142973/DSC09076_fy2ypg.jpg 950w" sizes="(max-width: 560px) 50vw, (max-width: 900px) 33vw, 25vw" alt="Portrait 4" loading="lazy" decoding="async"></div>
-        <div class="photo-grid-item"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_700/v1776143772/DSC04470_mloud8.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_450/v1776143772/DSC04470_mloud8.jpg 450w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_700/v1776143772/DSC04470_mloud8.jpg 700w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_950/v1776143772/DSC04470_mloud8.jpg 950w" sizes="(max-width: 560px) 50vw, (max-width: 900px) 33vw, 25vw" alt="Portrait 5" loading="lazy" decoding="async"></div>
-        <div class="photo-grid-item"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_700/v1776142904/DSC04458_lwgbqk.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_450/v1776142904/DSC04458_lwgbqk.jpg 450w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_700/v1776142904/DSC04458_lwgbqk.jpg 700w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_950/v1776142904/DSC04458_lwgbqk.jpg 950w" sizes="(max-width: 560px) 50vw, (max-width: 900px) 33vw, 25vw" alt="Portrait 6" loading="lazy" decoding="async"></div>
-        <div class="photo-grid-item"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_700/v1776142909/DSC01245_ggs4ug.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_450/v1776142909/DSC01245_ggs4ug.jpg 450w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_700/v1776142909/DSC01245_ggs4ug.jpg 700w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_950/v1776142909/DSC01245_ggs4ug.jpg 950w" sizes="(max-width: 560px) 50vw, (max-width: 900px) 33vw, 25vw" alt="Portrait 7" loading="lazy" decoding="async"></div>
-        <div class="photo-grid-item"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_700/v1787305332/DSC01213_ofnrxb.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_450/v1787305332/DSC01213_ofnrxb.jpg 450w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_700/v1787305332/DSC01213_ofnrxb.jpg 700w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_950/v1787305332/DSC01213_ofnrxb.jpg 950w" sizes="(max-width: 560px) 50vw, (max-width: 900px) 33vw, 25vw" alt="Portrait 8" loading="lazy" decoding="async"></div>
-        <div class="photo-grid-item"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_700/v1776143771/DSC01218_jekt8g.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_450/v1776143771/DSC01218_jekt8g.jpg 450w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_700/v1776143771/DSC01218_jekt8g.jpg 700w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_950/v1776143771/DSC01218_jekt8g.jpg 950w" sizes="(max-width: 560px) 50vw, (max-width: 900px) 33vw, 25vw" alt="Portrait 9" loading="lazy" decoding="async"></div>
-        <div class="photo-grid-item"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_700/v1776143771/DSC01220_wnclke.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_450/v1776143771/DSC01220_wnclke.jpg 450w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_700/v1776143771/DSC01220_wnclke.jpg 700w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_950/v1776143771/DSC01220_wnclke.jpg 950w" sizes="(max-width: 560px) 50vw, (max-width: 900px) 33vw, 25vw" alt="Portrait 10" loading="lazy" decoding="async"></div>
-        <div class="photo-grid-item"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_700/v1787305333/DSC07690_yagzlt.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_450/v1787305333/DSC07690_yagzlt.jpg 450w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_700/v1787305333/DSC07690_yagzlt.jpg 700w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_950/v1787305333/DSC07690_yagzlt.jpg 950w" sizes="(max-width: 560px) 50vw, (max-width: 900px) 33vw, 25vw" alt="Portrait 11" loading="lazy" decoding="async"></div>
-        <div class="photo-grid-item"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_700/v1787305333/DSC04508-Edit_p3lij8.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_450/v1787305333/DSC04508-Edit_p3lij8.jpg 450w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_700/v1787305333/DSC04508-Edit_p3lij8.jpg 700w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_950/v1787305333/DSC04508-Edit_p3lij8.jpg 950w" sizes="(max-width: 560px) 50vw, (max-width: 900px) 33vw, 25vw" alt="Portrait 12" loading="lazy" decoding="async"></div>
-        <div class="photo-grid-item"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_700/v1787305308/NAY-07025_k5qivy.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_450/v1787305308/NAY-07025_k5qivy.jpg 450w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_700/v1787305308/NAY-07025_k5qivy.jpg 700w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_950/v1787305308/NAY-07025_k5qivy.jpg 950w" sizes="(max-width: 560px) 50vw, (max-width: 900px) 33vw, 25vw" alt="Portrait 13" loading="lazy" decoding="async"></div>
-        <div class="photo-grid-item"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_700/v1787305308/NAY-07049_pzogbj.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_450/v1787305308/NAY-07049_pzogbj.jpg 450w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_700/v1787305308/NAY-07049_pzogbj.jpg 700w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_950/v1787305308/NAY-07049_pzogbj.jpg 950w" sizes="(max-width: 560px) 50vw, (max-width: 900px) 33vw, 25vw" alt="Portrait 14" loading="lazy" decoding="async"></div>
-        <div class="photo-grid-item"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_700/v1787305311/NAY-06991_htfl7o.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_450/v1787305311/NAY-06991_htfl7o.jpg 450w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_700/v1787305311/NAY-06991_htfl7o.jpg 700w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_950/v1787305311/NAY-06991_htfl7o.jpg 950w" sizes="(max-width: 560px) 50vw, (max-width: 900px) 33vw, 25vw" alt="Portrait 15" loading="lazy" decoding="async"></div>
-        <div class="photo-grid-item"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_700/v1793970728/Photo_19_i1uqxn.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_450/v1793970728/Photo_19_i1uqxn.jpg 450w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_700/v1793970728/Photo_19_i1uqxn.jpg 700w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_950/v1793970728/Photo_19_i1uqxn.jpg 950w" sizes="(max-width: 560px) 50vw, (max-width: 900px) 33vw, 25vw" alt="Portrait 16" loading="lazy" decoding="async"></div>
-        <div class="photo-grid-item"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_700/v1793970732/Photo_17_1_wywpga.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_450/v1793970732/Photo_17_1_wywpga.jpg 450w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_700/v1793970732/Photo_17_1_wywpga.jpg 700w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_950/v1793970732/Photo_17_1_wywpga.jpg 950w" sizes="(max-width: 560px) 50vw, (max-width: 900px) 33vw, 25vw" alt="Portrait 17" loading="lazy" decoding="async"></div>
-        <div class="photo-grid-item"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_700/v1793970736/Photo_7_yybwwf.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_450/v1793970736/Photo_7_yybwwf.jpg 450w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_700/v1793970736/Photo_7_yybwwf.jpg 700w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_950/v1793970736/Photo_7_yybwwf.jpg 950w" sizes="(max-width: 560px) 50vw, (max-width: 900px) 33vw, 25vw" alt="Portrait 18" loading="lazy" decoding="async"></div>
-        <div class="photo-grid-item"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_700/v1793970737/Photo_16_1_w0cahj.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_450/v1793970737/Photo_16_1_w0cahj.jpg 450w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_700/v1793970737/Photo_16_1_w0cahj.jpg 700w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_950/v1793970737/Photo_16_1_w0cahj.jpg 950w" sizes="(max-width: 560px) 50vw, (max-width: 900px) 33vw, 25vw" alt="Portrait 19" loading="lazy" decoding="async"></div>
-        <div class="photo-grid-item"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_700/v1793970738/Photo_12_rribwx.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_450/v1793970738/Photo_12_rribwx.jpg 450w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_700/v1793970738/Photo_12_rribwx.jpg 700w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_950/v1793970738/Photo_12_rribwx.jpg 950w" sizes="(max-width: 560px) 50vw, (max-width: 900px) 33vw, 25vw" alt="Portrait 20" loading="lazy" decoding="async"></div>
-        <div class="photo-grid-item"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_700/v1793970745/Photo-11_s4i0hm.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_450/v1793970745/Photo-11_s4i0hm.jpg 450w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_700/v1793970745/Photo-11_s4i0hm.jpg 700w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_950/v1793970745/Photo-11_s4i0hm.jpg 950w" sizes="(max-width: 560px) 50vw, (max-width: 900px) 33vw, 25vw" alt="Portrait 21" loading="lazy" decoding="async"></div>
-        <div class="photo-grid-item"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_700/v1793970740/Photo_16_llpnhe.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_450/v1793970740/Photo_16_llpnhe.jpg 450w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_700/v1793970740/Photo_16_llpnhe.jpg 700w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_950/v1793970740/Photo_16_llpnhe.jpg 950w" sizes="(max-width: 560px) 50vw, (max-width: 900px) 33vw, 25vw" alt="Portrait 22" loading="lazy" decoding="async"></div>
-        <div class="photo-grid-item"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_700/v1793970738/Photo_28_xpvvdo.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_450/v1793970738/Photo_28_xpvvdo.jpg 450w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_700/v1793970738/Photo_28_xpvvdo.jpg 700w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_950/v1793970738/Photo_28_xpvvdo.jpg 950w" sizes="(max-width: 560px) 50vw, (max-width: 900px) 33vw, 25vw" alt="Portrait 23" loading="lazy" decoding="async"></div>
-        <div class="photo-grid-item"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_700/v1793970746/Photo_-_13_vviyqg.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_450/v1793970746/Photo_-_13_vviyqg.jpg 450w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_700/v1793970746/Photo_-_13_vviyqg.jpg 700w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_950/v1793970746/Photo_-_13_vviyqg.jpg 950w" sizes="(max-width: 560px) 50vw, (max-width: 900px) 33vw, 25vw" alt="Portrait 24" loading="lazy" decoding="async"></div>
-        <div class="photo-grid-item"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_700/v1793970746/Photo_11_eei6eb.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_450/v1793970746/Photo_11_eei6eb.jpg 450w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_700/v1793970746/Photo_11_eei6eb.jpg 700w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_950/v1793970746/Photo_11_eei6eb.jpg 950w" sizes="(max-width: 560px) 50vw, (max-width: 900px) 33vw, 25vw" alt="Portrait 25" loading="lazy" decoding="async"></div>
-        <div class="photo-grid-item"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_700/v1793970749/Photo_19_1_hkdyzs.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_450/v1793970749/Photo_19_1_hkdyzs.jpg 450w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_700/v1793970749/Photo_19_1_hkdyzs.jpg 700w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_950/v1793970749/Photo_19_1_hkdyzs.jpg 950w" sizes="(max-width: 560px) 50vw, (max-width: 900px) 33vw, 25vw" alt="Portrait 26" loading="lazy" decoding="async"></div>
-        <div class="photo-grid-item"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_700/v1793970748/Photo_4_blgwre.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_450/v1793970748/Photo_4_blgwre.jpg 450w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_700/v1793970748/Photo_4_blgwre.jpg 700w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_950/v1793970748/Photo_4_blgwre.jpg 950w" sizes="(max-width: 560px) 50vw, (max-width: 900px) 33vw, 25vw" alt="Portrait 27" loading="lazy" decoding="async"></div>
-        <div class="photo-grid-item"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_700/v1793971098/Photo_3_zowgdl.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_450/v1793971098/Photo_3_zowgdl.jpg 450w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_700/v1793971098/Photo_3_zowgdl.jpg 700w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_950/v1793971098/Photo_3_zowgdl.jpg 950w" sizes="(max-width: 560px) 50vw, (max-width: 900px) 33vw, 25vw" alt="Portrait 28" loading="lazy" decoding="async"></div>
-        <div class="photo-grid-item"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_700/v1793971098/Photo-10-2_hvu6kv.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_450/v1793971098/Photo-10-2_hvu6kv.jpg 450w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_700/v1793971098/Photo-10-2_hvu6kv.jpg 700w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_950/v1793971098/Photo-10-2_hvu6kv.jpg 950w" sizes="(max-width: 560px) 50vw, (max-width: 900px) 33vw, 25vw" alt="Portrait 29" loading="lazy" decoding="async"></div>
-        <div class="photo-grid-item"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_700/v1793971099/Photo-18_gumihb.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_450/v1793971099/Photo-18_gumihb.jpg 450w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_700/v1793971099/Photo-18_gumihb.jpg 700w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_950/v1793971099/Photo-18_gumihb.jpg 950w" sizes="(max-width: 560px) 50vw, (max-width: 900px) 33vw, 25vw" alt="Portrait 30" loading="lazy" decoding="async"></div>
-        <div class="photo-grid-item"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_700/v1793971099/Photo_3_1_c4fgyq.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_450/v1793971099/Photo_3_1_c4fgyq.jpg 450w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_700/v1793971099/Photo_3_1_c4fgyq.jpg 700w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_950/v1793971099/Photo_3_1_c4fgyq.jpg 950w" sizes="(max-width: 560px) 50vw, (max-width: 900px) 33vw, 25vw" alt="Portrait 31" loading="lazy" decoding="async"></div>
-        <div class="photo-grid-item"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_700/v1793971100/Photo_10_f0wmvv.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_450/v1793971100/Photo_10_f0wmvv.jpg 450w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_700/v1793971100/Photo_10_f0wmvv.jpg 700w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_950/v1793971100/Photo_10_f0wmvv.jpg 950w" sizes="(max-width: 560px) 50vw, (max-width: 900px) 33vw, 25vw" alt="Portrait 32" loading="lazy" decoding="async"></div>
-        <div class="photo-grid-item"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_700/v1793970736/Photo_17_v8ultd.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_450/v1793970736/Photo_17_v8ultd.jpg 450w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_700/v1793970736/Photo_17_v8ultd.jpg 700w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_950/v1793970736/Photo_17_v8ultd.jpg 950w" sizes="(max-width: 560px) 50vw, (max-width: 900px) 33vw, 25vw" alt="Portrait 33" loading="lazy" decoding="async"></div>
+        <div class="photo-grid-item"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_480/v1776142917/DSC09378_cybkgm.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_320/v1776142917/DSC09378_cybkgm.jpg 320w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_480/v1776142917/DSC09378_cybkgm.jpg 480w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_720/v1776142917/DSC09378_cybkgm.jpg 720w" sizes="(max-width: 560px) 50vw, (max-width: 900px) 33vw, (min-width: 1400px) 20vw, 25vw" alt="Portrait 1" loading="lazy" decoding="async"></div>
+        <div class="photo-grid-item"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_480/v1776142927/DSC09381_j23ya5.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_320/v1776142927/DSC09381_j23ya5.jpg 320w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_480/v1776142927/DSC09381_j23ya5.jpg 480w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_720/v1776142927/DSC09381_j23ya5.jpg 720w" sizes="(max-width: 560px) 50vw, (max-width: 900px) 33vw, (min-width: 1400px) 20vw, 25vw" alt="Portrait 2" loading="lazy" decoding="async"></div>
+        <div class="photo-grid-item"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_480/v1776142923/DSC09072-Edit_hsg7zr.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_320/v1776142923/DSC09072-Edit_hsg7zr.jpg 320w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_480/v1776142923/DSC09072-Edit_hsg7zr.jpg 480w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_720/v1776142923/DSC09072-Edit_hsg7zr.jpg 720w" sizes="(max-width: 560px) 50vw, (max-width: 900px) 33vw, (min-width: 1400px) 20vw, 25vw" alt="Portrait 3" loading="lazy" decoding="async"></div>
+        <div class="photo-grid-item"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_480/v1776142973/DSC09076_fy2ypg.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_320/v1776142973/DSC09076_fy2ypg.jpg 320w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_480/v1776142973/DSC09076_fy2ypg.jpg 480w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_720/v1776142973/DSC09076_fy2ypg.jpg 720w" sizes="(max-width: 560px) 50vw, (max-width: 900px) 33vw, (min-width: 1400px) 20vw, 25vw" alt="Portrait 4" loading="lazy" decoding="async"></div>
+        <div class="photo-grid-item"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_480/v1776143772/DSC04470_mloud8.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_320/v1776143772/DSC04470_mloud8.jpg 320w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_480/v1776143772/DSC04470_mloud8.jpg 480w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_720/v1776143772/DSC04470_mloud8.jpg 720w" sizes="(max-width: 560px) 50vw, (max-width: 900px) 33vw, (min-width: 1400px) 20vw, 25vw" alt="Portrait 5" loading="lazy" decoding="async"></div>
+        <div class="photo-grid-item"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_480/v1776142904/DSC04458_lwgbqk.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_320/v1776142904/DSC04458_lwgbqk.jpg 320w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_480/v1776142904/DSC04458_lwgbqk.jpg 480w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_720/v1776142904/DSC04458_lwgbqk.jpg 720w" sizes="(max-width: 560px) 50vw, (max-width: 900px) 33vw, (min-width: 1400px) 20vw, 25vw" alt="Portrait 6" loading="lazy" decoding="async"></div>
+        <div class="photo-grid-item"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_480/v1776142909/DSC01245_ggs4ug.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_320/v1776142909/DSC01245_ggs4ug.jpg 320w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_480/v1776142909/DSC01245_ggs4ug.jpg 480w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_720/v1776142909/DSC01245_ggs4ug.jpg 720w" sizes="(max-width: 560px) 50vw, (max-width: 900px) 33vw, (min-width: 1400px) 20vw, 25vw" alt="Portrait 7" loading="lazy" decoding="async"></div>
+        <div class="photo-grid-item"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_480/v1787305332/DSC01213_ofnrxb.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_320/v1787305332/DSC01213_ofnrxb.jpg 320w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_480/v1787305332/DSC01213_ofnrxb.jpg 480w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_720/v1787305332/DSC01213_ofnrxb.jpg 720w" sizes="(max-width: 560px) 50vw, (max-width: 900px) 33vw, (min-width: 1400px) 20vw, 25vw" alt="Portrait 8" loading="lazy" decoding="async"></div>
+        <div class="photo-grid-item"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_480/v1776143771/DSC01218_jekt8g.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_320/v1776143771/DSC01218_jekt8g.jpg 320w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_480/v1776143771/DSC01218_jekt8g.jpg 480w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_720/v1776143771/DSC01218_jekt8g.jpg 720w" sizes="(max-width: 560px) 50vw, (max-width: 900px) 33vw, (min-width: 1400px) 20vw, 25vw" alt="Portrait 9" loading="lazy" decoding="async"></div>
+        <div class="photo-grid-item"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_480/v1776143771/DSC01220_wnclke.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_320/v1776143771/DSC01220_wnclke.jpg 320w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_480/v1776143771/DSC01220_wnclke.jpg 480w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_720/v1776143771/DSC01220_wnclke.jpg 720w" sizes="(max-width: 560px) 50vw, (max-width: 900px) 33vw, (min-width: 1400px) 20vw, 25vw" alt="Portrait 10" loading="lazy" decoding="async"></div>
+        <div class="photo-grid-item"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_480/v1787305333/DSC07690_yagzlt.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_320/v1787305333/DSC07690_yagzlt.jpg 320w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_480/v1787305333/DSC07690_yagzlt.jpg 480w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_720/v1787305333/DSC07690_yagzlt.jpg 720w" sizes="(max-width: 560px) 50vw, (max-width: 900px) 33vw, (min-width: 1400px) 20vw, 25vw" alt="Portrait 11" loading="lazy" decoding="async"></div>
+        <div class="photo-grid-item"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_480/v1787305333/DSC04508-Edit_p3lij8.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_320/v1787305333/DSC04508-Edit_p3lij8.jpg 320w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_480/v1787305333/DSC04508-Edit_p3lij8.jpg 480w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_720/v1787305333/DSC04508-Edit_p3lij8.jpg 720w" sizes="(max-width: 560px) 50vw, (max-width: 900px) 33vw, (min-width: 1400px) 20vw, 25vw" alt="Portrait 12" loading="lazy" decoding="async"></div>
+        <div class="photo-grid-item pg-more"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_480/v1787305308/NAY-07025_k5qivy.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_320/v1787305308/NAY-07025_k5qivy.jpg 320w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_480/v1787305308/NAY-07025_k5qivy.jpg 480w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_720/v1787305308/NAY-07025_k5qivy.jpg 720w" sizes="(max-width: 560px) 50vw, (max-width: 900px) 33vw, (min-width: 1400px) 20vw, 25vw" alt="Portrait 13" loading="lazy" decoding="async"></div>
+        <div class="photo-grid-item pg-more"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_480/v1787305308/NAY-07049_pzogbj.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_320/v1787305308/NAY-07049_pzogbj.jpg 320w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_480/v1787305308/NAY-07049_pzogbj.jpg 480w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_720/v1787305308/NAY-07049_pzogbj.jpg 720w" sizes="(max-width: 560px) 50vw, (max-width: 900px) 33vw, (min-width: 1400px) 20vw, 25vw" alt="Portrait 14" loading="lazy" decoding="async"></div>
+        <div class="photo-grid-item pg-more"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_480/v1787305311/NAY-06991_htfl7o.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_320/v1787305311/NAY-06991_htfl7o.jpg 320w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_480/v1787305311/NAY-06991_htfl7o.jpg 480w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_720/v1787305311/NAY-06991_htfl7o.jpg 720w" sizes="(max-width: 560px) 50vw, (max-width: 900px) 33vw, (min-width: 1400px) 20vw, 25vw" alt="Portrait 15" loading="lazy" decoding="async"></div>
+        <div class="photo-grid-item pg-more"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_480/v1793970728/Photo_19_i1uqxn.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_320/v1793970728/Photo_19_i1uqxn.jpg 320w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_480/v1793970728/Photo_19_i1uqxn.jpg 480w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_720/v1793970728/Photo_19_i1uqxn.jpg 720w" sizes="(max-width: 560px) 50vw, (max-width: 900px) 33vw, (min-width: 1400px) 20vw, 25vw" alt="Portrait 16" loading="lazy" decoding="async"></div>
+        <div class="photo-grid-item pg-more"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_480/v1793970732/Photo_17_1_wywpga.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_320/v1793970732/Photo_17_1_wywpga.jpg 320w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_480/v1793970732/Photo_17_1_wywpga.jpg 480w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_720/v1793970732/Photo_17_1_wywpga.jpg 720w" sizes="(max-width: 560px) 50vw, (max-width: 900px) 33vw, (min-width: 1400px) 20vw, 25vw" alt="Portrait 17" loading="lazy" decoding="async"></div>
+        <div class="photo-grid-item pg-more"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_480/v1793970736/Photo_7_yybwwf.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_320/v1793970736/Photo_7_yybwwf.jpg 320w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_480/v1793970736/Photo_7_yybwwf.jpg 480w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_720/v1793970736/Photo_7_yybwwf.jpg 720w" sizes="(max-width: 560px) 50vw, (max-width: 900px) 33vw, (min-width: 1400px) 20vw, 25vw" alt="Portrait 18" loading="lazy" decoding="async"></div>
+        <div class="photo-grid-item pg-more"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_480/v1793970737/Photo_16_1_w0cahj.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_320/v1793970737/Photo_16_1_w0cahj.jpg 320w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_480/v1793970737/Photo_16_1_w0cahj.jpg 480w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_720/v1793970737/Photo_16_1_w0cahj.jpg 720w" sizes="(max-width: 560px) 50vw, (max-width: 900px) 33vw, (min-width: 1400px) 20vw, 25vw" alt="Portrait 19" loading="lazy" decoding="async"></div>
+        <div class="photo-grid-item pg-more"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_480/v1793970738/Photo_12_rribwx.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_320/v1793970738/Photo_12_rribwx.jpg 320w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_480/v1793970738/Photo_12_rribwx.jpg 480w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_720/v1793970738/Photo_12_rribwx.jpg 720w" sizes="(max-width: 560px) 50vw, (max-width: 900px) 33vw, (min-width: 1400px) 20vw, 25vw" alt="Portrait 20" loading="lazy" decoding="async"></div>
+        <div class="photo-grid-item pg-more"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_480/v1793970745/Photo-11_s4i0hm.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_320/v1793970745/Photo-11_s4i0hm.jpg 320w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_480/v1793970745/Photo-11_s4i0hm.jpg 480w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_720/v1793970745/Photo-11_s4i0hm.jpg 720w" sizes="(max-width: 560px) 50vw, (max-width: 900px) 33vw, (min-width: 1400px) 20vw, 25vw" alt="Portrait 21" loading="lazy" decoding="async"></div>
+        <div class="photo-grid-item pg-more"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_480/v1793970740/Photo_16_llpnhe.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_320/v1793970740/Photo_16_llpnhe.jpg 320w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_480/v1793970740/Photo_16_llpnhe.jpg 480w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_720/v1793970740/Photo_16_llpnhe.jpg 720w" sizes="(max-width: 560px) 50vw, (max-width: 900px) 33vw, (min-width: 1400px) 20vw, 25vw" alt="Portrait 22" loading="lazy" decoding="async"></div>
+        <div class="photo-grid-item pg-more"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_480/v1793970738/Photo_28_xpvvdo.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_320/v1793970738/Photo_28_xpvvdo.jpg 320w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_480/v1793970738/Photo_28_xpvvdo.jpg 480w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_720/v1793970738/Photo_28_xpvvdo.jpg 720w" sizes="(max-width: 560px) 50vw, (max-width: 900px) 33vw, (min-width: 1400px) 20vw, 25vw" alt="Portrait 23" loading="lazy" decoding="async"></div>
+        <div class="photo-grid-item pg-more"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_480/v1793970746/Photo_-_13_vviyqg.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_320/v1793970746/Photo_-_13_vviyqg.jpg 320w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_480/v1793970746/Photo_-_13_vviyqg.jpg 480w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_720/v1793970746/Photo_-_13_vviyqg.jpg 720w" sizes="(max-width: 560px) 50vw, (max-width: 900px) 33vw, (min-width: 1400px) 20vw, 25vw" alt="Portrait 24" loading="lazy" decoding="async"></div>
+        <div class="photo-grid-item pg-more"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_480/v1793970746/Photo_11_eei6eb.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_320/v1793970746/Photo_11_eei6eb.jpg 320w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_480/v1793970746/Photo_11_eei6eb.jpg 480w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_720/v1793970746/Photo_11_eei6eb.jpg 720w" sizes="(max-width: 560px) 50vw, (max-width: 900px) 33vw, (min-width: 1400px) 20vw, 25vw" alt="Portrait 25" loading="lazy" decoding="async"></div>
+        <div class="photo-grid-item pg-more"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_480/v1793970749/Photo_19_1_hkdyzs.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_320/v1793970749/Photo_19_1_hkdyzs.jpg 320w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_480/v1793970749/Photo_19_1_hkdyzs.jpg 480w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_720/v1793970749/Photo_19_1_hkdyzs.jpg 720w" sizes="(max-width: 560px) 50vw, (max-width: 900px) 33vw, (min-width: 1400px) 20vw, 25vw" alt="Portrait 26" loading="lazy" decoding="async"></div>
+        <div class="photo-grid-item pg-more"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_480/v1793970748/Photo_4_blgwre.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_320/v1793970748/Photo_4_blgwre.jpg 320w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_480/v1793970748/Photo_4_blgwre.jpg 480w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_720/v1793970748/Photo_4_blgwre.jpg 720w" sizes="(max-width: 560px) 50vw, (max-width: 900px) 33vw, (min-width: 1400px) 20vw, 25vw" alt="Portrait 27" loading="lazy" decoding="async"></div>
+        <div class="photo-grid-item pg-more"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_480/v1793971098/Photo_3_zowgdl.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_320/v1793971098/Photo_3_zowgdl.jpg 320w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_480/v1793971098/Photo_3_zowgdl.jpg 480w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_720/v1793971098/Photo_3_zowgdl.jpg 720w" sizes="(max-width: 560px) 50vw, (max-width: 900px) 33vw, (min-width: 1400px) 20vw, 25vw" alt="Portrait 28" loading="lazy" decoding="async"></div>
+        <div class="photo-grid-item pg-more"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_480/v1793971098/Photo-10-2_hvu6kv.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_320/v1793971098/Photo-10-2_hvu6kv.jpg 320w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_480/v1793971098/Photo-10-2_hvu6kv.jpg 480w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_720/v1793971098/Photo-10-2_hvu6kv.jpg 720w" sizes="(max-width: 560px) 50vw, (max-width: 900px) 33vw, (min-width: 1400px) 20vw, 25vw" alt="Portrait 29" loading="lazy" decoding="async"></div>
+        <div class="photo-grid-item pg-more"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_480/v1793971099/Photo-18_gumihb.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_320/v1793971099/Photo-18_gumihb.jpg 320w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_480/v1793971099/Photo-18_gumihb.jpg 480w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_720/v1793971099/Photo-18_gumihb.jpg 720w" sizes="(max-width: 560px) 50vw, (max-width: 900px) 33vw, (min-width: 1400px) 20vw, 25vw" alt="Portrait 30" loading="lazy" decoding="async"></div>
+        <div class="photo-grid-item pg-more"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_480/v1793971099/Photo_3_1_c4fgyq.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_320/v1793971099/Photo_3_1_c4fgyq.jpg 320w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_480/v1793971099/Photo_3_1_c4fgyq.jpg 480w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_720/v1793971099/Photo_3_1_c4fgyq.jpg 720w" sizes="(max-width: 560px) 50vw, (max-width: 900px) 33vw, (min-width: 1400px) 20vw, 25vw" alt="Portrait 31" loading="lazy" decoding="async"></div>
+        <div class="photo-grid-item pg-more"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_480/v1793971100/Photo_10_f0wmvv.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_320/v1793971100/Photo_10_f0wmvv.jpg 320w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_480/v1793971100/Photo_10_f0wmvv.jpg 480w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_720/v1793971100/Photo_10_f0wmvv.jpg 720w" sizes="(max-width: 560px) 50vw, (max-width: 900px) 33vw, (min-width: 1400px) 20vw, 25vw" alt="Portrait 32" loading="lazy" decoding="async"></div>
+        <div class="photo-grid-item pg-more"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_480/v1793970736/Photo_17_v8ultd.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_320/v1793970736/Photo_17_v8ultd.jpg 320w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_480/v1793970736/Photo_17_v8ultd.jpg 480w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto,c_limit,w_720/v1793970736/Photo_17_v8ultd.jpg 720w" sizes="(max-width: 560px) 50vw, (max-width: 900px) 33vw, (min-width: 1400px) 20vw, 25vw" alt="Portrait 33" loading="lazy" decoding="async"></div>
       </div>
+      <div class="pg-more-wrap" id="pg-portrait-more-wrap"><button type="button" class="pg-more-btn" id="pg-portrait-more">Load more photos</button></div>
       <div class="project-footer">
         <div class="project-tags">
           <span class="tag">Portrait</span>
@@ -1855,6 +2396,358 @@
       </div>
     </div>
 
+    <!-- Videography 5: Ciputra Beach Resort, Bali -->
+    <div class="project-card reveal hidden" data-category="videography">
+      <div class="video-card-wrap vid-autoplay" data-autoratio style="position:relative;aspect-ratio:16/9;background:#0D0900;overflow:hidden;">
+        <video class="vid-el"
+          playsinline loop muted preload="metadata"
+          style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;cursor:pointer;">
+          <source src="https://res.cloudinary.com/nxn5jqd0/video/upload/v1794549488/DESEMBER_1.mp4" type="video/mp4">
+        </video>
+        <div class="vid-overlay-icon">
+          <div class="vid-play-btn">
+            <svg class="icon-play" viewBox="0 0 24 24" width="22" height="22"><polygon points="6 3 20 12 6 21 6 3" fill="rgba(255,255,255,0.9)"/></svg>
+            <svg class="icon-pause" viewBox="0 0 24 24" width="22" height="22" style="display:none"><rect x="6" y="4" width="4" height="16" fill="rgba(255,255,255,0.9)"/><rect x="14" y="4" width="4" height="16" fill="rgba(255,255,255,0.9)"/></svg>
+          </div>
+        </div>
+        <div class="carousel-overlay">
+          <span class="carousel-cat">Videography · Hospitality</span>
+          <span class="carousel-name">Ciputra Beach Resort, Bali</span>
+        </div>
+      </div>
+      <div class="project-footer">
+        <div class="project-tags">
+          <span class="tag">Hospitality</span>
+          <span class="tag">Resort</span>
+          <span class="tag">Bali</span>
+        </div>
+        <a href="#contact" class="project-link">
+          Similar project
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- Videography 6: Ciputra Beach Resort, Bali -->
+    <div class="project-card reveal hidden" data-category="videography">
+      <div class="video-card-wrap vid-autoplay" data-autoratio style="position:relative;aspect-ratio:16/9;background:#0D0900;overflow:hidden;">
+        <video class="vid-el"
+          playsinline loop muted preload="metadata"
+          style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;cursor:pointer;">
+          <source src="https://res.cloudinary.com/nxn5jqd0/video/upload/v1794549520/DESEMBER_2.mp4" type="video/mp4">
+        </video>
+        <div class="vid-overlay-icon">
+          <div class="vid-play-btn">
+            <svg class="icon-play" viewBox="0 0 24 24" width="22" height="22"><polygon points="6 3 20 12 6 21 6 3" fill="rgba(255,255,255,0.9)"/></svg>
+            <svg class="icon-pause" viewBox="0 0 24 24" width="22" height="22" style="display:none"><rect x="6" y="4" width="4" height="16" fill="rgba(255,255,255,0.9)"/><rect x="14" y="4" width="4" height="16" fill="rgba(255,255,255,0.9)"/></svg>
+          </div>
+        </div>
+        <div class="carousel-overlay">
+          <span class="carousel-cat">Videography · Hospitality</span>
+          <span class="carousel-name">Ciputra Beach Resort, Bali</span>
+        </div>
+      </div>
+      <div class="project-footer">
+        <div class="project-tags">
+          <span class="tag">Hospitality</span>
+          <span class="tag">Resort</span>
+          <span class="tag">Bali</span>
+        </div>
+        <a href="#contact" class="project-link">
+          Similar project
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- Videography 7: Ciputra Beach Resort, Bali -->
+    <div class="project-card reveal hidden" data-category="videography">
+      <div class="video-card-wrap vid-autoplay" data-autoratio style="position:relative;aspect-ratio:16/9;background:#0D0900;overflow:hidden;">
+        <video class="vid-el"
+          playsinline loop muted preload="metadata"
+          style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;cursor:pointer;">
+          <source src="https://res.cloudinary.com/nxn5jqd0/video/upload/v1794549553/DESEMBER_3.mp4" type="video/mp4">
+        </video>
+        <div class="vid-overlay-icon">
+          <div class="vid-play-btn">
+            <svg class="icon-play" viewBox="0 0 24 24" width="22" height="22"><polygon points="6 3 20 12 6 21 6 3" fill="rgba(255,255,255,0.9)"/></svg>
+            <svg class="icon-pause" viewBox="0 0 24 24" width="22" height="22" style="display:none"><rect x="6" y="4" width="4" height="16" fill="rgba(255,255,255,0.9)"/><rect x="14" y="4" width="4" height="16" fill="rgba(255,255,255,0.9)"/></svg>
+          </div>
+        </div>
+        <div class="carousel-overlay">
+          <span class="carousel-cat">Videography · Hospitality</span>
+          <span class="carousel-name">Ciputra Beach Resort, Bali</span>
+        </div>
+      </div>
+      <div class="project-footer">
+        <div class="project-tags">
+          <span class="tag">Hospitality</span>
+          <span class="tag">Resort</span>
+          <span class="tag">Bali</span>
+        </div>
+        <a href="#contact" class="project-link">
+          Similar project
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- Videography 8: Ciputra Beach Resort, Bali -->
+    <div class="project-card reveal hidden" data-category="videography">
+      <div class="video-card-wrap vid-autoplay" data-autoratio style="position:relative;aspect-ratio:16/9;background:#0D0900;overflow:hidden;">
+        <video class="vid-el"
+          playsinline loop muted preload="metadata"
+          style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;cursor:pointer;">
+          <source src="https://res.cloudinary.com/nxn5jqd0/video/upload/v1794549590/DESEMBER_4.mp4" type="video/mp4">
+        </video>
+        <div class="vid-overlay-icon">
+          <div class="vid-play-btn">
+            <svg class="icon-play" viewBox="0 0 24 24" width="22" height="22"><polygon points="6 3 20 12 6 21 6 3" fill="rgba(255,255,255,0.9)"/></svg>
+            <svg class="icon-pause" viewBox="0 0 24 24" width="22" height="22" style="display:none"><rect x="6" y="4" width="4" height="16" fill="rgba(255,255,255,0.9)"/><rect x="14" y="4" width="4" height="16" fill="rgba(255,255,255,0.9)"/></svg>
+          </div>
+        </div>
+        <div class="carousel-overlay">
+          <span class="carousel-cat">Videography · Hospitality</span>
+          <span class="carousel-name">Ciputra Beach Resort, Bali</span>
+        </div>
+      </div>
+      <div class="project-footer">
+        <div class="project-tags">
+          <span class="tag">Hospitality</span>
+          <span class="tag">Resort</span>
+          <span class="tag">Bali</span>
+        </div>
+        <a href="#contact" class="project-link">
+          Similar project
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- Videography 9: Ciputra Beach Resort, Bali -->
+    <div class="project-card reveal hidden" data-category="videography">
+      <div class="video-card-wrap vid-autoplay" data-autoratio style="position:relative;aspect-ratio:16/9;background:#0D0900;overflow:hidden;">
+        <video class="vid-el"
+          playsinline loop muted preload="metadata"
+          style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;cursor:pointer;">
+          <source src="https://res.cloudinary.com/nxn5jqd0/video/upload/v1794549993/SEPTEMBER_1.mp4" type="video/mp4">
+        </video>
+        <div class="vid-overlay-icon">
+          <div class="vid-play-btn">
+            <svg class="icon-play" viewBox="0 0 24 24" width="22" height="22"><polygon points="6 3 20 12 6 21 6 3" fill="rgba(255,255,255,0.9)"/></svg>
+            <svg class="icon-pause" viewBox="0 0 24 24" width="22" height="22" style="display:none"><rect x="6" y="4" width="4" height="16" fill="rgba(255,255,255,0.9)"/><rect x="14" y="4" width="4" height="16" fill="rgba(255,255,255,0.9)"/></svg>
+          </div>
+        </div>
+        <div class="carousel-overlay">
+          <span class="carousel-cat">Videography · Hospitality</span>
+          <span class="carousel-name">Ciputra Beach Resort, Bali</span>
+        </div>
+      </div>
+      <div class="project-footer">
+        <div class="project-tags">
+          <span class="tag">Hospitality</span>
+          <span class="tag">Resort</span>
+          <span class="tag">Bali</span>
+        </div>
+        <a href="#contact" class="project-link">
+          Similar project
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- Videography 10: Ciputra Beach Resort, Bali -->
+    <div class="project-card reveal hidden" data-category="videography">
+      <div class="video-card-wrap vid-autoplay" data-autoratio style="position:relative;aspect-ratio:16/9;background:#0D0900;overflow:hidden;">
+        <video class="vid-el"
+          playsinline loop muted preload="metadata"
+          style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;cursor:pointer;">
+          <source src="https://res.cloudinary.com/nxn5jqd0/video/upload/v1794550006/SEPTEMBER_2.mp4" type="video/mp4">
+        </video>
+        <div class="vid-overlay-icon">
+          <div class="vid-play-btn">
+            <svg class="icon-play" viewBox="0 0 24 24" width="22" height="22"><polygon points="6 3 20 12 6 21 6 3" fill="rgba(255,255,255,0.9)"/></svg>
+            <svg class="icon-pause" viewBox="0 0 24 24" width="22" height="22" style="display:none"><rect x="6" y="4" width="4" height="16" fill="rgba(255,255,255,0.9)"/><rect x="14" y="4" width="4" height="16" fill="rgba(255,255,255,0.9)"/></svg>
+          </div>
+        </div>
+        <div class="carousel-overlay">
+          <span class="carousel-cat">Videography · Hospitality</span>
+          <span class="carousel-name">Ciputra Beach Resort, Bali</span>
+        </div>
+      </div>
+      <div class="project-footer">
+        <div class="project-tags">
+          <span class="tag">Hospitality</span>
+          <span class="tag">Resort</span>
+          <span class="tag">Bali</span>
+        </div>
+        <a href="#contact" class="project-link">
+          Similar project
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- Videography 11: Ciputra Beach Resort, Bali -->
+    <div class="project-card reveal hidden" data-category="videography">
+      <div class="video-card-wrap vid-autoplay" data-autoratio style="position:relative;aspect-ratio:16/9;background:#0D0900;overflow:hidden;">
+        <video class="vid-el"
+          playsinline loop muted preload="metadata"
+          style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;cursor:pointer;">
+          <source src="https://res.cloudinary.com/nxn5jqd0/video/upload/v1794550050/SEPTEMBER_4.mp4" type="video/mp4">
+        </video>
+        <div class="vid-overlay-icon">
+          <div class="vid-play-btn">
+            <svg class="icon-play" viewBox="0 0 24 24" width="22" height="22"><polygon points="6 3 20 12 6 21 6 3" fill="rgba(255,255,255,0.9)"/></svg>
+            <svg class="icon-pause" viewBox="0 0 24 24" width="22" height="22" style="display:none"><rect x="6" y="4" width="4" height="16" fill="rgba(255,255,255,0.9)"/><rect x="14" y="4" width="4" height="16" fill="rgba(255,255,255,0.9)"/></svg>
+          </div>
+        </div>
+        <div class="carousel-overlay">
+          <span class="carousel-cat">Videography · Hospitality</span>
+          <span class="carousel-name">Ciputra Beach Resort, Bali</span>
+        </div>
+      </div>
+      <div class="project-footer">
+        <div class="project-tags">
+          <span class="tag">Hospitality</span>
+          <span class="tag">Resort</span>
+          <span class="tag">Bali</span>
+        </div>
+        <a href="#contact" class="project-link">
+          Similar project
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- Videography 12: Westin Wellness, Bali -->
+    <div class="project-card reveal hidden" data-category="videography">
+      <div class="video-card-wrap vid-autoplay" style="position:relative;aspect-ratio:9/16;max-width:360px;margin:0 auto;background:#0D0900;overflow:hidden;">
+        <video class="vid-el"
+          playsinline loop muted preload="none"
+          style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;cursor:pointer;">
+          <source src="https://res.cloudinary.com/nxn5jqd0/video/upload/v1794549870/REELS_2_Tibetan_Sound_Healing_POTRAIT_MASTER.mp4" type="video/mp4">
+        </video>
+        <div class="vid-overlay-icon">
+          <div class="vid-play-btn">
+            <svg class="icon-play" viewBox="0 0 24 24" width="22" height="22"><polygon points="6 3 20 12 6 21 6 3" fill="rgba(255,255,255,0.9)"/></svg>
+            <svg class="icon-pause" viewBox="0 0 24 24" width="22" height="22" style="display:none"><rect x="6" y="4" width="4" height="16" fill="rgba(255,255,255,0.9)"/><rect x="14" y="4" width="4" height="16" fill="rgba(255,255,255,0.9)"/></svg>
+          </div>
+        </div>
+        <div class="carousel-overlay">
+          <span class="carousel-cat">Videography · Wellness</span>
+          <span class="carousel-name">Westin Wellness, Bali</span>
+        </div>
+      </div>
+      <div class="project-footer">
+        <div class="project-tags">
+          <span class="tag">Wellness</span>
+          <span class="tag">Hospitality</span>
+          <span class="tag">Bali</span>
+        </div>
+        <a href="#contact" class="project-link">
+          Similar project
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- Videography 13: Westin Wellness, Bali -->
+    <div class="project-card reveal hidden" data-category="videography">
+      <div class="video-card-wrap vid-autoplay" style="position:relative;aspect-ratio:9/16;max-width:360px;margin:0 auto;background:#0D0900;overflow:hidden;">
+        <video class="vid-el"
+          playsinline loop muted preload="none"
+          style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;cursor:pointer;">
+          <source src="https://res.cloudinary.com/nxn5jqd0/video/upload/v1794549937/REELS_4_Yoga_PREV_POTRAIT_MASTER.mp4" type="video/mp4">
+        </video>
+        <div class="vid-overlay-icon">
+          <div class="vid-play-btn">
+            <svg class="icon-play" viewBox="0 0 24 24" width="22" height="22"><polygon points="6 3 20 12 6 21 6 3" fill="rgba(255,255,255,0.9)"/></svg>
+            <svg class="icon-pause" viewBox="0 0 24 24" width="22" height="22" style="display:none"><rect x="6" y="4" width="4" height="16" fill="rgba(255,255,255,0.9)"/><rect x="14" y="4" width="4" height="16" fill="rgba(255,255,255,0.9)"/></svg>
+          </div>
+        </div>
+        <div class="carousel-overlay">
+          <span class="carousel-cat">Videography · Wellness</span>
+          <span class="carousel-name">Westin Wellness, Bali</span>
+        </div>
+      </div>
+      <div class="project-footer">
+        <div class="project-tags">
+          <span class="tag">Wellness</span>
+          <span class="tag">Hospitality</span>
+          <span class="tag">Bali</span>
+        </div>
+        <a href="#contact" class="project-link">
+          Similar project
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- Videography 14: Westin Wellness, Bali -->
+    <div class="project-card reveal hidden" data-category="videography">
+      <div class="video-card-wrap vid-autoplay" style="position:relative;aspect-ratio:9/16;max-width:360px;margin:0 auto;background:#0D0900;overflow:hidden;">
+        <video class="vid-el"
+          playsinline loop muted preload="none"
+          style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;cursor:pointer;">
+          <source src="https://res.cloudinary.com/nxn5jqd0/video/upload/v1794550457/REELS_6_Meditation_Qi_Gong_POTRAIT_MASTER.mp4" type="video/mp4">
+        </video>
+        <div class="vid-overlay-icon">
+          <div class="vid-play-btn">
+            <svg class="icon-play" viewBox="0 0 24 24" width="22" height="22"><polygon points="6 3 20 12 6 21 6 3" fill="rgba(255,255,255,0.9)"/></svg>
+            <svg class="icon-pause" viewBox="0 0 24 24" width="22" height="22" style="display:none"><rect x="6" y="4" width="4" height="16" fill="rgba(255,255,255,0.9)"/><rect x="14" y="4" width="4" height="16" fill="rgba(255,255,255,0.9)"/></svg>
+          </div>
+        </div>
+        <div class="carousel-overlay">
+          <span class="carousel-cat">Videography · Wellness</span>
+          <span class="carousel-name">Westin Wellness, Bali</span>
+        </div>
+      </div>
+      <div class="project-footer">
+        <div class="project-tags">
+          <span class="tag">Wellness</span>
+          <span class="tag">Hospitality</span>
+          <span class="tag">Bali</span>
+        </div>
+        <a href="#contact" class="project-link">
+          Similar project
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- Videography 15: Westin Wellness, Bali -->
+    <div class="project-card reveal hidden" data-category="videography">
+      <div class="video-card-wrap vid-autoplay" style="position:relative;aspect-ratio:9/16;max-width:360px;margin:0 auto;background:#0D0900;overflow:hidden;">
+        <video class="vid-el"
+          playsinline loop muted preload="none"
+          style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;cursor:pointer;">
+          <source src="https://res.cloudinary.com/nxn5jqd0/video/upload/v1794551129/REELS_7_Reiki_Healing_POTRAIT_MASTER.mp4" type="video/mp4">
+        </video>
+        <div class="vid-overlay-icon">
+          <div class="vid-play-btn">
+            <svg class="icon-play" viewBox="0 0 24 24" width="22" height="22"><polygon points="6 3 20 12 6 21 6 3" fill="rgba(255,255,255,0.9)"/></svg>
+            <svg class="icon-pause" viewBox="0 0 24 24" width="22" height="22" style="display:none"><rect x="6" y="4" width="4" height="16" fill="rgba(255,255,255,0.9)"/><rect x="14" y="4" width="4" height="16" fill="rgba(255,255,255,0.9)"/></svg>
+          </div>
+        </div>
+        <div class="carousel-overlay">
+          <span class="carousel-cat">Videography · Wellness</span>
+          <span class="carousel-name">Westin Wellness, Bali</span>
+        </div>
+      </div>
+      <div class="project-footer">
+        <div class="project-tags">
+          <span class="tag">Wellness</span>
+          <span class="tag">Hospitality</span>
+          <span class="tag">Bali</span>
+        </div>
+        <a href="#contact" class="project-link">
+          Similar project
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+      </div>
+    </div>
+
   </div><!-- /projects-grid -->
 
   <div class="work-empty hidden" id="work-empty">
@@ -1934,7 +2827,7 @@
     <div class="contact-info reveal">
       <div class="c-item">
         <div class="c-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="rgba(168,112,63,0.8)" stroke-width="1.5">
+          <svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.75)" stroke-width="1.5">
             <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13.5a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2.84h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 10.4a16 16 0 0 0 5.55 5.55l1.62-1.62a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7a2 2 0 0 1 1.71 2.04z"/>
           </svg>
         </div>
@@ -1945,7 +2838,7 @@
       </div>
       <div class="c-item">
         <div class="c-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="rgba(168,112,63,0.8)" stroke-width="1.5">
+          <svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.75)" stroke-width="1.5">
             <rect x="2" y="4" width="20" height="16" rx="2"/>
             <polyline points="2,4 12,13 22,4"/>
           </svg>
@@ -1957,10 +2850,10 @@
       </div>
       <div class="c-item">
         <div class="c-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="rgba(168,112,63,0.8)" stroke-width="1.5">
+          <svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.75)" stroke-width="1.5">
             <rect x="2" y="2" width="20" height="20" rx="5"/>
             <circle cx="12" cy="12" r="4"/>
-            <circle cx="17.5" cy="6.5" r="1" fill="rgba(168,112,63,0.8)"/>
+            <circle cx="17.5" cy="6.5" r="1" fill="rgba(255,255,255,0.75)"/>
           </svg>
         </div>
         <div>
@@ -1970,7 +2863,7 @@
       </div>
       <div class="c-item">
         <div class="c-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="rgba(168,112,63,0.8)" stroke-width="1.5">
+          <svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.75)" stroke-width="1.5">
             <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 1 1 18 0z"/>
             <circle cx="12" cy="10" r="3"/>
           </svg>
@@ -2018,53 +2911,41 @@
 </section>
 
 <!-- FOOTER -->
-<footer>
-  <div class="footer-top">
-    <div class="footer-brand">
-      <span class="footer-brand-logo">Agenda <em>Production</em></span>
-      <span class="footer-brand-tag">Bali-based visual storytellers crafting light into lasting memory — for brands, properties, and moments that matter.</span>
-      <span class="footer-avail">
-        <span class="footer-avail-dot"></span>
-        Available for bookings
-      </span>
-    </div>
-    <div>
-      <span class="footer-col-title">Navigate</span>
-      <ul class="footer-col-links">
-        <li><a href="#services">Services</a></li>
-        <li><a href="#work">Portfolio</a></li>
-        <li><a href="#process">How We Work</a></li>
-        <li><a href="#contact">Contact</a></li>
-      </ul>
-    </div>
-    <div>
-      <span class="footer-col-title">Services</span>
-      <ul class="footer-col-links">
-        <li><a href="#contact">Photography</a></li>
-        <li><a href="#contact">Videography</a></li>
-        <li><a href="#contact">Drone Aerial</a></li>
-        <li><a href="#contact">Full Package</a></li>
-      </ul>
-    </div>
-    <div>
-      <span class="footer-col-title">Contact</span>
-      <ul class="footer-col-links">
-        <li><a href="https://wa.me/6282170659006" target="_blank">+62 821-7065-9006</a></li>
-        <li><a href="mailto:jefritua99@gmail.com">jefritua99@gmail.com</a></li>
-        <li><a href="https://www.instagram.com/agendaproduction_" target="_blank">@agendaproduction_</a></li>
-        <li><a href="#contact" style="color:rgba(255,255,255,0.25);font-size:0.75rem;">Denpasar, Bali 🇮🇩</a></li>
-      </ul>
-    </div>
-  </div>
-  <div class="footer-bottom">
-    <span class="footer-copy">© 2026 Agenda Production · All rights reserved</span>
-    <div class="footer-socials">
-      <a href="https://www.instagram.com/agendaproduction_" target="_blank">Instagram</a>
-      <a href="https://wa.me/6282170659006" target="_blank">WhatsApp</a>
-      <a href="mailto:jefritua99@gmail.com">Email</a>
-    </div>
-  </div>
-</footer>
+
+
+<!-- GLASS TAB BAR (mobile) -->
+<div class="glass-tabbar" id="glassTabbar" role="navigation" aria-label="Navigasi cepat">
+  <a href="#services" data-s="services"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/></svg>Services</a>
+  <a href="#work" data-s="work"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="3"/><circle cx="9" cy="11" r="2"/><path d="M21 16l-5-4-7 6"/></svg>Work</a>
+  <a href="#contact" data-s="contact"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M3 8l9 6 9-6"/></svg>Contact</a>
+  <a href="https://wa.me/6282170659006?text=Halo%20Agenda%20Production!%20Saya%20ingin%20tanya%20tentang%20layanan%20kalian." target="_blank" rel="noopener" class="wa" aria-label="Chat WhatsApp"><svg viewBox="0 0 24 24"><path d="M12.05 2a9.9 9.9 0 0 0-8.5 15l-1.5 5 5.2-1.4A9.9 9.9 0 1 0 12.05 2zm5.4 13.9c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.3-.7-2.8-1.1-4.5-3.9-4.7-4.1-.1-.2-1.1-1.5-1.1-2.8s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.1.1.3 0 .5l-.3.5-.4.4c-.1.2-.3.3-.1.6.2.3.7 1.2 1.5 1.9 1 .9 1.9 1.2 2.2 1.3.3.1.4.1.6-.1l.8-1c.2-.2.4-.2.6-.1l1.9.9c.3.1.5.2.5.3.1.2.1.8-.1 1.2z"/></svg>Chat</a>
+</div>
+<script>
+(function(){
+  const links = document.querySelectorAll('#glassTabbar a[data-s]');
+  if(!links.length || !('IntersectionObserver' in window)) return;
+  const io = new IntersectionObserver(es => {
+    es.forEach(e => {
+      if(e.isIntersecting){
+        links.forEach(a => a.classList.toggle('active', a.dataset.s === e.target.id));
+      }
+    });
+  }, { rootMargin: '-40% 0px -50% 0px' });
+  ['services','work','contact'].forEach(id => { const el = document.getElementById(id); if(el) io.observe(el); });
+})();
+</script>
+
+<script>
+(function(){
+  const ul = document.querySelector('.nav-links');
+  if(!ul || !window.matchMedia('(hover: hover)').matches) return;
+  const g = document.createElement('span'); g.className = 'nav-glass'; ul.prepend(g);
+  ul.querySelectorAll('a').forEach(a => a.addEventListener('mouseenter', () => {
+    g.style.left = a.offsetLeft + 'px'; g.style.width = a.offsetWidth + 'px'; g.classList.add('on');
+  }));
+  ul.addEventListener('mouseleave', () => g.classList.remove('on'));
+})();
+</script>
 
 <!-- WHATSAPP FLOATING BUTTON -->
 <div class="wa-float">
@@ -2174,8 +3055,10 @@
   let lbPhotos = [], lbIndex = 0;
 
   function openLb(photos, index) { lbPhotos = photos; lbIndex = index; updateLb(); lb.classList.add('open'); document.body.style.overflow = 'hidden'; }
+  function preloadLb(i) { if (lbPhotos[i]) { const im = new Image(); im.decoding = 'async'; im.src = lbPhotos[i]; } }
   function updateLb() {
     lbImg.src = lbPhotos[lbIndex];
+    preloadLb(lbIndex + 1); preloadLb(lbIndex - 1);
     lbCounter.textContent = (lbIndex + 1) + ' / ' + lbPhotos.length;
     lbPrev.style.opacity = lbIndex === 0 ? '0.3' : '1';
     lbNext.style.opacity = lbIndex === lbPhotos.length - 1 ? '0.3' : '1';
@@ -2372,13 +3255,69 @@
     });
   });
 
-  // Lightbox click on photo-grid galleries (e.g. Portrait)
+  // Photo-grid galleries (e.g. Portrait): lightbox, placeholders, "load more", prefetch
+  const PG_BATCH = 12;
+  const hiRes = src => src.replace(/\/upload\/[^/]+\//, '/upload/f_auto,q_auto,c_limit,w_1400/');
   document.querySelectorAll('.photo-grid').forEach(grid => {
     const imgs = Array.from(grid.querySelectorAll('.photo-grid-item img'));
-    const photos = imgs.map(img => img.src);
+    const photos = imgs.map(img => hiRes(img.src)); // lightbox gets a sharper version than the grid thumbnail
     imgs.forEach((img, i) => {
       img.addEventListener('click', () => openLb(photos, i));
+      const item = img.parentElement;
+      const done = () => item.classList.add('loaded');
+      if (img.complete && img.naturalWidth) done();
+      else { img.addEventListener('load', done, { once: true }); img.addEventListener('error', done, { once: true }); }
     });
+
+    // Reveal the rest of the photos in batches (hidden items are not downloaded)
+    const wrap = grid.parentElement.querySelector('.pg-more-wrap');
+    const btn = wrap && wrap.querySelector('.pg-more-btn');
+    if (btn) {
+      const refresh = () => {
+        const left = grid.querySelectorAll('.photo-grid-item.pg-more').length;
+        wrap.hidden = left === 0;
+        btn.textContent = 'Load more photos (' + left + ')';
+      };
+      const showMore = () => {
+        grid.querySelectorAll('.photo-grid-item.pg-more').forEach((el, i) => { if (i < PG_BATCH) el.classList.remove('pg-more'); });
+        refresh();
+      };
+      btn.addEventListener('click', showMore);
+      refresh();
+      // Load the next batch automatically when the user scrolls near the button
+      if ('IntersectionObserver' in window) {
+        new IntersectionObserver(entries => {
+          if (entries[0].isIntersecting && !wrap.hidden && grid.offsetParent !== null) showMore();
+        }, { rootMargin: '500px 0px' }).observe(wrap);
+      }
+    }
+  });
+
+  // Start downloading the first Portrait photos as soon as the user hovers/touches the Portrait tab
+  (function () {
+    const tab = document.querySelector('.sub-tab-btn[data-filter="portrait"]');
+    const grid = document.getElementById('pg-portrait');
+    if (!tab || !grid) return;
+    let warmed = false;
+    const warm = () => {
+      if (warmed) return; warmed = true;
+      grid.querySelectorAll('.photo-grid-item:not(.pg-more) img').forEach((img, i) => {
+        if (i < 8) { const im = new Image(); im.src = img.currentSrc || img.src; }
+      });
+    };
+    tab.addEventListener('pointerenter', warm, { once: true });
+    tab.addEventListener('touchstart', warm, { once: true, passive: true });
+  })();
+
+  // Videos whose orientation is unknown: take the aspect ratio from the video itself (portrait gets the same narrow frame as other vertical videos)
+  document.querySelectorAll('.video-card-wrap[data-autoratio] video').forEach(v => {
+    const apply = () => {
+      if (!v.videoWidth || !v.videoHeight) return;
+      const w = v.parentElement;
+      w.style.aspectRatio = v.videoWidth + ' / ' + v.videoHeight;
+      if (v.videoHeight > v.videoWidth) { w.style.maxWidth = '360px'; w.style.margin = '0 auto'; }
+    };
+    if (v.readyState >= 1) apply(); else v.addEventListener('loadedmetadata', apply, { once: true });
   });
 
   // ── HERO SLIDESHOW ──
