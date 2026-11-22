@@ -1723,12 +1723,12 @@
   .tour-chip {
     display: inline-flex; align-items: center; padding: 8px 14px; border-radius: 999px; cursor: pointer;
     font: 500 0.7rem/1 inherit; letter-spacing: 0.06em; color: var(--ink); text-decoration: none;
-    background: var(--glass-bg-strong); border: 1px solid var(--glass-border);
-    -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur);
+    background: rgba(255,255,255,0.92); border: 1px solid rgba(255,255,255,0.7);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.18); /* solid, no blur: blur over a live 3D view repaints every frame */
     -webkit-tap-highlight-color: transparent;
   }
   @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
-    .tour-launch, .tour-chip { background: rgba(255,255,255,0.94); }
+    .tour-launch { background: rgba(255,255,255,0.94); }
   }
   @media (max-width: 700px) {
     .tour-stage { aspect-ratio: 4 / 5; }
@@ -2909,7 +2909,7 @@
             <circle cx="100" cy="100" r="92" opacity=".35"/><circle cx="100" cy="100" r="64" opacity=".5"/>
             <ellipse cx="100" cy="100" rx="92" ry="34" opacity=".5"/><ellipse cx="100" cy="100" rx="34" ry="92" opacity=".35"/>
           </svg>
-          <video class="vid-el tour-cover-video" muted loop playsinline preload="none" poster="https://res.cloudinary.com/nxn5jqd0/video/upload/so_0,f_jpg,q_auto,w_960/v1795352903/SHORT-INTRO-480p-MP4_1.jpg" aria-hidden="true" tabindex="-1">
+          <video class="vid-el tour-cover-video" muted loop playsinline preload="none" data-poster="https://res.cloudinary.com/nxn5jqd0/video/upload/so_0,f_jpg,q_auto,w_720/v1795352903/SHORT-INTRO-480p-MP4_1.jpg" aria-hidden="true" tabindex="-1">
             <source src="https://res.cloudinary.com/nxn5jqd0/video/upload/v1795352903/SHORT-INTRO-480p-MP4_1.mp4" type="video/mp4">
           </video>
         </div>
@@ -2947,7 +2947,7 @@
             <circle cx="100" cy="100" r="92" opacity=".35"/><circle cx="100" cy="100" r="64" opacity=".5"/>
             <ellipse cx="100" cy="100" rx="92" ry="34" opacity=".5"/><ellipse cx="100" cy="100" rx="34" ry="92" opacity=".35"/>
           </svg>
-          <video class="vid-el tour-cover-video" muted loop playsinline preload="none" poster="https://res.cloudinary.com/nxn5jqd0/video/upload/so_0,f_jpg,q_auto,w_960/v1795352901/SHORT-INTRO-480p-MP4.jpg" aria-hidden="true" tabindex="-1">
+          <video class="vid-el tour-cover-video" muted loop playsinline preload="none" data-poster="https://res.cloudinary.com/nxn5jqd0/video/upload/so_0,f_jpg,q_auto,w_720/v1795352901/SHORT-INTRO-480p-MP4.jpg" aria-hidden="true" tabindex="-1">
             <source src="https://res.cloudinary.com/nxn5jqd0/video/upload/v1795352901/SHORT-INTRO-480p-MP4.mp4" type="video/mp4">
           </video>
         </div>
@@ -3712,47 +3712,98 @@ const ANALYTICS = { plausibleDomain: '', ga4Id: '' };
     if (v.readyState >= 1) apply(); else v.addEventListener('loadedmetadata', apply, { once: true });
   });
 
-  // ── 360 VIRTUAL TOURS: the cover video autoplays through the same engine as Videography (.vid-autoplay);
-  //    the Matterport embed loads only after the visitor taps "Launch", and is unloaded on exit ──
-  document.querySelectorAll('.tour-stage').forEach(stage => {
-    const id = stage.dataset.tour;
-    const launch = stage.querySelector('.tour-launch');
-    const actions = stage.querySelector('.tour-actions');
-    const exit = stage.querySelector('.tour-exit');
-    const cover = stage.querySelector('.vid-el');
-    const card = stage.closest('.project-card');
-    let frame = null;
-
-    // taps on the buttons must not pause/resume the cover video (the stage itself toggles it, like Videography)
-    [launch, actions].forEach(el => el.addEventListener('click', e => e.stopPropagation()));
-
-    const stop = () => {
-      if (!frame) return;
-      frame.remove(); frame = null;
-      stage.classList.remove('is-live'); actions.hidden = true;
-      stage._userPaused = false;                       // let the shared engine resume the cover
-      if (cover) { const p = cover.play(); if (p && p.catch) p.catch(() => {}); }
+  // ── 360 VIRTUAL TOURS ──
+  // Cover video: autoplays through the same engine as Videography (.vid-autoplay).
+  // Matterport embed: loads only after a tap on "Launch", one tour at a time, unloaded on exit,
+  // when its tab is left, or ~10 s after it scrolls out of view (3D views are heavy on phones).
+  (function () {
+    const stages = document.querySelectorAll('.tour-stage');
+    if (!stages.length) return;
+    const saveData = !!(navigator.connection && navigator.connection.saveData);
+    let activeStop = null;     // the one live tour
+    let warmed = false;        // preconnect to Matterport only once, right before it is needed
+    const warm = () => {
+      if (warmed) return; warmed = true;
+      ['preconnect', 'dns-prefetch'].forEach(rel => {
+        const l = document.createElement('link'); l.rel = rel; l.href = 'https://my.matterport.com';
+        if (rel === 'preconnect') l.crossOrigin = ''; document.head.appendChild(l);
+      });
     };
-    launch.addEventListener('click', () => {
-      if (frame) return;
-      stage._userPaused = true;                        // keep the shared engine from restarting it behind the tour
-      if (cover) cover.pause();
-      frame = document.createElement('iframe');
-      frame.src = 'https://my.matterport.com/show/?m=' + encodeURIComponent(id) + '&play=1';
-      frame.title = stage.dataset.title || '360 Virtual Tour';
-      frame.allow = 'fullscreen; xr-spatial-tracking; accelerometer; gyroscope';
-      frame.allowFullscreen = true;
-      frame.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
-      stage.insertBefore(frame, actions);
-      stage.classList.add('is-live'); actions.hidden = false;
-      if (window.track) try { track('tour_launch', { id: id }); } catch (e) {}
+
+    // posters are fetched only when a card gets near the screen (hidden cards cost nothing)
+    const posterIO = 'IntersectionObserver' in window ? new IntersectionObserver(entries => {
+      entries.forEach(en => {
+        if (!en.isIntersecting) return;
+        const v = en.target.querySelector('.vid-el');
+        if (v && v.dataset.poster && !v.poster) v.poster = v.dataset.poster;
+        posterIO.unobserve(en.target);
+      });
+    }, { rootMargin: '400px 0px' }) : null;
+
+    stages.forEach(stage => {
+      const id = stage.dataset.tour;
+      const launch = stage.querySelector('.tour-launch');
+      const actions = stage.querySelector('.tour-actions');
+      const exit = stage.querySelector('.tour-exit');
+      const cover = stage.querySelector('.vid-el');
+      const card = stage.closest('.project-card');
+      let frame = null, offTimer = null;
+
+      if (posterIO) posterIO.observe(stage);
+      else if (cover && cover.dataset.poster) cover.poster = cover.dataset.poster;
+      if (saveData && cover) {   // data saver: poster only, no cover video download
+        stage.classList.remove('vid-autoplay'); stage.classList.add('no-motion');
+        cover.querySelectorAll('source').forEach(src => src.remove());
+        cover.removeAttribute('loop'); cover.preload = 'none';
+      }
+
+      // taps on the buttons must not pause/resume the cover video (the stage itself toggles it, like Videography)
+      [launch, actions].forEach(el => el.addEventListener('click', e => e.stopPropagation()));
+      ['pointerenter', 'touchstart', 'focus'].forEach(ev => launch.addEventListener(ev, warm, { once: true, passive: true }));
+
+      const stop = () => {
+        clearTimeout(offTimer);
+        if (!frame) return;
+        frame.remove(); frame = null;
+        if (activeStop === stop) activeStop = null;
+        stage.classList.remove('is-live'); actions.hidden = true;
+        stage._userPaused = false;                      // let the shared engine resume the cover when it is on screen
+        window.dispatchEvent(new Event('scroll'));
+      };
+      const start = () => {
+        if (frame) return;
+        if (activeStop) activeStop();                   // only one 3D view alive at a time
+        activeStop = stop;
+        stage._userPaused = true;                       // keep the shared engine from restarting the cover behind the tour
+        if (cover) cover.pause();
+        frame = document.createElement('iframe');
+        frame.src = 'https://my.matterport.com/show/?m=' + encodeURIComponent(id) + '&play=1';
+        frame.title = stage.dataset.title || '360 Virtual Tour';
+        frame.allow = 'fullscreen; xr-spatial-tracking; accelerometer; gyroscope';
+        frame.allowFullscreen = true;
+        frame.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
+        stage.insertBefore(frame, actions);
+        stage.classList.add('is-live'); actions.hidden = false;
+        if (window.track) try { track('tour_launch', { id: id }); } catch (e) {}
+      };
+      launch.addEventListener('click', start);
+      exit.addEventListener('click', () => { stop(); launch.focus(); });
+
+      // leaving the tab / filter (card hidden) unloads the tour right away
+      if (card && 'MutationObserver' in window) {
+        new MutationObserver(() => { if (card.classList.contains('hidden')) stop(); }).observe(card, { attributes: true, attributeFilter: ['class'] });
+      }
+      // scrolled far away: unload after a grace period (coming back in time keeps the tour)
+      if ('IntersectionObserver' in window) {
+        new IntersectionObserver(entries => {
+          entries.forEach(en => {
+            clearTimeout(offTimer);
+            if (!en.isIntersecting && frame) offTimer = setTimeout(stop, 10000);
+          });
+        }, { threshold: 0 }).observe(stage);
+      }
     });
-    exit.addEventListener('click', () => { stop(); launch.focus(); });
-    // leaving the tab / filter (card gets hidden) unloads the tour to free memory
-    if (card && 'MutationObserver' in window) {
-      new MutationObserver(() => { if (card.classList.contains('hidden')) stop(); }).observe(card, { attributes: true, attributeFilter: ['class'] });
-    }
-  });
+  })();
 
   // ── HERO SLIDESHOW ──
   (function() {
