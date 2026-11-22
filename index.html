@@ -1682,6 +1682,59 @@
   .contact-share { margin-top: 28px; }
   @media (max-width: 900px) { .cta-banner-actions { width: 100%; } .cta-banner-actions > * { flex: 1 1 100%; justify-content: center; } }
   @media (hover: none) { .wa-share:hover { transform: none; } }
+
+  /* ── 360 VIRTUAL TOURS (Matterport) ── */
+  .project-card.tour-card { flex: 1 1 100%; max-width: 100%; }
+  .projects-grid.few-items .project-card.tour-card { flex: 1 1 100%; max-width: 100%; }
+  @media (min-width: 901px) {
+    /* two tours side by side */
+    .project-card.tour-card, .projects-grid.few-items .project-card.tour-card { flex: 1 1 calc(50% - 10px); max-width: calc(50% - 10px); }
+  }
+  .tour-stage {
+    position: relative; isolation: isolate; overflow: hidden;
+    aspect-ratio: 4 / 3;
+    background: radial-gradient(120% 90% at 30% 20%, #4b4a3f 0%, #2b2d26 55%, #1c1e19 100%);
+    color: rgba(255,255,255,0.9);
+  }
+  .tour-cover { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,0.28); z-index: -1; }
+  .tour-cover svg { width: min(62%, 360px); height: auto; }
+  .tour-cover-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; background: transparent; }
+  .tour-stage.has-video::after { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; background: linear-gradient(to top, rgba(20,12,4,0.55) 0%, rgba(20,12,4,0.08) 45%, rgba(20,12,4,0.12) 100%); }
+  .tour-launch {
+    position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 14px 24px; border-radius: 999px; cursor: pointer;
+    font: 600 0.82rem/1 inherit; letter-spacing: 0.04em; color: var(--ink);
+    background: var(--glass-bg); border: 1px solid var(--glass-border);
+    -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur);
+    box-shadow: var(--glass-shadow);
+    transition: transform 0.25s ease, background 0.25s ease;
+    -webkit-tap-highlight-color: transparent;
+  }
+  /* no blur over a playing video (keeps scrolling light on phones) */
+  .tour-stage.has-video .tour-launch { background: rgba(255,255,255,0.9); -webkit-backdrop-filter: none; backdrop-filter: none; }
+  @media (hover: hover) { .tour-launch:hover { background: var(--glass-bg-strong); transform: translate(-50%, -50%) scale(1.03); } .tour-stage.has-video .tour-launch:hover { background: #fff; } }
+  .tour-launch:focus-visible, .tour-chip:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+  .tour-stage iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; background: #000; z-index: 1; }
+  .tour-stage.is-live .tour-launch, .tour-stage.is-live .tour-cover, .tour-stage.is-live .carousel-overlay { display: none; }
+  .tour-stage.is-live::after { display: none; }
+  .tour-actions { position: absolute; top: 12px; right: 12px; z-index: 2; display: flex; gap: 8px; }
+  .tour-actions[hidden] { display: none; }
+  .tour-chip {
+    display: inline-flex; align-items: center; padding: 8px 14px; border-radius: 999px; cursor: pointer;
+    font: 500 0.7rem/1 inherit; letter-spacing: 0.06em; color: var(--ink); text-decoration: none;
+    background: var(--glass-bg-strong); border: 1px solid var(--glass-border);
+    -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur);
+    -webkit-tap-highlight-color: transparent;
+  }
+  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    .tour-launch, .tour-chip { background: rgba(255,255,255,0.94); }
+  }
+  @media (max-width: 700px) {
+    .tour-stage { aspect-ratio: 4 / 5; }
+    .tour-launch { padding: 13px 20px; }
+    .tour-actions { top: 10px; right: 10px; }
+  }
 </style>
 </head>
 <body>
@@ -1857,6 +1910,7 @@
 
   <div class="tab-bar sub-tab-bar" id="subTabBar">
     <button class="sub-tab-btn active" data-filter="architectural">Architectural &amp; Interior <span class="tab-count" id="count-architectural"></span></button>
+    <button class="sub-tab-btn" data-filter="virtual360">360 Virtual Tours <span class="tab-count" id="count-virtual360"></span></button>
     <button class="sub-tab-btn" data-filter="wellness">Wellness &amp; Sport <span class="tab-count" id="count-wellness"></span></button>
     <button class="sub-tab-btn" data-filter="portrait">Portrait <span class="tab-count" id="count-portrait"></span></button>
     <button class="sub-tab-btn" data-filter="product">Product <span class="tab-count" id="count-product"></span></button>
@@ -2846,6 +2900,83 @@
       </div>
     </div>
 
+
+    <!-- 360 Virtual Tour 1: Red Sunset Villa Canggu (Matterport) — the tour only loads after the visitor taps "Launch 360 Tour" -->
+    <div class="project-card tour-card reveal hidden" data-category="photography virtual360">
+      <div class="tour-stage vid-autoplay has-video" data-no-optimize data-tour="cVifFhrtAQ8" data-title="Red Sunset Villa Canggu">
+        <div class="tour-cover">
+          <svg viewBox="0 0 200 200" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true">
+            <circle cx="100" cy="100" r="92" opacity=".35"/><circle cx="100" cy="100" r="64" opacity=".5"/>
+            <ellipse cx="100" cy="100" rx="92" ry="34" opacity=".5"/><ellipse cx="100" cy="100" rx="34" ry="92" opacity=".35"/>
+          </svg>
+          <video class="vid-el tour-cover-video" muted loop playsinline preload="none" poster="https://res.cloudinary.com/nxn5jqd0/video/upload/so_0,f_jpg,q_auto,w_960/v1795352903/SHORT-INTRO-480p-MP4_1.jpg" aria-hidden="true" tabindex="-1">
+            <source src="https://res.cloudinary.com/nxn5jqd0/video/upload/v1795352903/SHORT-INTRO-480p-MP4_1.mp4" type="video/mp4">
+          </video>
+        </div>
+        <button type="button" class="tour-launch">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><ellipse cx="12" cy="12" rx="9" ry="3.6"/><path d="M12 3v18"/></svg>
+          <span>Launch 360 Tour</span>
+        </button>
+        <div class="tour-actions" hidden>
+          <a class="tour-chip" href="https://my.matterport.com/show/?m=cVifFhrtAQ8" target="_blank" rel="noopener">Open in new tab</a>
+          <button type="button" class="tour-chip tour-exit">Exit tour</button>
+        </div>
+        <div class="carousel-overlay">
+          <span class="carousel-cat">360 Virtual Tours</span>
+          <span class="carousel-name">Red Sunset Villa Canggu</span>
+        </div>
+      </div>
+      <div class="project-footer">
+        <div class="project-tags">
+          <span class="tag">360°</span>
+          <span class="tag">Matterport</span>
+          <span class="tag">Canggu</span>
+        </div>
+        <a href="#contact" class="project-link">
+          Similar project
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- 360 Virtual Tour 2: Novo Ubud Room (Matterport) — the tour only loads after the visitor taps "Launch 360 Tour" -->
+    <div class="project-card tour-card reveal hidden" data-category="photography virtual360">
+      <div class="tour-stage vid-autoplay has-video" data-no-optimize data-tour="3zAGqUCWMnE" data-title="Novo Ubud Room">
+        <div class="tour-cover">
+          <svg viewBox="0 0 200 200" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true">
+            <circle cx="100" cy="100" r="92" opacity=".35"/><circle cx="100" cy="100" r="64" opacity=".5"/>
+            <ellipse cx="100" cy="100" rx="92" ry="34" opacity=".5"/><ellipse cx="100" cy="100" rx="34" ry="92" opacity=".35"/>
+          </svg>
+          <video class="vid-el tour-cover-video" muted loop playsinline preload="none" poster="https://res.cloudinary.com/nxn5jqd0/video/upload/so_0,f_jpg,q_auto,w_960/v1795352901/SHORT-INTRO-480p-MP4.jpg" aria-hidden="true" tabindex="-1">
+            <source src="https://res.cloudinary.com/nxn5jqd0/video/upload/v1795352901/SHORT-INTRO-480p-MP4.mp4" type="video/mp4">
+          </video>
+        </div>
+        <button type="button" class="tour-launch">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><ellipse cx="12" cy="12" rx="9" ry="3.6"/><path d="M12 3v18"/></svg>
+          <span>Launch 360 Tour</span>
+        </button>
+        <div class="tour-actions" hidden>
+          <a class="tour-chip" href="https://my.matterport.com/show/?m=3zAGqUCWMnE" target="_blank" rel="noopener">Open in new tab</a>
+          <button type="button" class="tour-chip tour-exit">Exit tour</button>
+        </div>
+        <div class="carousel-overlay">
+          <span class="carousel-cat">360 Virtual Tours</span>
+          <span class="carousel-name">Novo Ubud Room</span>
+        </div>
+      </div>
+      <div class="project-footer">
+        <div class="project-tags">
+          <span class="tag">360°</span>
+          <span class="tag">Matterport</span>
+          <span class="tag">Ubud</span>
+        </div>
+        <a href="#contact" class="project-link">
+          Similar project
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+      </div>
+    </div>
+
   </div><!-- /projects-grid -->
 
   <div class="work-empty hidden" id="work-empty">
@@ -3162,7 +3293,8 @@ const ANALYTICS = { plausibleDomain: '', ga4Id: '' };
     'About Your Project': 'Tentang Proyekmu', 'Send via WhatsApp →': 'Kirim via WhatsApp →', 'Contact': 'Kontak', 'Chat': 'Chat',
     'Chat on WhatsApp': 'Chat via WhatsApp', 'Have a project in mind?': 'Punya proyek di pikiran?',
     "Let's Talk About Your Project": 'Mari Bicara Soal Proyekmu', 'Ready to create?': 'Siap berkarya?',
-    'Got a project in mind?': 'Punya proyek?', "Let's make it happen.": 'Wujudkan bersama.', 'Need help? Chat us!': 'Butuh bantuan? Chat kami!'
+    'Got a project in mind?': 'Punya proyek?', "Let's make it happen.": 'Wujudkan bersama.', 'Need help? Chat us!': 'Butuh bantuan? Chat kami!',
+    'Launch 360 Tour': 'Mulai Tur 360', 'Open in new tab': 'Buka di tab baru', 'Exit tour': 'Tutup tur'
   };
   const PH = { 'Your full name': 'Nama lengkapmu', 'Your contact': 'Kontakmu', 'Location, date, concept, budget range...': 'Lokasi, tanggal, konsep, kisaran budget...' };
   const norm = t => t.replace(/\s+/g, ' ').trim();
@@ -3580,6 +3712,48 @@ const ANALYTICS = { plausibleDomain: '', ga4Id: '' };
     if (v.readyState >= 1) apply(); else v.addEventListener('loadedmetadata', apply, { once: true });
   });
 
+  // ── 360 VIRTUAL TOURS: the cover video autoplays through the same engine as Videography (.vid-autoplay);
+  //    the Matterport embed loads only after the visitor taps "Launch", and is unloaded on exit ──
+  document.querySelectorAll('.tour-stage').forEach(stage => {
+    const id = stage.dataset.tour;
+    const launch = stage.querySelector('.tour-launch');
+    const actions = stage.querySelector('.tour-actions');
+    const exit = stage.querySelector('.tour-exit');
+    const cover = stage.querySelector('.vid-el');
+    const card = stage.closest('.project-card');
+    let frame = null;
+
+    // taps on the buttons must not pause/resume the cover video (the stage itself toggles it, like Videography)
+    [launch, actions].forEach(el => el.addEventListener('click', e => e.stopPropagation()));
+
+    const stop = () => {
+      if (!frame) return;
+      frame.remove(); frame = null;
+      stage.classList.remove('is-live'); actions.hidden = true;
+      stage._userPaused = false;                       // let the shared engine resume the cover
+      if (cover) { const p = cover.play(); if (p && p.catch) p.catch(() => {}); }
+    };
+    launch.addEventListener('click', () => {
+      if (frame) return;
+      stage._userPaused = true;                        // keep the shared engine from restarting it behind the tour
+      if (cover) cover.pause();
+      frame = document.createElement('iframe');
+      frame.src = 'https://my.matterport.com/show/?m=' + encodeURIComponent(id) + '&play=1';
+      frame.title = stage.dataset.title || '360 Virtual Tour';
+      frame.allow = 'fullscreen; xr-spatial-tracking; accelerometer; gyroscope';
+      frame.allowFullscreen = true;
+      frame.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
+      stage.insertBefore(frame, actions);
+      stage.classList.add('is-live'); actions.hidden = false;
+      if (window.track) try { track('tour_launch', { id: id }); } catch (e) {}
+    });
+    exit.addEventListener('click', () => { stop(); launch.focus(); });
+    // leaving the tab / filter (card gets hidden) unloads the tour to free memory
+    if (card && 'MutationObserver' in window) {
+      new MutationObserver(() => { if (card.classList.contains('hidden')) stop(); }).observe(card, { attributes: true, attributeFilter: ['class'] });
+    }
+  });
+
   // ── HERO SLIDESHOW ──
   (function() {
     const slides = document.querySelectorAll('.hero-slide');
@@ -3661,6 +3835,7 @@ const ANALYTICS = { plausibleDomain: '', ga4Id: '' };
       const vid = wrap.querySelector('.vid-el');
       const srcEl = vid && vid.querySelector('source');
       if (!srcEl) return;
+      if (wrap.hasAttribute('data-no-optimize')) return; // sumber sudah ringan (480p)
       const orig = srcEl.getAttribute('src');
       const m = orig.match(/^(https:\/\/res\.cloudinary\.com\/[^/]+\/video\/upload\/)(v\d+\/.+)\.(mp4|mov)$/i);
       if (!m) return; // sudah punya transformasi sendiri → biarkan
