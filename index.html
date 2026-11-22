@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
@@ -10,6 +10,22 @@
 <meta name="description" content="Agenda Production — Photography, Videography & Drone Services in Bali. Crafting light into lasting memory.">
 <title>Agenda Production — Bali Visual Storyteller</title>
 
+<link rel="canonical" href="https://agenda-production.pages.dev/">
+<meta name="geo.region" content="ID-BA"><meta name="geo.placename" content="Denpasar, Bali">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"ProfessionalService","name":"Agenda Production",
+"description":"Photography, videography and drone aerial agency in Bali for villas, hotels, brands and events.",
+"url":"https://agenda-production.pages.dev/","image":"https://res.cloudinary.com/dojlwvol7/image/upload/w_760,h_380,c_fit/w_1200,h_630,c_pad,b_rgb:FFFFFF/f_jpg,q_auto/v1776142618/A_logo_black_transparent_bvjzg0.png",
+"logo":"https://res.cloudinary.com/dojlwvol7/image/upload/v1776142618/A_logo_black_transparent_bvjzg0.png",
+"telephone":"+628514492486","email":"jefritua99@gmail.com",
+"address":{"@type":"PostalAddress","addressLocality":"Denpasar","addressRegion":"Bali","addressCountry":"ID"},
+"areaServed":["Bali","Indonesia"],"sameAs":["https://www.instagram.com/agendaproduction_"],
+"knowsAbout":["Photography","Videography","Drone aerial photography","Hotel and villa photography","Event coverage"],
+"hasOfferCatalog":{"@type":"OfferCatalog","name":"Services","itemListElement":[
+{"@type":"Offer","itemOffered":{"@type":"Service","name":"Photography"}},
+{"@type":"Offer","itemOffered":{"@type":"Service","name":"Videography"}},
+{"@type":"Offer","itemOffered":{"@type":"Service","name":"Drone Aerial"}}]}}
+</script>
 <!-- ── OPEN GRAPH META TAGS ── -->
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://agenda-production.pages.dev/">
@@ -18,7 +34,8 @@
 <meta property="og:image" content="https://res.cloudinary.com/dojlwvol7/image/upload/w_760,h_380,c_fit/w_1200,h_630,c_pad,b_rgb:FFFFFF/f_jpg,q_auto/v1776142618/A_logo_black_transparent_bvjzg0.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:locale" content="id_ID">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="id_ID">
 <meta property="og:site_name" content="Agenda Production">
 
 <!-- Twitter Card -->
@@ -1592,6 +1609,79 @@
   body.video-playing nav.scrolled { background: rgba(255,255,255,0.94); }
   body.video-playing .glass-tabbar { -webkit-backdrop-filter: none; backdrop-filter: none; background: rgba(255,255,255,0.94); }
   .vid-el { transform: translateZ(0); }
+
+  /* ══ POLISH: hero layar penuh, kontras, fokus, bahasa, reveal ══ */
+  :root { --ink-2: #515154; --ink-3: #6e6e73; }
+  #page-loader, #reel, #contact, .cta-banner, footer { --ink-3: #8e8e93; }
+  .hero-title em, .s-title em, .cta-banner-title em { opacity: 0.55; }
+
+  .skip-link { position: fixed; left: 12px; top: -60px; z-index: 1000; background: #fff; color: #000; padding: 10px 16px; border-radius: 999px; font-size: 0.85rem; font-weight: 500; transition: top 0.25s; }
+  .skip-link:focus { top: 10px; }
+  :focus-visible { outline: 2px solid #000; outline-offset: 3px; }
+  nav:not(.scrolled) :focus-visible, #contact :focus-visible, .mobile-menu :focus-visible,
+  #hero .hero-left :focus-visible, .cta-banner :focus-visible { outline-color: #fff; }
+  button:focus:not(:focus-visible), a:focus:not(:focus-visible) { outline: none; }
+
+  .lang-btn {
+    font: 500 0.72rem/1 inherit; font-family: inherit; letter-spacing: 0.06em; cursor: pointer;
+    color: rgba(255,255,255,0.85); background: transparent;
+    border: 1px solid rgba(255,255,255,0.3); border-radius: 999px; padding: 8px 11px;
+    transition: background 0.25s, color 0.25s, border-color 0.25s;
+  }
+  .lang-btn:hover { background: rgba(255,255,255,0.14); color: #fff; }
+  nav.scrolled .lang-btn { color: rgba(0,0,0,0.7); border-color: rgba(0,0,0,0.18); }
+  nav.scrolled .lang-btn:hover { background: rgba(0,0,0,0.06); color: #000; }
+
+  /* Services: muncul berurutan */
+  .svc-card.reveal:not(.visible) { transform: translateY(44px) scale(0.97); }
+  .svc-card.reveal { transition: opacity 0.8s cubic-bezier(.2,.7,.2,1), transform 0.9s var(--spring), box-shadow 0.3s, background 0.3s; }
+  .svc-card:nth-child(2).reveal { transition-delay: 0.1s, 0.1s, 0s, 0s; }
+  .svc-card:nth-child(3).reveal { transition-delay: 0.2s, 0.2s, 0s, 0s; }
+  .svc-card.reveal.visible:hover { transition-delay: 0s; }
+
+  #process, #contact { content-visibility: auto; contain-intrinsic-size: auto 720px; }
+
+  /* HERO layar penuh (desktop & tablet landscape) */
+  @media (min-width: 901px) {
+    #hero { position: relative; display: flex; align-items: flex-end; min-height: 100vh; min-height: 100svh; overflow: hidden; background: #000; }
+    .hero-right { position: absolute; inset: 0; margin: 0; width: 100%; height: 100%; align-self: stretch; max-height: none; aspect-ratio: auto; border-radius: 0; z-index: 0; }
+    .hero-slides { transform: translate3d(0, var(--py, 0px), 0) scale(1.08); will-change: transform; }
+    .hero-img-overlay { display: block; background: linear-gradient(180deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.08) 38%, rgba(0,0,0,0.7) 100%); }
+    .hero-left { position: relative; z-index: 2; width: 100%; padding: 130px 6% 84px; }
+    .hero-title { color: #fff; text-shadow: 0 2px 30px rgba(0,0,0,0.25); }
+    .hero-tag { color: rgba(255,255,255,0.85); }
+    .hero-sub { color: rgba(255,255,255,0.88); }
+    .hero-social-proof .hero-stars, .hero-social-proof .hero-stars span { color: #fff; }
+    .hero-proof-text, .hero-proof-text strong { color: rgba(255,255,255,0.8); }
+    .hero-proof-text strong { color: #fff; }
+    #hero .btn-fill { background: #fff; color: #000; border-color: #fff; box-shadow: none; }
+    #hero .btn-fill:hover { background: #e8e8ed; }
+    #hero .btn-outline { color: #fff; border-color: rgba(255,255,255,0.55); background: rgba(255,255,255,0.12); -webkit-backdrop-filter: blur(14px) saturate(160%); backdrop-filter: blur(14px) saturate(160%); }
+    #hero .btn-outline:hover { background: rgba(255,255,255,0.24); color: #fff; border-color: #fff; }
+    .hero-badge { bottom: 28px; left: 28px; z-index: 3; background: rgba(0,0,0,0.38); border-color: rgba(255,255,255,0.22); color: #fff; }
+    .hero-badge, .hero-badge * { color: #fff; }
+    .hero-badge-dot { background: #fff; }
+    body.video-playing #hero .btn-outline { -webkit-backdrop-filter: none; backdrop-filter: none; }
+  }
+  @media (prefers-reduced-motion: reduce) { .hero-slides { transform: scale(1.02) !important; } .svc-card.reveal { transition: opacity 0.3s !important; transform: none !important; } }
+
+  /* ── Share ke WhatsApp (kirim ke banyak kontak) ── */
+  .cta-banner-actions { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+  .wa-share {
+    display: inline-flex; align-items: center; gap: 10px; cursor: pointer; font: inherit; font-family: inherit;
+    font-size: 0.78rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 14px 26px; border-radius: 999px; color: #fff;
+    background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.4);
+    -webkit-backdrop-filter: blur(14px) saturate(170%); backdrop-filter: blur(14px) saturate(170%);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.35);
+    transition: background 0.25s, transform 0.35s var(--spring), border-color 0.25s;
+  }
+  .wa-share svg { width: 16px; height: 16px; }
+  .wa-share:hover { background: rgba(255,255,255,0.22); border-color: #fff; transform: translateY(-2px) scale(1.03); }
+  .wa-share:active { transform: scale(0.97); }
+  .contact-share { margin-top: 28px; }
+  @media (max-width: 900px) { .cta-banner-actions { width: 100%; } .cta-banner-actions > * { flex: 1 1 100%; justify-content: center; } }
+  @media (hover: none) { .wa-share:hover { transform: none; } }
 </style>
 </head>
 <body>
@@ -1620,9 +1710,10 @@
 </div>
 
 <!-- NAV -->
+<a class="skip-link" href="#services">Skip to content</a>
 <nav id="main-nav">
   <a href="#" class="nav-logo">
-    <img src="https://res.cloudinary.com/dojlwvol7/image/upload/v1776142618/A_logo_black_transparent_bvjzg0.png" alt="Agenda Production">
+    <img decoding="async" src="https://res.cloudinary.com/dojlwvol7/image/upload/v1776142618/A_logo_black_transparent_bvjzg0.png" alt="Agenda Production">
   </a>
   <div class="nav-right">
     <ul class="nav-links">
@@ -1630,6 +1721,7 @@
       <li><a href="#work">Work</a></li>
       <li><a href="#process">Process</a></li>
     </ul>
+    <button class="lang-btn" id="langBtn" type="button" aria-label="Ganti ke Bahasa Indonesia">ID</button>
     <a href="#contact" class="nav-btn">Inquire</a>
     <button class="hamburger" id="hamburger" aria-label="Menu">
       <span></span><span></span><span></span>
@@ -1657,22 +1749,22 @@
   <div class="hero-right">
     <div class="hero-slides" id="heroSlides">
       <div class="hero-slide active">
-        <img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1400/v1776085620/AVB09429-HDR_nu4jem.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_800/v1776085620/AVB09429-HDR_nu4jem.jpg 800w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1400/v1776085620/AVB09429-HDR_nu4jem.jpg 1400w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_2000/v1776085620/AVB09429-HDR_nu4jem.jpg 2000w" sizes="(max-width: 900px) 100vw, 96vw" alt="Natadesa Resort Jimbaran Bali" loading="eager">
+        <img fetchpriority="high" decoding="async" src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1400/v1776085620/AVB09429-HDR_nu4jem.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_800/v1776085620/AVB09429-HDR_nu4jem.jpg 800w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1400/v1776085620/AVB09429-HDR_nu4jem.jpg 1400w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_2000/v1776085620/AVB09429-HDR_nu4jem.jpg 2000w" sizes="(max-width: 900px) 100vw, 96vw" alt="Natadesa Resort Jimbaran Bali" loading="eager">
       </div>
       <div class="hero-slide">
-        <img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1400/v1780497933/DJI_0994_ffqxoi.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_800/v1780497933/DJI_0994_ffqxoi.jpg 800w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1400/v1780497933/DJI_0994_ffqxoi.jpg 1400w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_2000/v1780497933/DJI_0994_ffqxoi.jpg 2000w" sizes="(max-width: 900px) 100vw, 96vw" alt="Floating Yoga Aqua Sculpt, The Meru Sanur" loading="lazy">
+        <img decoding="async" src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1400/v1780497933/DJI_0994_ffqxoi.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_800/v1780497933/DJI_0994_ffqxoi.jpg 800w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1400/v1780497933/DJI_0994_ffqxoi.jpg 1400w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_2000/v1780497933/DJI_0994_ffqxoi.jpg 2000w" sizes="(max-width: 900px) 100vw, 96vw" alt="Floating Yoga Aqua Sculpt, The Meru Sanur" loading="lazy">
       </div>
       <div class="hero-slide">
-        <img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1400/v1777171339/AVB08145_nmzzms.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_800/v1777171339/AVB08145_nmzzms.jpg 800w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1400/v1777171339/AVB08145_nmzzms.jpg 1400w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_2000/v1777171339/AVB08145_nmzzms.jpg 2000w" sizes="(max-width: 900px) 100vw, 96vw" alt="The Westin Resort Nusa Dua Bali" loading="lazy">
+        <img decoding="async" src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1400/v1777171339/AVB08145_nmzzms.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_800/v1777171339/AVB08145_nmzzms.jpg 800w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1400/v1777171339/AVB08145_nmzzms.jpg 1400w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_2000/v1777171339/AVB08145_nmzzms.jpg 2000w" sizes="(max-width: 900px) 100vw, 96vw" alt="The Westin Resort Nusa Dua Bali" loading="lazy">
       </div>
       <div class="hero-slide">
-        <img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1400/v1777101220/DJI_0800_bdnt77.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_800/v1777101220/DJI_0800_bdnt77.jpg 800w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1400/v1777101220/DJI_0800_bdnt77.jpg 1400w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_2000/v1777101220/DJI_0800_bdnt77.jpg 2000w" sizes="(max-width: 900px) 100vw, 96vw" alt="Jimbafest 2025 Bali" loading="lazy">
+        <img decoding="async" src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1400/v1777101220/DJI_0800_bdnt77.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_800/v1777101220/DJI_0800_bdnt77.jpg 800w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1400/v1777101220/DJI_0800_bdnt77.jpg 1400w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_2000/v1777101220/DJI_0800_bdnt77.jpg 2000w" sizes="(max-width: 900px) 100vw, 96vw" alt="Jimbafest 2025 Bali" loading="lazy">
       </div>
       <div class="hero-slide">
-        <img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1400/v1776146975/AR_09736_vmrb8n.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_800/v1776146975/AR_09736_vmrb8n.jpg 800w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1400/v1776146975/AR_09736_vmrb8n.jpg 1400w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_2000/v1776146975/AR_09736_vmrb8n.jpg 2000w" sizes="(max-width: 900px) 100vw, 96vw" alt="Qahira Top Brand Awards Bali" loading="lazy">
+        <img decoding="async" src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1400/v1776146975/AR_09736_vmrb8n.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_800/v1776146975/AR_09736_vmrb8n.jpg 800w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1400/v1776146975/AR_09736_vmrb8n.jpg 1400w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_2000/v1776146975/AR_09736_vmrb8n.jpg 2000w" sizes="(max-width: 900px) 100vw, 96vw" alt="Qahira Top Brand Awards Bali" loading="lazy">
       </div>
       <div class="hero-slide">
-        <img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1400/v1787308066/JMT00669_jlpjpx.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_800/v1787308066/JMT00669_jlpjpx.jpg 800w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1400/v1787308066/JMT00669_jlpjpx.jpg 1400w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_2000/v1787308066/JMT00669_jlpjpx.jpg 2000w" sizes="(max-width: 900px) 100vw, 96vw" alt="AirTrunk Connect 2025" loading="lazy">
+        <img decoding="async" src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1400/v1787308066/JMT00669_jlpjpx.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_800/v1787308066/JMT00669_jlpjpx.jpg 800w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1400/v1787308066/JMT00669_jlpjpx.jpg 1400w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_2000/v1787308066/JMT00669_jlpjpx.jpg 2000w" sizes="(max-width: 900px) 100vw, 96vw" alt="AirTrunk Connect 2025" loading="lazy">
       </div>
     </div>
     <div class="hero-img-overlay"></div>
@@ -1779,17 +1871,17 @@
     <div class="project-card reveal" data-category="photography architectural">
       <div class="carousel-wrap" id="cw-jimbaran">
         <div class="carousel-track" id="ct-jimbaran">
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1776085620/AVB09429-HDR_nu4jem.jpg" alt="Resort Jimbaran 1" loading="eager"></div>
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1776085621/AVB09218_drsawd.jpg" alt="Resort Jimbaran 2" loading="lazy"></div>
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1776088016/DSC02096_x0v1mp.jpg" alt="Resort Jimbaran 3" loading="lazy"></div>
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1776088017/DSC01780-HDR_d3yhuy.jpg" alt="Resort Jimbaran 4" loading="lazy"></div>
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1776088014/DSC02224_zwxkm5.jpg" alt="Resort Jimbaran 5" loading="lazy"></div>
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1776087854/AVB04579-HDR_qzqecw.jpg" alt="Resort Jimbaran 6" loading="lazy"></div>
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1776087853/AVB04884-HDR_ftjsnu.jpg" alt="Resort Jimbaran 7" loading="lazy"></div>
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1776087861/AVB04872-HDR_deexzz.jpg" alt="Resort Jimbaran 8" loading="lazy"></div>
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1776148318/AVB04570_gbxgec.jpg" alt="Resort Jimbaran 9" loading="lazy"></div>
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1776148289/DJI_0451_jsn2tj.jpg" alt="Resort Jimbaran 10" loading="lazy"></div>
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1776148285/AVB08978_dkcfqz.jpg" alt="Resort Jimbaran 11" loading="lazy"></div>
+          <div class="carousel-slide"><img decoding="async" src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1776085620/AVB09429-HDR_nu4jem.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_640/v1776085620/AVB09429-HDR_nu4jem.jpg 640w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1000/v1776085620/AVB09429-HDR_nu4jem.jpg 1000w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1776085620/AVB09429-HDR_nu4jem.jpg 1600w" sizes="(max-width: 900px) 92vw, 34vw" alt="Resort Jimbaran 1" loading="eager"></div>
+          <div class="carousel-slide"><img decoding="async" src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1776085621/AVB09218_drsawd.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_640/v1776085621/AVB09218_drsawd.jpg 640w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1000/v1776085621/AVB09218_drsawd.jpg 1000w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1776085621/AVB09218_drsawd.jpg 1600w" sizes="(max-width: 900px) 92vw, 34vw" alt="Resort Jimbaran 2" loading="lazy"></div>
+          <div class="carousel-slide"><img decoding="async" src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1776088016/DSC02096_x0v1mp.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_640/v1776088016/DSC02096_x0v1mp.jpg 640w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1000/v1776088016/DSC02096_x0v1mp.jpg 1000w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1776088016/DSC02096_x0v1mp.jpg 1600w" sizes="(max-width: 900px) 92vw, 34vw" alt="Resort Jimbaran 3" loading="lazy"></div>
+          <div class="carousel-slide"><img decoding="async" src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1776088017/DSC01780-HDR_d3yhuy.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_640/v1776088017/DSC01780-HDR_d3yhuy.jpg 640w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1000/v1776088017/DSC01780-HDR_d3yhuy.jpg 1000w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1776088017/DSC01780-HDR_d3yhuy.jpg 1600w" sizes="(max-width: 900px) 92vw, 34vw" alt="Resort Jimbaran 4" loading="lazy"></div>
+          <div class="carousel-slide"><img decoding="async" src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1776088014/DSC02224_zwxkm5.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_640/v1776088014/DSC02224_zwxkm5.jpg 640w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1000/v1776088014/DSC02224_zwxkm5.jpg 1000w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1776088014/DSC02224_zwxkm5.jpg 1600w" sizes="(max-width: 900px) 92vw, 34vw" alt="Resort Jimbaran 5" loading="lazy"></div>
+          <div class="carousel-slide"><img decoding="async" src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1776087854/AVB04579-HDR_qzqecw.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_640/v1776087854/AVB04579-HDR_qzqecw.jpg 640w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1000/v1776087854/AVB04579-HDR_qzqecw.jpg 1000w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1776087854/AVB04579-HDR_qzqecw.jpg 1600w" sizes="(max-width: 900px) 92vw, 34vw" alt="Resort Jimbaran 6" loading="lazy"></div>
+          <div class="carousel-slide"><img decoding="async" src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1776087853/AVB04884-HDR_ftjsnu.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_640/v1776087853/AVB04884-HDR_ftjsnu.jpg 640w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1000/v1776087853/AVB04884-HDR_ftjsnu.jpg 1000w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1776087853/AVB04884-HDR_ftjsnu.jpg 1600w" sizes="(max-width: 900px) 92vw, 34vw" alt="Resort Jimbaran 7" loading="lazy"></div>
+          <div class="carousel-slide"><img decoding="async" src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1776087861/AVB04872-HDR_deexzz.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_640/v1776087861/AVB04872-HDR_deexzz.jpg 640w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1000/v1776087861/AVB04872-HDR_deexzz.jpg 1000w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1776087861/AVB04872-HDR_deexzz.jpg 1600w" sizes="(max-width: 900px) 92vw, 34vw" alt="Resort Jimbaran 8" loading="lazy"></div>
+          <div class="carousel-slide"><img decoding="async" src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1776148318/AVB04570_gbxgec.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_640/v1776148318/AVB04570_gbxgec.jpg 640w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1000/v1776148318/AVB04570_gbxgec.jpg 1000w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1776148318/AVB04570_gbxgec.jpg 1600w" sizes="(max-width: 900px) 92vw, 34vw" alt="Resort Jimbaran 9" loading="lazy"></div>
+          <div class="carousel-slide"><img decoding="async" src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1776148289/DJI_0451_jsn2tj.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_640/v1776148289/DJI_0451_jsn2tj.jpg 640w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1000/v1776148289/DJI_0451_jsn2tj.jpg 1000w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1776148289/DJI_0451_jsn2tj.jpg 1600w" sizes="(max-width: 900px) 92vw, 34vw" alt="Resort Jimbaran 10" loading="lazy"></div>
+          <div class="carousel-slide"><img decoding="async" src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1776148285/AVB08978_dkcfqz.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_640/v1776148285/AVB08978_dkcfqz.jpg 640w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1000/v1776148285/AVB08978_dkcfqz.jpg 1000w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1776148285/AVB08978_dkcfqz.jpg 1600w" sizes="(max-width: 900px) 92vw, 34vw" alt="Resort Jimbaran 11" loading="lazy"></div>
         </div>
         <div class="carousel-overlay">
           <span class="carousel-cat">Photography · Hospitality</span>
@@ -1834,15 +1926,15 @@
     <div class="project-card reveal" data-category="photography wellness">
       <div class="carousel-wrap" id="cw-aquasculpt">
         <div class="carousel-track" id="ct-aquasculpt">
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1780497933/DJI_0994_ffqxoi.jpg" alt="Floating Yoga Aqua Sculpt 1" loading="lazy"></div>
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1780497937/JMT09794_i0jg6x.jpg" alt="Floating Yoga Aqua Sculpt 2" loading="lazy"></div>
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1780497934/JMT09771_nuoyjv.jpg" alt="Floating Yoga Aqua Sculpt 3" loading="lazy"></div>
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1780497932/JMT09820_gqclzm.jpg" alt="Floating Yoga Aqua Sculpt 4" loading="lazy"></div>
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1780497938/JMT09834_dxd5rm.jpg" alt="Floating Yoga Aqua Sculpt 5" loading="lazy"></div>
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1780497943/JMT09878_hwhq8n.jpg" alt="Floating Yoga Aqua Sculpt 6" loading="lazy"></div>
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1780497947/DJI_0964_mmu9wx.jpg" alt="Floating Yoga Aqua Sculpt 7" loading="lazy"></div>
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1780497931/JMT09799_kwriwj.jpg" alt="Floating Yoga Aqua Sculpt 8" loading="lazy"></div>
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1780497943/JMT09938_qxuyam.jpg" alt="Floating Yoga Aqua Sculpt 9" loading="lazy"></div>
+          <div class="carousel-slide"><img decoding="async" src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1780497933/DJI_0994_ffqxoi.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_640/v1780497933/DJI_0994_ffqxoi.jpg 640w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1000/v1780497933/DJI_0994_ffqxoi.jpg 1000w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1780497933/DJI_0994_ffqxoi.jpg 1600w" sizes="(max-width: 900px) 92vw, 34vw" alt="Floating Yoga Aqua Sculpt 1" loading="lazy"></div>
+          <div class="carousel-slide"><img decoding="async" src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1780497937/JMT09794_i0jg6x.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_640/v1780497937/JMT09794_i0jg6x.jpg 640w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1000/v1780497937/JMT09794_i0jg6x.jpg 1000w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1780497937/JMT09794_i0jg6x.jpg 1600w" sizes="(max-width: 900px) 92vw, 34vw" alt="Floating Yoga Aqua Sculpt 2" loading="lazy"></div>
+          <div class="carousel-slide"><img decoding="async" src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1780497934/JMT09771_nuoyjv.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_640/v1780497934/JMT09771_nuoyjv.jpg 640w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1000/v1780497934/JMT09771_nuoyjv.jpg 1000w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1780497934/JMT09771_nuoyjv.jpg 1600w" sizes="(max-width: 900px) 92vw, 34vw" alt="Floating Yoga Aqua Sculpt 3" loading="lazy"></div>
+          <div class="carousel-slide"><img decoding="async" src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1780497932/JMT09820_gqclzm.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_640/v1780497932/JMT09820_gqclzm.jpg 640w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1000/v1780497932/JMT09820_gqclzm.jpg 1000w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1780497932/JMT09820_gqclzm.jpg 1600w" sizes="(max-width: 900px) 92vw, 34vw" alt="Floating Yoga Aqua Sculpt 4" loading="lazy"></div>
+          <div class="carousel-slide"><img decoding="async" src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1780497938/JMT09834_dxd5rm.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_640/v1780497938/JMT09834_dxd5rm.jpg 640w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1000/v1780497938/JMT09834_dxd5rm.jpg 1000w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1780497938/JMT09834_dxd5rm.jpg 1600w" sizes="(max-width: 900px) 92vw, 34vw" alt="Floating Yoga Aqua Sculpt 5" loading="lazy"></div>
+          <div class="carousel-slide"><img decoding="async" src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1780497943/JMT09878_hwhq8n.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_640/v1780497943/JMT09878_hwhq8n.jpg 640w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1000/v1780497943/JMT09878_hwhq8n.jpg 1000w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1780497943/JMT09878_hwhq8n.jpg 1600w" sizes="(max-width: 900px) 92vw, 34vw" alt="Floating Yoga Aqua Sculpt 6" loading="lazy"></div>
+          <div class="carousel-slide"><img decoding="async" src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1780497947/DJI_0964_mmu9wx.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_640/v1780497947/DJI_0964_mmu9wx.jpg 640w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1000/v1780497947/DJI_0964_mmu9wx.jpg 1000w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1780497947/DJI_0964_mmu9wx.jpg 1600w" sizes="(max-width: 900px) 92vw, 34vw" alt="Floating Yoga Aqua Sculpt 7" loading="lazy"></div>
+          <div class="carousel-slide"><img decoding="async" src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1780497931/JMT09799_kwriwj.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_640/v1780497931/JMT09799_kwriwj.jpg 640w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1000/v1780497931/JMT09799_kwriwj.jpg 1000w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1780497931/JMT09799_kwriwj.jpg 1600w" sizes="(max-width: 900px) 92vw, 34vw" alt="Floating Yoga Aqua Sculpt 8" loading="lazy"></div>
+          <div class="carousel-slide"><img decoding="async" src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1780497943/JMT09938_qxuyam.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_640/v1780497943/JMT09938_qxuyam.jpg 640w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1000/v1780497943/JMT09938_qxuyam.jpg 1000w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1780497943/JMT09938_qxuyam.jpg 1600w" sizes="(max-width: 900px) 92vw, 34vw" alt="Floating Yoga Aqua Sculpt 9" loading="lazy"></div>
         </div>
         <div class="carousel-overlay">
           <span class="carousel-cat">Photography · Wellness &amp; Lifestyle</span>
@@ -1887,13 +1979,13 @@
     <div class="project-card reveal" data-category="photography wellness">
       <div class="carousel-wrap portrait" id="cw-pilates">
         <div class="carousel-track" id="ct-pilates">
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_900/v1776140636/Artboard_1_l0sdwi.jpg" alt="Mate Pilates 1" loading="lazy"></div>
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_900/v1776140634/Artboard_1_copy_gq5nra.jpg" alt="Mate Pilates 2" loading="lazy"></div>
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_900/v1776140635/Artboard_1_copy_4_oeebxv.jpg" alt="Mate Pilates 3" loading="lazy"></div>
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_900/v1776140635/Artboard_1_copy_8_xpifl2.jpg" alt="Mate Pilates 4" loading="lazy"></div>
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_900/v1776140636/Artboard_1_copy_5_slhhzq.jpg" alt="Mate Pilates 5" loading="lazy"></div>
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_900/v1776140635/Artboard_1_copy_7_sbb9qq.jpg" alt="Mate Pilates 6" loading="lazy"></div>
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_900/v1776140637/Artboard_1_copy_9_q00kyv.jpg" alt="Mate Pilates 7" loading="lazy"></div>
+          <div class="carousel-slide"><img decoding="async" src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_900/v1776140636/Artboard_1_l0sdwi.jpg" alt="Mate Pilates 1" loading="lazy"></div>
+          <div class="carousel-slide"><img decoding="async" src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_900/v1776140634/Artboard_1_copy_gq5nra.jpg" alt="Mate Pilates 2" loading="lazy"></div>
+          <div class="carousel-slide"><img decoding="async" src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_900/v1776140635/Artboard_1_copy_4_oeebxv.jpg" alt="Mate Pilates 3" loading="lazy"></div>
+          <div class="carousel-slide"><img decoding="async" src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_900/v1776140635/Artboard_1_copy_8_xpifl2.jpg" alt="Mate Pilates 4" loading="lazy"></div>
+          <div class="carousel-slide"><img decoding="async" src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_900/v1776140636/Artboard_1_copy_5_slhhzq.jpg" alt="Mate Pilates 5" loading="lazy"></div>
+          <div class="carousel-slide"><img decoding="async" src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_900/v1776140635/Artboard_1_copy_7_sbb9qq.jpg" alt="Mate Pilates 6" loading="lazy"></div>
+          <div class="carousel-slide"><img decoding="async" src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_900/v1776140637/Artboard_1_copy_9_q00kyv.jpg" alt="Mate Pilates 7" loading="lazy"></div>
         </div>
         <div class="carousel-overlay">
           <span class="carousel-cat">Photography · Lifestyle</span>
@@ -1987,10 +2079,10 @@
     <div class="project-card reveal" data-category="photography product">
       <div class="carousel-wrap portrait" id="cw-tomford">
         <div class="carousel-track" id="ct-tomford">
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777172994/IMG_6352_zvyaof.jpg" alt="Tom Ford Ombré Leather 1" loading="lazy"></div>
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777172992/IMG_6357_kknrpm.jpg" alt="Tom Ford Ombré Leather 2" loading="lazy"></div>
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777172995/IMG_6363_zrlzpd.jpg" alt="Tom Ford Ombré Leather 3" loading="lazy"></div>
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777172969/IMG_63661_sktogx.jpg" alt="Tom Ford Ombré Leather 4" loading="lazy"></div>
+          <div class="carousel-slide"><img decoding="async" src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777172994/IMG_6352_zvyaof.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_640/v1777172994/IMG_6352_zvyaof.jpg 640w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1000/v1777172994/IMG_6352_zvyaof.jpg 1000w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777172994/IMG_6352_zvyaof.jpg 1600w" sizes="(max-width: 900px) 92vw, 34vw" alt="Tom Ford Ombré Leather 1" loading="lazy"></div>
+          <div class="carousel-slide"><img decoding="async" src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777172992/IMG_6357_kknrpm.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_640/v1777172992/IMG_6357_kknrpm.jpg 640w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1000/v1777172992/IMG_6357_kknrpm.jpg 1000w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777172992/IMG_6357_kknrpm.jpg 1600w" sizes="(max-width: 900px) 92vw, 34vw" alt="Tom Ford Ombré Leather 2" loading="lazy"></div>
+          <div class="carousel-slide"><img decoding="async" src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777172995/IMG_6363_zrlzpd.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_640/v1777172995/IMG_6363_zrlzpd.jpg 640w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1000/v1777172995/IMG_6363_zrlzpd.jpg 1000w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777172995/IMG_6363_zrlzpd.jpg 1600w" sizes="(max-width: 900px) 92vw, 34vw" alt="Tom Ford Ombré Leather 3" loading="lazy"></div>
+          <div class="carousel-slide"><img decoding="async" src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777172969/IMG_63661_sktogx.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_640/v1777172969/IMG_63661_sktogx.jpg 640w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1000/v1777172969/IMG_63661_sktogx.jpg 1000w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777172969/IMG_63661_sktogx.jpg 1600w" sizes="(max-width: 900px) 92vw, 34vw" alt="Tom Ford Ombré Leather 4" loading="lazy"></div>
         </div>
         <div class="carousel-overlay">
           <span class="carousel-cat">Photography · Product</span>
@@ -2028,13 +2120,13 @@
     <div class="project-card reveal" data-category="photography event">
       <div class="carousel-wrap" id="cw-westin">
         <div class="carousel-track" id="ct-westin">
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777171339/AVB08145_nmzzms.jpg" alt="The Westin Nusa Dua 1" loading="lazy"></div>
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777171342/AVB08020_sowffo.jpg" alt="The Westin Nusa Dua 2" loading="lazy"></div>
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777171338/AVB08464_nuuoqx.jpg" alt="The Westin Nusa Dua 3" loading="lazy"></div>
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777171339/AVB08478_jyuvnx.jpg" alt="The Westin Nusa Dua 4" loading="lazy"></div>
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777171338/AVB08176_fjwbsd.jpg" alt="The Westin Nusa Dua 5" loading="lazy"></div>
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777172947/AVB08033_dgfwwh.jpg" alt="The Westin Nusa Dua 6" loading="lazy"></div>
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777171345/AVB08329_zpakwq.jpg" alt="The Westin Nusa Dua 7" loading="lazy"></div>
+          <div class="carousel-slide"><img decoding="async" src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777171339/AVB08145_nmzzms.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_640/v1777171339/AVB08145_nmzzms.jpg 640w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1000/v1777171339/AVB08145_nmzzms.jpg 1000w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777171339/AVB08145_nmzzms.jpg 1600w" sizes="(max-width: 900px) 92vw, 34vw" alt="The Westin Nusa Dua 1" loading="lazy"></div>
+          <div class="carousel-slide"><img decoding="async" src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777171342/AVB08020_sowffo.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_640/v1777171342/AVB08020_sowffo.jpg 640w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1000/v1777171342/AVB08020_sowffo.jpg 1000w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777171342/AVB08020_sowffo.jpg 1600w" sizes="(max-width: 900px) 92vw, 34vw" alt="The Westin Nusa Dua 2" loading="lazy"></div>
+          <div class="carousel-slide"><img decoding="async" src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777171338/AVB08464_nuuoqx.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_640/v1777171338/AVB08464_nuuoqx.jpg 640w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1000/v1777171338/AVB08464_nuuoqx.jpg 1000w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777171338/AVB08464_nuuoqx.jpg 1600w" sizes="(max-width: 900px) 92vw, 34vw" alt="The Westin Nusa Dua 3" loading="lazy"></div>
+          <div class="carousel-slide"><img decoding="async" src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777171339/AVB08478_jyuvnx.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_640/v1777171339/AVB08478_jyuvnx.jpg 640w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1000/v1777171339/AVB08478_jyuvnx.jpg 1000w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777171339/AVB08478_jyuvnx.jpg 1600w" sizes="(max-width: 900px) 92vw, 34vw" alt="The Westin Nusa Dua 4" loading="lazy"></div>
+          <div class="carousel-slide"><img decoding="async" src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777171338/AVB08176_fjwbsd.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_640/v1777171338/AVB08176_fjwbsd.jpg 640w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1000/v1777171338/AVB08176_fjwbsd.jpg 1000w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777171338/AVB08176_fjwbsd.jpg 1600w" sizes="(max-width: 900px) 92vw, 34vw" alt="The Westin Nusa Dua 5" loading="lazy"></div>
+          <div class="carousel-slide"><img decoding="async" src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777172947/AVB08033_dgfwwh.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_640/v1777172947/AVB08033_dgfwwh.jpg 640w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1000/v1777172947/AVB08033_dgfwwh.jpg 1000w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777172947/AVB08033_dgfwwh.jpg 1600w" sizes="(max-width: 900px) 92vw, 34vw" alt="The Westin Nusa Dua 6" loading="lazy"></div>
+          <div class="carousel-slide"><img decoding="async" src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777171345/AVB08329_zpakwq.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_640/v1777171345/AVB08329_zpakwq.jpg 640w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1000/v1777171345/AVB08329_zpakwq.jpg 1000w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777171345/AVB08329_zpakwq.jpg 1600w" sizes="(max-width: 900px) 92vw, 34vw" alt="The Westin Nusa Dua 7" loading="lazy"></div>
         </div>
         <div class="carousel-overlay">
           <span class="carousel-cat">Photography · Hospitality &amp; Event</span>
@@ -2077,11 +2169,11 @@
     <div class="project-card reveal" data-category="photography event">
       <div class="carousel-wrap" id="cw-qahira">
         <div class="carousel-track" id="ct-qahira">
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1776146975/AR_09736_vmrb8n.jpg" alt="Qahira Top Brand 1" loading="lazy"></div>
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1776146992/AR_09383_ivlmkp.jpg" alt="Qahira Top Brand 2" loading="lazy"></div>
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1776147172/AR_09717_j6ut4e.jpg" alt="Qahira Top Brand 3" loading="lazy"></div>
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1776147197/AR_09625_vbrtuc.jpg" alt="Qahira Top Brand 4" loading="lazy"></div>
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1776147083/AR_09345_ahly22.jpg" alt="Qahira Top Brand 5" loading="lazy"></div>
+          <div class="carousel-slide"><img decoding="async" src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1776146975/AR_09736_vmrb8n.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_640/v1776146975/AR_09736_vmrb8n.jpg 640w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1000/v1776146975/AR_09736_vmrb8n.jpg 1000w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1776146975/AR_09736_vmrb8n.jpg 1600w" sizes="(max-width: 900px) 92vw, 34vw" alt="Qahira Top Brand 1" loading="lazy"></div>
+          <div class="carousel-slide"><img decoding="async" src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1776146992/AR_09383_ivlmkp.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_640/v1776146992/AR_09383_ivlmkp.jpg 640w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1000/v1776146992/AR_09383_ivlmkp.jpg 1000w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1776146992/AR_09383_ivlmkp.jpg 1600w" sizes="(max-width: 900px) 92vw, 34vw" alt="Qahira Top Brand 2" loading="lazy"></div>
+          <div class="carousel-slide"><img decoding="async" src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1776147172/AR_09717_j6ut4e.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_640/v1776147172/AR_09717_j6ut4e.jpg 640w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1000/v1776147172/AR_09717_j6ut4e.jpg 1000w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1776147172/AR_09717_j6ut4e.jpg 1600w" sizes="(max-width: 900px) 92vw, 34vw" alt="Qahira Top Brand 3" loading="lazy"></div>
+          <div class="carousel-slide"><img decoding="async" src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1776147197/AR_09625_vbrtuc.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_640/v1776147197/AR_09625_vbrtuc.jpg 640w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1000/v1776147197/AR_09625_vbrtuc.jpg 1000w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1776147197/AR_09625_vbrtuc.jpg 1600w" sizes="(max-width: 900px) 92vw, 34vw" alt="Qahira Top Brand 4" loading="lazy"></div>
+          <div class="carousel-slide"><img decoding="async" src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1776147083/AR_09345_ahly22.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_640/v1776147083/AR_09345_ahly22.jpg 640w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1000/v1776147083/AR_09345_ahly22.jpg 1000w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1776147083/AR_09345_ahly22.jpg 1600w" sizes="(max-width: 900px) 92vw, 34vw" alt="Qahira Top Brand 5" loading="lazy"></div>
           <div class="carousel-slide" style="position:relative;min-width:100%;width:100%;height:100%;flex-shrink:0;overflow:hidden;background:#000;">
             <video playsinline loop muted preload="none"
               poster="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:good,w_900/v1776146975/AR_09736_vmrb8n.jpg"
@@ -2135,24 +2227,24 @@
     <div class="project-card reveal" data-category="photography event">
       <div class="carousel-wrap" id="cw-jimbafest">
         <div class="carousel-track" id="ct-jimbafest">
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777101220/DJI_0800_bdnt77.jpg" alt="Jimbafest 2025 1" loading="lazy"></div>
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777101223/AVB00785_dox3by.jpg" alt="Jimbafest 2025 2" loading="lazy"></div>
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777101211/AVB01768_chrxbp.jpg" alt="Jimbafest 2025 3" loading="lazy"></div>
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777101212/AVB01720_caqwja.jpg" alt="Jimbafest 2025 4" loading="lazy"></div>
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777101211/AVB01931_nadjpm.jpg" alt="Jimbafest 2025 5" loading="lazy"></div>
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777101212/AVB01861_psmkb9.jpg" alt="Jimbafest 2025 6" loading="lazy"></div>
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777101213/AVB01994_wyiruc.jpg" alt="Jimbafest 2025 7" loading="lazy"></div>
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777101212/AVB01939_yrmrhv.jpg" alt="Jimbafest 2025 8" loading="lazy"></div>
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777101217/AVB02108_k0ljoc.jpg" alt="Jimbafest 2025 9" loading="lazy"></div>
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777101222/AVB02395_wm7mnd.jpg" alt="Jimbafest 2025 10" loading="lazy"></div>
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777101216/AVB02622_byech0.jpg" alt="Jimbafest 2025 11" loading="lazy"></div>
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777101212/AVB01633_s5sr7f.jpg" alt="Jimbafest 2025 12" loading="lazy"></div>
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777101218/AVB02422_rj89pl.jpg" alt="Jimbafest 2025 13" loading="lazy"></div>
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777101222/AVB02601_lmlw3v.jpg" alt="Jimbafest 2025 14" loading="lazy"></div>
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777101222/AVB02609_t8m5lr.jpg" alt="Jimbafest 2025 15" loading="lazy"></div>
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777101225/AVB02863_cffo69.jpg" alt="Jimbafest 2025 16" loading="lazy"></div>
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777101224/AVB03922_w4ddjf.jpg" alt="Jimbafest 2025 17" loading="lazy"></div>
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777101229/HYPERLAPSE_0152_j6m35h.jpg" alt="Jimbafest 2025 18" loading="lazy"></div>
+          <div class="carousel-slide"><img decoding="async" src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777101220/DJI_0800_bdnt77.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_640/v1777101220/DJI_0800_bdnt77.jpg 640w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1000/v1777101220/DJI_0800_bdnt77.jpg 1000w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777101220/DJI_0800_bdnt77.jpg 1600w" sizes="(max-width: 900px) 92vw, 34vw" alt="Jimbafest 2025 1" loading="lazy"></div>
+          <div class="carousel-slide"><img decoding="async" src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777101223/AVB00785_dox3by.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_640/v1777101223/AVB00785_dox3by.jpg 640w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1000/v1777101223/AVB00785_dox3by.jpg 1000w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777101223/AVB00785_dox3by.jpg 1600w" sizes="(max-width: 900px) 92vw, 34vw" alt="Jimbafest 2025 2" loading="lazy"></div>
+          <div class="carousel-slide"><img decoding="async" src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777101211/AVB01768_chrxbp.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_640/v1777101211/AVB01768_chrxbp.jpg 640w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1000/v1777101211/AVB01768_chrxbp.jpg 1000w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777101211/AVB01768_chrxbp.jpg 1600w" sizes="(max-width: 900px) 92vw, 34vw" alt="Jimbafest 2025 3" loading="lazy"></div>
+          <div class="carousel-slide"><img decoding="async" src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777101212/AVB01720_caqwja.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_640/v1777101212/AVB01720_caqwja.jpg 640w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1000/v1777101212/AVB01720_caqwja.jpg 1000w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777101212/AVB01720_caqwja.jpg 1600w" sizes="(max-width: 900px) 92vw, 34vw" alt="Jimbafest 2025 4" loading="lazy"></div>
+          <div class="carousel-slide"><img decoding="async" src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777101211/AVB01931_nadjpm.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_640/v1777101211/AVB01931_nadjpm.jpg 640w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1000/v1777101211/AVB01931_nadjpm.jpg 1000w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777101211/AVB01931_nadjpm.jpg 1600w" sizes="(max-width: 900px) 92vw, 34vw" alt="Jimbafest 2025 5" loading="lazy"></div>
+          <div class="carousel-slide"><img decoding="async" src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777101212/AVB01861_psmkb9.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_640/v1777101212/AVB01861_psmkb9.jpg 640w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1000/v1777101212/AVB01861_psmkb9.jpg 1000w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777101212/AVB01861_psmkb9.jpg 1600w" sizes="(max-width: 900px) 92vw, 34vw" alt="Jimbafest 2025 6" loading="lazy"></div>
+          <div class="carousel-slide"><img decoding="async" src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777101213/AVB01994_wyiruc.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_640/v1777101213/AVB01994_wyiruc.jpg 640w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1000/v1777101213/AVB01994_wyiruc.jpg 1000w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777101213/AVB01994_wyiruc.jpg 1600w" sizes="(max-width: 900px) 92vw, 34vw" alt="Jimbafest 2025 7" loading="lazy"></div>
+          <div class="carousel-slide"><img decoding="async" src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777101212/AVB01939_yrmrhv.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_640/v1777101212/AVB01939_yrmrhv.jpg 640w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1000/v1777101212/AVB01939_yrmrhv.jpg 1000w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777101212/AVB01939_yrmrhv.jpg 1600w" sizes="(max-width: 900px) 92vw, 34vw" alt="Jimbafest 2025 8" loading="lazy"></div>
+          <div class="carousel-slide"><img decoding="async" src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777101217/AVB02108_k0ljoc.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_640/v1777101217/AVB02108_k0ljoc.jpg 640w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1000/v1777101217/AVB02108_k0ljoc.jpg 1000w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777101217/AVB02108_k0ljoc.jpg 1600w" sizes="(max-width: 900px) 92vw, 34vw" alt="Jimbafest 2025 9" loading="lazy"></div>
+          <div class="carousel-slide"><img decoding="async" src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777101222/AVB02395_wm7mnd.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_640/v1777101222/AVB02395_wm7mnd.jpg 640w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1000/v1777101222/AVB02395_wm7mnd.jpg 1000w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777101222/AVB02395_wm7mnd.jpg 1600w" sizes="(max-width: 900px) 92vw, 34vw" alt="Jimbafest 2025 10" loading="lazy"></div>
+          <div class="carousel-slide"><img decoding="async" src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777101216/AVB02622_byech0.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_640/v1777101216/AVB02622_byech0.jpg 640w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1000/v1777101216/AVB02622_byech0.jpg 1000w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777101216/AVB02622_byech0.jpg 1600w" sizes="(max-width: 900px) 92vw, 34vw" alt="Jimbafest 2025 11" loading="lazy"></div>
+          <div class="carousel-slide"><img decoding="async" src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777101212/AVB01633_s5sr7f.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_640/v1777101212/AVB01633_s5sr7f.jpg 640w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1000/v1777101212/AVB01633_s5sr7f.jpg 1000w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777101212/AVB01633_s5sr7f.jpg 1600w" sizes="(max-width: 900px) 92vw, 34vw" alt="Jimbafest 2025 12" loading="lazy"></div>
+          <div class="carousel-slide"><img decoding="async" src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777101218/AVB02422_rj89pl.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_640/v1777101218/AVB02422_rj89pl.jpg 640w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1000/v1777101218/AVB02422_rj89pl.jpg 1000w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777101218/AVB02422_rj89pl.jpg 1600w" sizes="(max-width: 900px) 92vw, 34vw" alt="Jimbafest 2025 13" loading="lazy"></div>
+          <div class="carousel-slide"><img decoding="async" src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777101222/AVB02601_lmlw3v.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_640/v1777101222/AVB02601_lmlw3v.jpg 640w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1000/v1777101222/AVB02601_lmlw3v.jpg 1000w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777101222/AVB02601_lmlw3v.jpg 1600w" sizes="(max-width: 900px) 92vw, 34vw" alt="Jimbafest 2025 14" loading="lazy"></div>
+          <div class="carousel-slide"><img decoding="async" src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777101222/AVB02609_t8m5lr.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_640/v1777101222/AVB02609_t8m5lr.jpg 640w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1000/v1777101222/AVB02609_t8m5lr.jpg 1000w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777101222/AVB02609_t8m5lr.jpg 1600w" sizes="(max-width: 900px) 92vw, 34vw" alt="Jimbafest 2025 15" loading="lazy"></div>
+          <div class="carousel-slide"><img decoding="async" src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777101225/AVB02863_cffo69.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_640/v1777101225/AVB02863_cffo69.jpg 640w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1000/v1777101225/AVB02863_cffo69.jpg 1000w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777101225/AVB02863_cffo69.jpg 1600w" sizes="(max-width: 900px) 92vw, 34vw" alt="Jimbafest 2025 16" loading="lazy"></div>
+          <div class="carousel-slide"><img decoding="async" src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777101224/AVB03922_w4ddjf.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_640/v1777101224/AVB03922_w4ddjf.jpg 640w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1000/v1777101224/AVB03922_w4ddjf.jpg 1000w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777101224/AVB03922_w4ddjf.jpg 1600w" sizes="(max-width: 900px) 92vw, 34vw" alt="Jimbafest 2025 17" loading="lazy"></div>
+          <div class="carousel-slide"><img decoding="async" src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777101229/HYPERLAPSE_0152_j6m35h.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_640/v1777101229/HYPERLAPSE_0152_j6m35h.jpg 640w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1000/v1777101229/HYPERLAPSE_0152_j6m35h.jpg 1000w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1777101229/HYPERLAPSE_0152_j6m35h.jpg 1600w" sizes="(max-width: 900px) 92vw, 34vw" alt="Jimbafest 2025 18" loading="lazy"></div>
         </div>
         <div class="carousel-overlay">
           <span class="carousel-cat">Photography &amp; Drone · Event</span>
@@ -2204,25 +2296,25 @@
     <div class="project-card reveal" data-category="photography event">
       <div class="carousel-wrap" id="cw-airtrunk">
         <div class="carousel-track" id="ct-airtrunk">
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1787308066/JMT00669_jlpjpx.jpg" alt="AirTrunk Connect 2025 1" loading="lazy"></div>
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1787308087/KAN00805_tk15kq.jpg" alt="AirTrunk Connect 2025 2" loading="lazy"></div>
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1787308068/KAN01880_clt7xg.jpg" alt="AirTrunk Connect 2025 3" loading="lazy"></div>
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1787308068/JMT00649_nkptvo.jpg" alt="AirTrunk Connect 2025 4" loading="lazy"></div>
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1787308071/KAN01032_oulsk2.jpg" alt="AirTrunk Connect 2025 5" loading="lazy"></div>
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1787308081/JMT00172_llxftn.jpg" alt="AirTrunk Connect 2025 6" loading="lazy"></div>
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1787308089/KAN00893_zxpao8.jpg" alt="AirTrunk Connect 2025 7" loading="lazy"></div>
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1787308068/JMT00117_otyo1k.jpg" alt="AirTrunk Connect 2025 8" loading="lazy"></div>
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1787308077/KAN02884_ohn1co.jpg" alt="AirTrunk Connect 2025 9" loading="lazy"></div>
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1787308085/KAN02867_kbzr6j.jpg" alt="AirTrunk Connect 2025 10" loading="lazy"></div>
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1787308073/GOPR6614_eadajk.jpg" alt="AirTrunk Connect 2025 11" loading="lazy"></div>
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1787308074/GOPR6598_oyqa4i.jpg" alt="AirTrunk Connect 2025 12" loading="lazy"></div>
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1787308063/JMT01343_twad7u.jpg" alt="AirTrunk Connect 2025 13" loading="lazy"></div>
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1787308062/JMT01523_wy0tqz.jpg" alt="AirTrunk Connect 2025 14" loading="lazy"></div>
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1787308073/GOPR6746_jy6uug.jpg" alt="AirTrunk Connect 2025 15" loading="lazy"></div>
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1787308087/KAN00477_vdbssy.jpg" alt="AirTrunk Connect 2025 16" loading="lazy"></div>
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1787308087/KAN00220_vpvwoz.jpg" alt="AirTrunk Connect 2025 17" loading="lazy"></div>
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1787308080/KAN00743_ykdvcs.jpg" alt="AirTrunk Connect 2025 18" loading="lazy"></div>
-          <div class="carousel-slide"><img src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1787308081/KAN00613_tufbqo.jpg" alt="AirTrunk Connect 2025 19" loading="lazy"></div>
+          <div class="carousel-slide"><img decoding="async" src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1787308066/JMT00669_jlpjpx.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_640/v1787308066/JMT00669_jlpjpx.jpg 640w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1000/v1787308066/JMT00669_jlpjpx.jpg 1000w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1787308066/JMT00669_jlpjpx.jpg 1600w" sizes="(max-width: 900px) 92vw, 34vw" alt="AirTrunk Connect 2025 1" loading="lazy"></div>
+          <div class="carousel-slide"><img decoding="async" src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1787308087/KAN00805_tk15kq.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_640/v1787308087/KAN00805_tk15kq.jpg 640w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1000/v1787308087/KAN00805_tk15kq.jpg 1000w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1787308087/KAN00805_tk15kq.jpg 1600w" sizes="(max-width: 900px) 92vw, 34vw" alt="AirTrunk Connect 2025 2" loading="lazy"></div>
+          <div class="carousel-slide"><img decoding="async" src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1787308068/KAN01880_clt7xg.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_640/v1787308068/KAN01880_clt7xg.jpg 640w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1000/v1787308068/KAN01880_clt7xg.jpg 1000w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1787308068/KAN01880_clt7xg.jpg 1600w" sizes="(max-width: 900px) 92vw, 34vw" alt="AirTrunk Connect 2025 3" loading="lazy"></div>
+          <div class="carousel-slide"><img decoding="async" src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1787308068/JMT00649_nkptvo.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_640/v1787308068/JMT00649_nkptvo.jpg 640w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1000/v1787308068/JMT00649_nkptvo.jpg 1000w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1787308068/JMT00649_nkptvo.jpg 1600w" sizes="(max-width: 900px) 92vw, 34vw" alt="AirTrunk Connect 2025 4" loading="lazy"></div>
+          <div class="carousel-slide"><img decoding="async" src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1787308071/KAN01032_oulsk2.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_640/v1787308071/KAN01032_oulsk2.jpg 640w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1000/v1787308071/KAN01032_oulsk2.jpg 1000w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1787308071/KAN01032_oulsk2.jpg 1600w" sizes="(max-width: 900px) 92vw, 34vw" alt="AirTrunk Connect 2025 5" loading="lazy"></div>
+          <div class="carousel-slide"><img decoding="async" src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1787308081/JMT00172_llxftn.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_640/v1787308081/JMT00172_llxftn.jpg 640w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1000/v1787308081/JMT00172_llxftn.jpg 1000w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1787308081/JMT00172_llxftn.jpg 1600w" sizes="(max-width: 900px) 92vw, 34vw" alt="AirTrunk Connect 2025 6" loading="lazy"></div>
+          <div class="carousel-slide"><img decoding="async" src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1787308089/KAN00893_zxpao8.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_640/v1787308089/KAN00893_zxpao8.jpg 640w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1000/v1787308089/KAN00893_zxpao8.jpg 1000w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1787308089/KAN00893_zxpao8.jpg 1600w" sizes="(max-width: 900px) 92vw, 34vw" alt="AirTrunk Connect 2025 7" loading="lazy"></div>
+          <div class="carousel-slide"><img decoding="async" src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1787308068/JMT00117_otyo1k.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_640/v1787308068/JMT00117_otyo1k.jpg 640w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1000/v1787308068/JMT00117_otyo1k.jpg 1000w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1787308068/JMT00117_otyo1k.jpg 1600w" sizes="(max-width: 900px) 92vw, 34vw" alt="AirTrunk Connect 2025 8" loading="lazy"></div>
+          <div class="carousel-slide"><img decoding="async" src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1787308077/KAN02884_ohn1co.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_640/v1787308077/KAN02884_ohn1co.jpg 640w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1000/v1787308077/KAN02884_ohn1co.jpg 1000w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1787308077/KAN02884_ohn1co.jpg 1600w" sizes="(max-width: 900px) 92vw, 34vw" alt="AirTrunk Connect 2025 9" loading="lazy"></div>
+          <div class="carousel-slide"><img decoding="async" src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1787308085/KAN02867_kbzr6j.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_640/v1787308085/KAN02867_kbzr6j.jpg 640w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1000/v1787308085/KAN02867_kbzr6j.jpg 1000w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1787308085/KAN02867_kbzr6j.jpg 1600w" sizes="(max-width: 900px) 92vw, 34vw" alt="AirTrunk Connect 2025 10" loading="lazy"></div>
+          <div class="carousel-slide"><img decoding="async" src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1787308073/GOPR6614_eadajk.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_640/v1787308073/GOPR6614_eadajk.jpg 640w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1000/v1787308073/GOPR6614_eadajk.jpg 1000w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1787308073/GOPR6614_eadajk.jpg 1600w" sizes="(max-width: 900px) 92vw, 34vw" alt="AirTrunk Connect 2025 11" loading="lazy"></div>
+          <div class="carousel-slide"><img decoding="async" src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1787308074/GOPR6598_oyqa4i.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_640/v1787308074/GOPR6598_oyqa4i.jpg 640w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1000/v1787308074/GOPR6598_oyqa4i.jpg 1000w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1787308074/GOPR6598_oyqa4i.jpg 1600w" sizes="(max-width: 900px) 92vw, 34vw" alt="AirTrunk Connect 2025 12" loading="lazy"></div>
+          <div class="carousel-slide"><img decoding="async" src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1787308063/JMT01343_twad7u.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_640/v1787308063/JMT01343_twad7u.jpg 640w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1000/v1787308063/JMT01343_twad7u.jpg 1000w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1787308063/JMT01343_twad7u.jpg 1600w" sizes="(max-width: 900px) 92vw, 34vw" alt="AirTrunk Connect 2025 13" loading="lazy"></div>
+          <div class="carousel-slide"><img decoding="async" src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1787308062/JMT01523_wy0tqz.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_640/v1787308062/JMT01523_wy0tqz.jpg 640w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1000/v1787308062/JMT01523_wy0tqz.jpg 1000w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1787308062/JMT01523_wy0tqz.jpg 1600w" sizes="(max-width: 900px) 92vw, 34vw" alt="AirTrunk Connect 2025 14" loading="lazy"></div>
+          <div class="carousel-slide"><img decoding="async" src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1787308073/GOPR6746_jy6uug.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_640/v1787308073/GOPR6746_jy6uug.jpg 640w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1000/v1787308073/GOPR6746_jy6uug.jpg 1000w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1787308073/GOPR6746_jy6uug.jpg 1600w" sizes="(max-width: 900px) 92vw, 34vw" alt="AirTrunk Connect 2025 15" loading="lazy"></div>
+          <div class="carousel-slide"><img decoding="async" src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1787308087/KAN00477_vdbssy.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_640/v1787308087/KAN00477_vdbssy.jpg 640w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1000/v1787308087/KAN00477_vdbssy.jpg 1000w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1787308087/KAN00477_vdbssy.jpg 1600w" sizes="(max-width: 900px) 92vw, 34vw" alt="AirTrunk Connect 2025 16" loading="lazy"></div>
+          <div class="carousel-slide"><img decoding="async" src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1787308087/KAN00220_vpvwoz.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_640/v1787308087/KAN00220_vpvwoz.jpg 640w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1000/v1787308087/KAN00220_vpvwoz.jpg 1000w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1787308087/KAN00220_vpvwoz.jpg 1600w" sizes="(max-width: 900px) 92vw, 34vw" alt="AirTrunk Connect 2025 17" loading="lazy"></div>
+          <div class="carousel-slide"><img decoding="async" src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1787308080/KAN00743_ykdvcs.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_640/v1787308080/KAN00743_ykdvcs.jpg 640w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1000/v1787308080/KAN00743_ykdvcs.jpg 1000w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1787308080/KAN00743_ykdvcs.jpg 1600w" sizes="(max-width: 900px) 92vw, 34vw" alt="AirTrunk Connect 2025 18" loading="lazy"></div>
+          <div class="carousel-slide"><img decoding="async" src="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1787308081/KAN00613_tufbqo.jpg" srcset="https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_640/v1787308081/KAN00613_tufbqo.jpg 640w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1000/v1787308081/KAN00613_tufbqo.jpg 1000w, https://res.cloudinary.com/dojlwvol7/image/upload/f_auto,q_auto:best,w_1600/v1787308081/KAN00613_tufbqo.jpg 1600w" sizes="(max-width: 900px) 92vw, 34vw" alt="AirTrunk Connect 2025 19" loading="lazy"></div>
         </div>
         <div class="carousel-overlay">
           <span class="carousel-cat">Photography · Corporate Event</span>
@@ -2775,10 +2867,13 @@
     <span class="cta-banner-eyebrow">Ready to create?</span>
     <h3 class="cta-banner-title">Got a project in mind?<br><em>Let's make it happen.</em></h3>
   </div>
-  <a href="https://wa.me/6282170659006?text=Halo%20Agenda%20Production!%20Saya%20ingin%20diskusi%20tentang%20project%20saya." target="_blank" class="cta-banner-btn">
+  <div class="cta-banner-actions">
+    <a href="https://wa.me/628514492486?text=Halo%20Agenda%20Production!%20Saya%20ingin%20diskusi%20tentang%20project%20saya." target="_blank" class="cta-banner-btn">
     <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/></svg>
     Chat on WhatsApp
   </a>
+    <button type="button" class="wa-share cta-share" data-wa-share><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a3 3 0 1 0-2.8-4.1L8.9 7.6a3 3 0 1 0 0 4.8l6.3 3.7A3 3 0 1 0 16 14.4l-6.3-3.7a3 3 0 0 0 0-1.4l6.3-3.7A3 3 0 0 0 18 8z" fill="currentColor"/></svg><span>Share on WhatsApp</span></button>
+  </div>
 </div>
 
 <!-- LIGHTBOX -->
@@ -2787,7 +2882,7 @@
   <button class="lb-prev" id="lb-prev">
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
   </button>
-  <img class="lb-img" id="lb-img" src="" alt="">
+  <img decoding="async" class="lb-img" id="lb-img" src="" alt="">
   <button class="lb-next" id="lb-next">
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
   </button>
@@ -2839,7 +2934,7 @@
         </div>
         <div>
           <span class="c-label">WhatsApp</span>
-          <span class="c-val"><a href="https://wa.me/6282170659006">+62 821-7065-9006</a></span>
+          <span class="c-val"><a href="https://wa.me/628514492486">+62 851-4492-486</a></span>
         </div>
       </div>
       <div class="c-item">
@@ -2879,6 +2974,7 @@
           <span class="c-val" style="color:rgba(255,255,255,0.55);">Denpasar, Bali — Serving across Indonesia</span>
         </div>
       </div>
+      <button type="button" class="wa-share contact-share" data-wa-share><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a3 3 0 1 0-2.8-4.1L8.9 7.6a3 3 0 1 0 0 4.8l6.3 3.7A3 3 0 1 0 16 14.4l-6.3-3.7a3 3 0 0 0 0-1.4l6.3-3.7A3 3 0 0 0 18 8z" fill="currentColor"/></svg><span>Share on WhatsApp</span></button>
     </div>
 
     <!-- Form → WhatsApp Redirect -->
@@ -2924,7 +3020,7 @@
   <a href="#services" data-s="services"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/></svg>Services</a>
   <a href="#work" data-s="work"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="3"/><circle cx="9" cy="11" r="2"/><path d="M21 16l-5-4-7 6"/></svg>Work</a>
   <a href="#contact" data-s="contact"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M3 8l9 6 9-6"/></svg>Contact</a>
-  <a href="https://wa.me/6282170659006?text=Halo%20Agenda%20Production!%20Saya%20ingin%20tanya%20tentang%20layanan%20kalian." target="_blank" rel="noopener" class="wa" aria-label="Chat WhatsApp"><svg viewBox="0 0 24 24"><path d="M12.05 2a9.9 9.9 0 0 0-8.5 15l-1.5 5 5.2-1.4A9.9 9.9 0 1 0 12.05 2zm5.4 13.9c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.3-.7-2.8-1.1-4.5-3.9-4.7-4.1-.1-.2-1.1-1.5-1.1-2.8s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.1.1.3 0 .5l-.3.5-.4.4c-.1.2-.3.3-.1.6.2.3.7 1.2 1.5 1.9 1 .9 1.9 1.2 2.2 1.3.3.1.4.1.6-.1l.8-1c.2-.2.4-.2.6-.1l1.9.9c.3.1.5.2.5.3.1.2.1.8-.1 1.2z"/></svg>Chat</a>
+  <a href="https://wa.me/628514492486?text=Halo%20Agenda%20Production!%20Saya%20ingin%20tanya%20tentang%20layanan%20kalian." target="_blank" rel="noopener" class="wa" aria-label="Chat WhatsApp"><svg viewBox="0 0 24 24"><path d="M12.05 2a9.9 9.9 0 0 0-8.5 15l-1.5 5 5.2-1.4A9.9 9.9 0 1 0 12.05 2zm5.4 13.9c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.3-.7-2.8-1.1-4.5-3.9-4.7-4.1-.1-.2-1.1-1.5-1.1-2.8s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.1.1.3 0 .5l-.3.5-.4.4c-.1.2-.3.3-.1.6.2.3.7 1.2 1.5 1.9 1 .9 1.9 1.2 2.2 1.3.3.1.4.1.6-.1l.8-1c.2-.2.4-.2.6-.1l1.9.9c.3.1.5.2.5.3.1.2.1.8-.1 1.2z"/></svg>Chat</a>
 </div>
 <script>
 (function(){
@@ -2953,10 +3049,174 @@
 })();
 </script>
 
+<script>
+/* ══ KONFIGURASI ANALYTICS — isi salah satu atau keduanya, kosong = nonaktif ══ */
+const ANALYTICS = { plausibleDomain: '', ga4Id: '' };
+
+(function () {
+  /* ── Analytics ringan ── */
+  if (ANALYTICS.plausibleDomain) {
+    window.plausible = window.plausible || function () { (plausible.q = plausible.q || []).push(arguments); };
+    const s = document.createElement('script'); s.defer = true;
+    s.setAttribute('data-domain', ANALYTICS.plausibleDomain); s.src = 'https://plausible.io/js/script.js';
+    document.head.appendChild(s);
+  }
+  if (ANALYTICS.ga4Id) {
+    const s = document.createElement('script'); s.async = true;
+    s.src = 'https://www.googletagmanager.com/gtag/js?id=' + ANALYTICS.ga4Id; document.head.appendChild(s);
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function () { dataLayer.push(arguments); };
+    gtag('js', new Date()); gtag('config', ANALYTICS.ga4Id);
+  }
+  window.track = track;
+  function track(name, props) {
+    try {
+      if (window.plausible && ANALYTICS.plausibleDomain) plausible(name, { props: props || {} });
+      if (window.gtag && ANALYTICS.ga4Id) gtag('event', name, props || {});
+    } catch (e) {}
+  }
+  document.addEventListener('click', e => {
+    const el = e.target.closest('a,button'); if (!el) return;
+    if (el.matches('a[href*="wa.me"]')) track('whatsapp_click', { from: el.closest('#contact') ? 'contact' : el.closest('.glass-tabbar') ? 'tabbar' : 'other' });
+    else if (el.matches('.nav-btn')) track('inquire_click');
+    else if (el.matches('.f-submit')) track('form_submit_whatsapp');
+    else if (el.matches('.main-tab-bar .tab-btn')) track('tab_switch', { tab: el.dataset.main });
+    else if (el.matches('.sub-tab-btn')) track('filter_switch', { filter: el.dataset.filter });
+  }, { passive: true });
+  const vSeen = new WeakSet();
+  document.addEventListener('play', e => {
+    if (e.target.matches && e.target.matches('.vid-el') && !vSeen.has(e.target)) {
+      vSeen.add(e.target);
+      track('video_view', { video: (e.target.closest('.project-card')?.querySelector('.carousel-name')?.textContent || '').trim() });
+    }
+  }, true);
+
+  /* ── Aksesibilitas: tab ARIA + panah keyboard, hamburger ── */
+  [document.querySelector('.main-tab-bar'), document.getElementById('subTabBar')].forEach(bar => {
+    if (!bar) return;
+    bar.setAttribute('role', 'tablist');
+    const sync = () => bar.querySelectorAll('button').forEach(b => {
+      const on = b.classList.contains('active');
+      b.setAttribute('role', 'tab'); b.setAttribute('aria-selected', on ? 'true' : 'false'); b.tabIndex = on ? 0 : -1;
+    });
+    sync();
+    new MutationObserver(sync).observe(bar, { subtree: true, attributes: true, attributeFilter: ['class'] });
+    bar.addEventListener('keydown', e => {
+      if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+      const bs = [...bar.querySelectorAll('button')].filter(b => b.offsetParent);
+      const i = bs.indexOf(document.activeElement); if (i < 0) return;
+      const n = bs[(i + (e.key === 'ArrowRight' ? 1 : -1) + bs.length) % bs.length];
+      n.focus(); n.click(); e.preventDefault();
+    });
+  });
+  const hb = document.getElementById('hamburger');
+  if (hb) {
+    hb.setAttribute('aria-expanded', 'false'); hb.setAttribute('aria-controls', 'mobileMenu');
+    new MutationObserver(() => hb.setAttribute('aria-expanded', hb.classList.contains('open') ? 'true' : 'false'))
+      .observe(hb, { attributes: true, attributeFilter: ['class'] });
+  }
+
+  /* ── Parallax halus di hero (desktop, hormati reduced-motion) ── */
+  const heroEl = document.getElementById('hero');
+  if (heroEl && matchMedia('(min-width: 901px)').matches && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    let t = false;
+    window.addEventListener('scroll', () => {
+      if (t) return; t = true;
+      requestAnimationFrame(() => { t = false; if (scrollY < innerHeight * 1.2) heroEl.style.setProperty('--py', (scrollY * 0.18).toFixed(1) + 'px'); });
+    }, { passive: true });
+  }
+
+  /* ── Bahasa EN / ID ── */
+  const ID = {
+    'Services': 'Layanan', 'Work': 'Karya', 'Process': 'Proses', 'Inquire Now': 'Hubungi Kami', 'Inquire': 'Hubungi',
+    'Bali Visual Storyteller': 'Visual Storyteller dari Bali',
+    'Crafting': 'Menangkap', 'light': 'cahaya', 'into lasting': 'menjadi', 'memory': 'kenangan abadi',
+    'Photography, videography, drone, and creative direction — for villas, hotels, brands, and moments that define you.': 'Fotografi, videografi, drone, dan arahan kreatif — untuk vila, hotel, brand, dan momen yang menggambarkan dirimu.',
+    'View Our Work': 'Lihat Karya Kami', 'Get In Touch': 'Hubungi Kami',
+    'Trusted by 60+ clients': 'Dipercaya 60+ klien', 'across Bali & Indonesia': 'di Bali & Indonesia',
+    'Bali, Indonesia · Available Now': 'Bali, Indonesia · Tersedia Sekarang',
+    'What We Do': 'Layanan Kami', 'Three disciplines,': 'Tiga disiplin,', 'one vision': 'satu visi',
+    'Every frame we create carries intention — crafted to move people, elevate brands, and leave a lasting impression.': 'Setiap frame punya tujuan — dibuat untuk menggerakkan orang, mengangkat brand, dan meninggalkan kesan mendalam.',
+    'Photography': 'Fotografi', 'Videography': 'Videografi', 'Drone Aerial': 'Drone Aerial',
+    "Great photography is more than a beautiful image — it's the story behind it. We capture raw emotion, authentic moments, and the quiet details that make your brand unforgettable.": 'Fotografi yang bagus bukan sekadar gambar indah — tapi cerita di baliknya. Kami menangkap emosi apa adanya, momen autentik, dan detail kecil yang membuat brand-mu tak terlupakan.',
+    'Cinematic storytelling that moves people. From short films to commercial promos and event highlights — every frame is crafted with purpose.': 'Bercerita secara sinematik yang menggerakkan hati. Dari film pendek hingga promo komersial dan highlight acara — setiap frame dibuat dengan tujuan.',
+    'A new perspective changes everything. Aerial photo and video for properties, resorts, landscapes, and large-scale events — seen from above, told differently.': 'Sudut pandang baru mengubah segalanya. Foto dan video udara untuk properti, resor, lanskap, dan acara besar — dilihat dari atas, diceritakan berbeda.',
+    'Villa & Hotel': 'Vila & Hotel', 'Real Estate': 'Properti', 'Portrait': 'Potret', 'Product': 'Produk', 'Events': 'Acara',
+    'Cinematic': 'Sinematik', 'Commercial': 'Komersial', 'Wedding': 'Pernikahan', 'Event': 'Acara', 'Social Media': 'Media Sosial',
+    'Aerial Photo': 'Foto Udara', 'Aerial Video': 'Video Udara', 'Mapping': 'Pemetaan', 'Property': 'Properti',
+    'Portfolio': 'Portofolio', 'Selected': 'Karya', 'works': 'pilihan',
+    'Every project is a story — captured with precision, delivered with soul.': 'Setiap proyek adalah cerita — ditangkap dengan presisi, disampaikan dengan jiwa.',
+    'Architectural & Interior': 'Arsitektur & Interior', 'Wellness & Sport': 'Wellness & Olahraga',
+    'Similar project': 'Proyek serupa', 'New work for this category is coming soon.': 'Karya baru untuk kategori ini segera hadir.',
+    'How We Work': 'Cara Kerja Kami', 'Simple process,': 'Proses sederhana,', 'exceptional results': 'hasil luar biasa',
+    'From your first message to the final delivered files — we make it seamless, clear, and enjoyable.': 'Dari pesan pertamamu hingga file akhir dikirim — kami buat semuanya mulus, jelas, dan menyenangkan.',
+    'Brief &': 'Brief &', 'Concept': 'Konsep', 'Shoot': 'Hari', 'Day': 'Syuting', 'Edit &': 'Edit &', 'Deliver': 'Pengiriman',
+    'Tell us your vision, date, and location. We shape the concept and shot list together.': 'Ceritakan visi, tanggal, dan lokasimu. Kami susun konsep dan shot list bersama.',
+    'On-location execution with professional gear. Sit back or join the set — your call.': 'Eksekusi di lokasi dengan peralatan profesional. Santai saja atau ikut di lokasi — terserah kamu.',
+    'Color-graded in our signature style, then delivered via Google Drive — ready to use.': 'Color grading dengan gaya khas kami, lalu dikirim lewat Google Drive — siap dipakai.',
+    "Let's create": 'Mari berkarya', 'together': 'bersama',
+    "Share your vision — we'll bring it to life through image and motion.": 'Bagikan visimu — kami wujudkan lewat gambar dan gerak.',
+    'Location': 'Lokasi', 'Denpasar, Bali — Serving across Indonesia': 'Denpasar, Bali — Melayani seluruh Indonesia',
+    'Name': 'Nama', 'Email / WhatsApp': 'Email / WhatsApp', 'Service Type': 'Jenis Layanan', 'Select a service': 'Pilih layanan',
+    'Full Package (Photo + Video + Drone)': 'Paket Lengkap (Foto + Video + Drone)', 'Creative Direction': 'Arahan Kreatif',
+    'About Your Project': 'Tentang Proyekmu', 'Send via WhatsApp →': 'Kirim via WhatsApp →', 'Contact': 'Kontak', 'Chat': 'Chat',
+    'Chat on WhatsApp': 'Chat via WhatsApp', 'Have a project in mind?': 'Punya proyek di pikiran?',
+    "Let's Talk About Your Project": 'Mari Bicara Soal Proyekmu', 'Ready to create?': 'Siap berkarya?',
+    'Got a project in mind?': 'Punya proyek?', "Let's make it happen.": 'Wujudkan bersama.', 'Need help? Chat us!': 'Butuh bantuan? Chat kami!'
+  };
+  const PH = { 'Your full name': 'Nama lengkapmu', 'Your contact': 'Kontakmu', 'Location, date, concept, budget range...': 'Lokasi, tanggal, konsep, kisaran budget...' };
+  const norm = t => t.replace(/\s+/g, ' ').trim();
+  const nodes = [];
+  const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
+    acceptNode: n => (n.parentElement && !n.parentElement.closest('script,style,video,svg,.lang-btn') && ID[norm(n.nodeValue)] !== undefined) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT
+  });
+  while (walker.nextNode()) nodes.push(walker.currentNode);
+  nodes.forEach(n => { n._en = n.nodeValue; });
+  const phEls = [...document.querySelectorAll('[placeholder]')].filter(e => PH[e.getAttribute('placeholder')]);
+  phEls.forEach(e => { e._en = e.getAttribute('placeholder'); });
+  const btn = document.getElementById('langBtn');
+  function apply(lang) {
+    nodes.forEach(n => {
+      if (lang === 'id') {
+        const m = n._en.match(/^(\s*)([\s\S]*?)(\s*)$/);
+        n.nodeValue = m[1] + (ID[norm(n._en)] || m[2]) + m[3];
+      } else n.nodeValue = n._en;
+    });
+    phEls.forEach(e => e.setAttribute('placeholder', lang === 'id' ? PH[e._en] : e._en));
+    document.documentElement.lang = lang;
+    if (btn) { btn.textContent = lang === 'id' ? 'EN' : 'ID'; btn.setAttribute('aria-label', lang === 'id' ? 'Switch to English' : 'Ganti ke Bahasa Indonesia'); }
+    try { localStorage.setItem('lang', lang); } catch (e) {}
+  }
+  let saved = 'en'; try { saved = localStorage.getItem('lang') || 'en'; } catch (e) {}
+  if (saved === 'id') apply('id');
+  if (btn) btn.addEventListener('click', () => { apply(document.documentElement.lang === 'id' ? 'en' : 'id'); track('language_switch', { to: document.documentElement.lang }); });
+})();
+</script>
+
+<script>
+/* Share ke WhatsApp — pengunjung memilih satu atau banyak kontak/grup di WhatsApp */
+(function () {
+  const SITE = 'https://agenda-production.pages.dev/';
+  const MSG = {
+    en: 'Check out Agenda Production — photography, videography & drone in Bali. ',
+    id: 'Lihat Agenda Production — fotografi, videografi & drone di Bali. '
+  };
+  const LBL = { en: 'Share on WhatsApp', id: 'Bagikan via WhatsApp' };
+  function lang() { return document.documentElement.lang === 'id' ? 'id' : 'en'; }
+  document.querySelectorAll('[data-wa-share]').forEach(b => {
+    b.addEventListener('click', () => {
+      window.open('https://api.whatsapp.com/send?text=' + encodeURIComponent(MSG[lang()] + SITE), '_blank', 'noopener');
+      if (window.track) try { track('share_whatsapp'); } catch (e) {}
+    });
+  });
+  new MutationObserver(() => document.querySelectorAll('[data-wa-share] span').forEach(sp => { sp.textContent = LBL[lang()]; }))
+    .observe(document.documentElement, { attributes: true, attributeFilter: ['lang'] });
+})();
+</script>
 <!-- WHATSAPP FLOATING BUTTON -->
 <div class="wa-float">
   <span class="wa-tooltip">Need help? Chat us!</span>
-  <a href="https://wa.me/6282170659006?text=Halo%20Agenda%20Production!%20Saya%20ingin%20tanya%20tentang%20layanan%20kalian." target="_blank" class="wa-btn-float" aria-label="Chat WhatsApp">
+  <a href="https://wa.me/628514492486?text=Halo%20Agenda%20Production!%20Saya%20ingin%20tanya%20tentang%20layanan%20kalian." target="_blank" class="wa-btn-float" aria-label="Chat WhatsApp">
     <div class="wa-pulse-ring"></div>
     <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
   </a>
@@ -2964,15 +3224,9 @@
 
 <script>
   // ── LOADING SCREEN ──
-  window.addEventListener('load', () => {
-    setTimeout(() => {
-      document.getElementById('page-loader').classList.add('hidden');
-    }, 1800);
-  });
-  // Fallback: hide after 3s regardless
-  setTimeout(() => {
-    document.getElementById('page-loader').classList.add('hidden');
-  }, 3000);
+  const hideLoader = () => document.getElementById('page-loader').classList.add('hidden');
+  window.addEventListener('load', () => setTimeout(hideLoader, 600));  // dulu 1800ms
+  setTimeout(hideLoader, 1800);                                         // fallback, dulu 3000ms
 
   // ── NAV SCROLL ──
   const nav = document.getElementById('main-nav');
@@ -3048,7 +3302,7 @@
       "I'd love to learn more about your services!"
     ].filter(Boolean).join('\n');
 
-    const url = 'https://wa.me/6282170659006?text=' + encodeURIComponent(text);
+    const url = 'https://wa.me/628514492486?text=' + encodeURIComponent(text);
     window.open(url, '_blank');
   });
 
